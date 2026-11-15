@@ -1,0 +1,40 @@
+# Study-wide settings. Paths are not set here: see LH_DATA_DIR, LH_WORK_DIR and
+# LH_MANIFEST_DIR in src/little_helper/paths.py.
+
+git:
+  jobs: 4                    # clones in flight; clones >= big_clone_mb run alone
+  big_clone_mb: 2048
+  unknown_size_mb: 4096      # assumed size when a repo has no GitHub diskUsage
+  reserve_free_gb: 10        # never let a clone push LH_WORK_DIR below this much free space
+  tree_snapshots: yearly     # yearly | quarterly listings of the default branch tree
+  policy_files:
+    # Basename at any depth (case-insensitive).
+    anywhere: [AGENTS.md, AGENT.md, CLAUDE.md, GEMINI.md, .cursorrules, .windsurfrules, .clinerules,
+               copilot-instructions.md, AI_POLICY.md, AI-POLICY.md, LLM_POLICY.md, CONVENTIONS.md]
+    # Basename at the root, .github/ or doc(s)/ (glob, case-insensitive).
+    top_level: ["CONTRIBUTING*", "SECURITY*", "GOVERNANCE*", "PULL_REQUEST_TEMPLATE*", "pull_request_template*",
+                "MAINTAINERS*", "CODEOWNERS"]
+    # Any file under these directories, at any depth.
+    dirs: [.cursor/rules, .github/instructions, .github/PULL_REQUEST_TEMPLATE, .claude, .gemini, .agents]
+    # Doc-like files whose name contains one of these regexes.
+    name_words: ["ai[-_ ]?polic", "llm[-_ ]?(polic|usage|generated|contribution|assist)", "generative[-_ ]ai",
+                 "generated[-_ ]content", "coding[-_ ]assistant", "ai[-_ ]contribution", "ai[-_ ]usage",
+                 "use[-_ ]of[-_ ]ai", "ai[-_ ]assist", "ai[-_ ]generated"]
+    max_bytes: 524288        # content stored per version; larger versions are truncated and flagged
+
+github:
+  # Measured 2026-11-14: pages of 50 PRs with file lists time out (HTTP 502, ~10 s);
+  # 25 PRs take 4-7 s (~15-20k PRs/hour). Issues: 50 per page take ~3 s (~60k/hour).
+  pr_page_size: 25
+  issue_page_size: 50
+  min_page_size: 5
+  chunk_pages: 50            # pages per committed raw chunk; a crash loses at most this many
+  refresh_margin_hours: 48   # overlap with the previous pass on refresh
+  min_remaining: 150         # sleep until the rate-limit reset below this many points
+
+# Named project sets for --set.
+sets:
+  # 20 projects spanning every data regime and size class: run all stages on these
+  # before the census (docs/data_collection_plan.md §9).
+  slice: [zlib, xz, curl, libuv, uv, systemd, numpy, sqlite, vite, redis, valkey, nginx,
+          django, kafka, openjdk, icu, cmake, freetype, openssh, git]
