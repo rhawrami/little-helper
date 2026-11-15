@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# Machine-specific paths (see src/little_helper/paths.py).
+config/local.yaml
+
+# Data lives under LH_DATA_DIR (default: this data/ folder; normally the external drive).
+# Only provenance (manifests) and small published outputs are committed.
+data/*
+!data/manifests/
+!data/selection/
