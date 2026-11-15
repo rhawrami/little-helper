@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 import polars as pl
 import pytest
@@ -134,3 +135,26 @@ def test_clone_is_kept_after_extraction_failure_and_reused(lh_env, project, monk
     rows = gitc.run([project], log=logs.append)
     assert rows[0]["status"] == "ok" and any("reusing" in m for m in logs)
     assert not clone.exists()  # deleted once extraction succeeded
+
+
+def test_clone_retries_network_errors_but_not_interrupts(tmp_path, monkeypatch):
+    import subprocess as sp
+    calls = []
+
+    def fake_run(cmd, **kw):
+        calls.append(cmd)
+        if len(calls) == 1:
+            return sp.CompletedProcess(cmd, 128, b"", b"fatal: unable to access: Could not resolve host: github.com")
+        Path(cmd[-1]).mkdir(parents=True, exist_ok=True)
+        return sp.CompletedProcess(cmd, 0, b"", b"")
+
+    monkeypatch.setattr(gitc.subprocess, "run", fake_run)
+    monkeypatch.setattr(gitc._STOP, "wait", lambda t: False)  # no real sleeping
+    dest = tmp_path / "r.git"
+    assert gitc._clone(["https://example.org/r.git"], dest, log=lambda m: None) == "https://example.org/r.git"
+    assert len(calls) == 2 and (dest / gitc.CLONE_MARKER).exists()
+
+    calls.clear()
+    monkeypatch.setattr(gitc.subprocess, "run", lambda cmd, **kw: sp.CompletedProcess(cmd, -2, b"", b"early EOF"))
+    with pytest.raises(gitc.GitError, match="interrupted"):
+        gitc._clone(["https://example.org/r.git"], tmp_path / "s.git", log=lambda m: None)

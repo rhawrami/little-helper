@@ -56,6 +56,9 @@ _TRANSIENT = ("could not resolve host", "unexpected disconnect", "early eof", "c
               "failed to connect", "connection refused", "transfer closed", "the requested url returned error: 5")
 
 
+_STOP = threading.Event()  # set on Ctrl-C so worker threads stop retrying and exit
+
+
 def _git_env() -> dict:
     # Read os.environ per call. Do not strip GIT_CONFIG_PARAMETERS: some shells set
     # safe.bareRepository=explicit there, which is why every call names the repo with --git-dir.
@@ -378,12 +381,17 @@ def _clone(urls: list[str], clone_dir: Path, log, attempts: int = 3) -> str:
     errors = []
     for u in urls:
         for attempt in range(attempts):
+            if _STOP.is_set():
+                raise GitError("interrupted")
             shutil.rmtree(clone_dir, ignore_errors=True)
             r = subprocess.run(["git", "clone", "--bare", "--quiet", u, str(clone_dir)], capture_output=True,
                                env=_git_env())
             if r.returncode == 0:
                 (clone_dir / CLONE_MARKER).write_text(f"{u}\n{paths.utcnow()}\n")
                 return u
+            if r.returncode < 0 or _STOP.is_set():  # killed by a signal (Ctrl-C), not a network error
+                shutil.rmtree(clone_dir, ignore_errors=True)
+                raise GitError("interrupted")
             err = r.stderr.decode(errors="replace").strip()
             transient = any(t in err.lower() for t in _TRANSIENT)
             errors.append(f"{u} (attempt {attempt + 1}): {err[-300:]}")
@@ -391,7 +399,8 @@ def _clone(urls: list[str], clone_dir: Path, log, attempts: int = 3) -> str:
                 break
             wait = 30 * 4 ** attempt  # 30 s, then 2 min
             log(f"[git] {clone_dir.name}: network error cloning {u}; retrying in {wait}s")
-            time.sleep(wait)
+            if _STOP.wait(wait):
+                raise GitError("interrupted")
     shutil.rmtree(clone_dir, ignore_errors=True)
     raise GitError("clone failed: " + " | ".join(errors))
 
@@ -521,12 +530,14 @@ def run(projects: list[config.Project], *, jobs: int | None = None, keep: bool =
             slots.release(k)
 
     results = list(skipped)
+    _STOP.clear()
     pool = ThreadPoolExecutor(max_workers=jobs)
     try:
         for fut in as_completed([pool.submit(task, j) for j in todo]):
             results.append(fut.result())
     except KeyboardInterrupt:
-        pool.shutdown(wait=True, cancel_futures=True)  # finish what is running, start nothing new
+        _STOP.set()  # running clones were killed by the same Ctrl-C; stop their retries
+        pool.shutdown(wait=True, cancel_futures=True)  # start nothing new
         raise
     pool.shutdown()
     return results
