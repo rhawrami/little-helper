@@ -1,0 +1,22 @@
+{
+  "source": "dockerhub",
+  "run_id": "20261113T045313Z",
+  "entries": [
+    {
+      "url": "https://hub.docker.com/v2/repositories/library/?page_size=100&page=1&ordering=pull_count",
+      "file": "data/raw/dockerhub/20261113T045313Z/library_pull_count.json",
+      "retrieved_at": "2026-11-13T04:53:13+00:00",
+      "bytes": 77227,
+      "sha256": "eac6192fdcb180d81af45939cc9239241b2596dee334a208a4caba0091236a4b",
+      "ordering": "pull_count"
+    },
+    {
+      "url": "https://hub.docker.com/v2/repositories/library/?page_size=100&page=1&ordering=-pull_count",
+      "file": "data/raw/dockerhub/20261113T045313Z/library_asc_pull_count.json",
+      "retrieved_at": "2026-11-13T04:53:14+00:00",
+      "bytes": 68372,
+      "sha256": "e39552750e65175d4427a31ab7e586ba54aa15754d158f618aa7378f7821cdff",
+      "ordering": "-pull_count"
+    }
+  ]
+}

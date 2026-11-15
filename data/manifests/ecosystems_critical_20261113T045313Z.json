@@ -1,0 +1,663 @@
+{
+  "source": "ecosystems_critical",
+  "run_id": "20261113T045313Z",
+  "entries": [
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages?critical=true&per_page=100&page=1",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/pypi.org_p001.json.gz",
+      "retrieved_at": "2026-11-13T04:54:26+00:00",
+      "bytes": 21815445,
+      "sha256": "e2da466d46abaf5641300409a46f28276da736cb4d2e600b877b03237ee90515",
+      "registry": "pypi.org",
+      "page": 1
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages?critical=true&per_page=100&page=2",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/pypi.org_p002.json.gz",
+      "retrieved_at": "2026-11-13T04:54:29+00:00",
+      "bytes": 13960838,
+      "sha256": "6f9aec61075f4406c51ce52c62b1ca650379a74c27fc563019343daeaf657f83",
+      "registry": "pypi.org",
+      "page": 2
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages?critical=true&per_page=100&page=3",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/pypi.org_p003.json.gz",
+      "retrieved_at": "2026-11-13T04:54:32+00:00",
+      "bytes": 12285559,
+      "sha256": "2dd4222415a91ed75e745a6ad350b57abbfa426e78dd26eb2d8f2d8e71aa7c9d",
+      "registry": "pypi.org",
+      "page": 3
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages?critical=true&per_page=100&page=4",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/pypi.org_p004.json.gz",
+      "retrieved_at": "2026-11-13T04:54:34+00:00",
+      "bytes": 16761007,
+      "sha256": "6282c8a240f0fd3bef7bd855128867f37eff92d6714ac241394e38491332d45c",
+      "registry": "pypi.org",
+      "page": 4
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages?critical=true&per_page=100&page=5",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/pypi.org_p005.json.gz",
+      "retrieved_at": "2026-11-13T04:54:41+00:00",
+      "bytes": 15006871,
+      "sha256": "52658559bb0cfb61dea3d1e5e27827dc15eee648632a2c3dbcbc71b99303334b",
+      "registry": "pypi.org",
+      "page": 5
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages?critical=true&per_page=100&page=6",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/pypi.org_p006.json.gz",
+      "retrieved_at": "2026-11-13T04:54:43+00:00",
+      "bytes": 2860569,
+      "sha256": "b46f655feedbd1fc6d2a3d2765316497b673fba2ba782f7a9fe6b8441dcc6b54",
+      "registry": "pypi.org",
+      "page": 6
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=1",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p001.json.gz",
+      "retrieved_at": "2026-11-13T04:54:48+00:00",
+      "bytes": 16972121,
+      "sha256": "d601ef56a1305c2bc30025041f88f6b1d66962bd81ba64174649add1264f63bd",
+      "registry": "npmjs.org",
+      "page": 1
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=2",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p002.json.gz",
+      "retrieved_at": "2026-11-13T04:54:49+00:00",
+      "bytes": 5233671,
+      "sha256": "8642528d9c667bb4642615d6678ed7736f5bca49f6f9af638f3a466abe6ac2bd",
+      "registry": "npmjs.org",
+      "page": 2
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=3",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p003.json.gz",
+      "retrieved_at": "2026-11-13T04:54:56+00:00",
+      "bytes": 18035646,
+      "sha256": "6cda580f8b25a1059a96bad57472302d90e116481322856a0f7ae46fbb023385",
+      "registry": "npmjs.org",
+      "page": 3
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=4",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p004.json.gz",
+      "retrieved_at": "2026-11-13T04:55:04+00:00",
+      "bytes": 17039610,
+      "sha256": "5d7be39f1249c486e0228d038ce4e187165772ee34dc2f5cb811a6e919f18a4e",
+      "registry": "npmjs.org",
+      "page": 4
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=5",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p005.json.gz",
+      "retrieved_at": "2026-11-13T04:55:09+00:00",
+      "bytes": 12123124,
+      "sha256": "066e2054160709c05b151f9dc1e532c93f82ce0e15e6475ee12f25c0be5c7ed3",
+      "registry": "npmjs.org",
+      "page": 5
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=6",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p006.json.gz",
+      "retrieved_at": "2026-11-13T04:55:16+00:00",
+      "bytes": 27711284,
+      "sha256": "2b622c7321872112fef735db57fd095fc4c0dcd6992bb2f8e9746f7a12b95c6f",
+      "registry": "npmjs.org",
+      "page": 6
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=7",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p007.json.gz",
+      "retrieved_at": "2026-11-13T04:55:22+00:00",
+      "bytes": 11996253,
+      "sha256": "de907c4d8e8b13cf897ca9e9ff02917ee471238d71afe2f86bbfe5ed3d754d04",
+      "registry": "npmjs.org",
+      "page": 7
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=8",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p008.json.gz",
+      "retrieved_at": "2026-11-13T04:55:26+00:00",
+      "bytes": 12094853,
+      "sha256": "b045215f8f3c35dafd30e86163c2680b1bc4fef7e3ca24658b76c24223fd06f5",
+      "registry": "npmjs.org",
+      "page": 8
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=9",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p009.json.gz",
+      "retrieved_at": "2026-11-13T04:55:31+00:00",
+      "bytes": 8573027,
+      "sha256": "a1fd4ff03c51209548823c23a3007a316d926c045e87e0b13ef79b025f12d1b6",
+      "registry": "npmjs.org",
+      "page": 9
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=10",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p010.json.gz",
+      "retrieved_at": "2026-11-13T04:55:35+00:00",
+      "bytes": 10761450,
+      "sha256": "7f3099857f5c0b408149fc703c9b07e9955207caf49b358dc296845c77543296",
+      "registry": "npmjs.org",
+      "page": 10
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=11",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p011.json.gz",
+      "retrieved_at": "2026-11-13T04:55:37+00:00",
+      "bytes": 9470341,
+      "sha256": "00cfe0ba2a6ab7cd7e16942d6d1c5065978be2bd477054ec0a3ea0b131dbfc0e",
+      "registry": "npmjs.org",
+      "page": 11
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=12",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p012.json.gz",
+      "retrieved_at": "2026-11-13T04:55:42+00:00",
+      "bytes": 33849375,
+      "sha256": "9530894d26f0ecdb130947f2df0aa103fe859cd0d39729a6969335632bf812fb",
+      "registry": "npmjs.org",
+      "page": 12
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=13",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p013.json.gz",
+      "retrieved_at": "2026-11-13T04:55:48+00:00",
+      "bytes": 29289321,
+      "sha256": "07566f208e805460aa142e3dedd5f175ca3aa461e748ecdb96888ea485232ddb",
+      "registry": "npmjs.org",
+      "page": 13
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=14",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p014.json.gz",
+      "retrieved_at": "2026-11-13T04:55:55+00:00",
+      "bytes": 23747739,
+      "sha256": "ed0ba001a002d60af237fd86c2eecbb9d8808f83366e165e44447611c96bb2de",
+      "registry": "npmjs.org",
+      "page": 14
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=15",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p015.json.gz",
+      "retrieved_at": "2026-11-13T04:56:01+00:00",
+      "bytes": 15978097,
+      "sha256": "e01d7abbc92acc01a861a70bf993ece179ae96c10c7d35e1944bca648d65a9ad",
+      "registry": "npmjs.org",
+      "page": 15
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=16",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p016.json.gz",
+      "retrieved_at": "2026-11-13T04:56:09+00:00",
+      "bytes": 9501773,
+      "sha256": "c55e41f6ced015b512483a81c15a61499731b89b14b4e855952cef5c687e77e2",
+      "registry": "npmjs.org",
+      "page": 16
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=17",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p017.json.gz",
+      "retrieved_at": "2026-11-13T04:56:13+00:00",
+      "bytes": 15590083,
+      "sha256": "10e8bc14dc6ffcececf679ee019de9fd8469d7073dd535bb0d16a2906d12e2b3",
+      "registry": "npmjs.org",
+      "page": 17
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=18",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p018.json.gz",
+      "retrieved_at": "2026-11-13T04:56:18+00:00",
+      "bytes": 14220350,
+      "sha256": "440c534967277992dd952ca5cfeda7a88ad464691e1046ee481c590600725516",
+      "registry": "npmjs.org",
+      "page": 18
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=19",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p019.json.gz",
+      "retrieved_at": "2026-11-13T04:56:24+00:00",
+      "bytes": 21242452,
+      "sha256": "527f2bbbd109be2a162515aea7e7a11736d518d4a5ef1880c70673a3a634b0e6",
+      "registry": "npmjs.org",
+      "page": 19
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=20",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p020.json.gz",
+      "retrieved_at": "2026-11-13T04:56:36+00:00",
+      "bytes": 24422183,
+      "sha256": "7ebf1353ef6f14c48132d1d4c1661d21b0c2dfa77a5d102d312f86ee217a299f",
+      "registry": "npmjs.org",
+      "page": 20
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=21",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p021.json.gz",
+      "retrieved_at": "2026-11-13T04:56:44+00:00",
+      "bytes": 11664436,
+      "sha256": "edbee48a3028d138dfde8d2bc1280676e99a43d1781792d6ebe55bb0c8d954b5",
+      "registry": "npmjs.org",
+      "page": 21
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=22",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p022.json.gz",
+      "retrieved_at": "2026-11-13T04:56:48+00:00",
+      "bytes": 12298280,
+      "sha256": "94762d964356ee71bc2e881a20234e87500d7092444bb64e35ba94af36befa3e",
+      "registry": "npmjs.org",
+      "page": 22
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages?critical=true&per_page=100&page=23",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/npmjs.org_p023.json.gz",
+      "retrieved_at": "2026-11-13T04:56:51+00:00",
+      "bytes": 15736480,
+      "sha256": "91e6a3cbf47e4629bb53d31ec3e1f37fab7edeafecfb8fcf4724a576e77e161d",
+      "registry": "npmjs.org",
+      "page": 23
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages?critical=true&per_page=100&page=1",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/crates.io_p001.json.gz",
+      "retrieved_at": "2026-11-13T04:56:58+00:00",
+      "bytes": 12793121,
+      "sha256": "1659249b761150bd2ae653b2e0317bd515a98d6def97974d835301c3ce9ec94d",
+      "registry": "crates.io",
+      "page": 1
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages?critical=true&per_page=100&page=2",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/crates.io_p002.json.gz",
+      "retrieved_at": "2026-11-13T04:57:01+00:00",
+      "bytes": 8586190,
+      "sha256": "946b620412d56af78a7fbe69bc458d1421cc4caa04b9458d7a1c2ab0cde559af",
+      "registry": "crates.io",
+      "page": 2
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages?critical=true&per_page=100&page=3",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/crates.io_p003.json.gz",
+      "retrieved_at": "2026-11-13T04:57:10+00:00",
+      "bytes": 14005140,
+      "sha256": "0a9a29e196158e16c7e8b5a6db542e2fe04b206daf9aa95d7c94e69c8b13ea61",
+      "registry": "crates.io",
+      "page": 3
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages?critical=true&per_page=100&page=4",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/crates.io_p004.json.gz",
+      "retrieved_at": "2026-11-13T04:57:12+00:00",
+      "bytes": 8943029,
+      "sha256": "bcf545753401becb68d5fae117177126e5be16ca828e7e9a69ef77fdebe5d04c",
+      "registry": "crates.io",
+      "page": 4
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages?critical=true&per_page=100&page=5",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/crates.io_p005.json.gz",
+      "retrieved_at": "2026-11-13T04:57:16+00:00",
+      "bytes": 6212669,
+      "sha256": "0acbcf416d83834071cf2a23c72bc6fb9f706c76fb05b03b9c3331ec57e83d8f",
+      "registry": "crates.io",
+      "page": 5
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages?critical=true&per_page=100&page=6",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/crates.io_p006.json.gz",
+      "retrieved_at": "2026-11-13T04:57:19+00:00",
+      "bytes": 4039413,
+      "sha256": "48896bb0bfc0cec88f5123fedddf790e8cdb29926a5108d37392a1fef6a8066d",
+      "registry": "crates.io",
+      "page": 6
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages?critical=true&per_page=100&page=7",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/crates.io_p007.json.gz",
+      "retrieved_at": "2026-11-13T04:57:21+00:00",
+      "bytes": 3870416,
+      "sha256": "229e88501508a9324ae006abf4fd94ee605b37fffdf09ac8717d3756883d2090",
+      "registry": "crates.io",
+      "page": 7
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages?critical=true&per_page=100&page=8",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/crates.io_p008.json.gz",
+      "retrieved_at": "2026-11-13T04:57:23+00:00",
+      "bytes": 6416378,
+      "sha256": "5098c874b6f954cac309271111a0b6c76fc38f14af25b4b8acdd5baddc199ab1",
+      "registry": "crates.io",
+      "page": 8
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages?critical=true&per_page=100&page=9",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/crates.io_p009.json.gz",
+      "retrieved_at": "2026-11-13T04:57:24+00:00",
+      "bytes": 2166223,
+      "sha256": "d70ab66f05a70a737df1617f9084e51b89058172e068c6088ab08cac12be5b07",
+      "registry": "crates.io",
+      "page": 9
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages?critical=true&per_page=100&page=1",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/repo1.maven.org_p001.json.gz",
+      "retrieved_at": "2026-11-13T04:57:32+00:00",
+      "bytes": 9306633,
+      "sha256": "27654d9b6b22a6d72d6701cdb870d7e32313b210dfced15fb0fae0de6f455699",
+      "registry": "repo1.maven.org",
+      "page": 1
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages?critical=true&per_page=100&page=2",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/repo1.maven.org_p002.json.gz",
+      "retrieved_at": "2026-11-13T04:57:35+00:00",
+      "bytes": 13569438,
+      "sha256": "83e27dfce2cbe33eb2cc758f4f9153d09a2292312d38998add2dacd5b6a1d954",
+      "registry": "repo1.maven.org",
+      "page": 2
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages?critical=true&per_page=100&page=3",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/repo1.maven.org_p003.json.gz",
+      "retrieved_at": "2026-11-13T04:57:38+00:00",
+      "bytes": 15441632,
+      "sha256": "e51327a70ada5bba40fe1865059b84f16589e1f7663fbd4ba3a2fae2c46a7bdc",
+      "registry": "repo1.maven.org",
+      "page": 3
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages?critical=true&per_page=100&page=4",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/repo1.maven.org_p004.json.gz",
+      "retrieved_at": "2026-11-13T04:57:43+00:00",
+      "bytes": 13825095,
+      "sha256": "b3f72b7ed30611c99b5e36373595e55d49b1140ef3186de67924474134e7f955",
+      "registry": "repo1.maven.org",
+      "page": 4
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages?critical=true&per_page=100&page=5",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/repo1.maven.org_p005.json.gz",
+      "retrieved_at": "2026-11-13T04:57:45+00:00",
+      "bytes": 12236419,
+      "sha256": "19621555506f696d067ed7f394566f8157a0b40c60ab12e67ee0f26c7b84af10",
+      "registry": "repo1.maven.org",
+      "page": 5
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages?critical=true&per_page=100&page=6",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/repo1.maven.org_p006.json.gz",
+      "retrieved_at": "2026-11-13T04:57:49+00:00",
+      "bytes": 19170021,
+      "sha256": "d99eda3bd84df3bc610fe40ad305f3aad0e2c68197b5850d718de28efef45f42",
+      "registry": "repo1.maven.org",
+      "page": 6
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages?critical=true&per_page=100&page=7",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/repo1.maven.org_p007.json.gz",
+      "retrieved_at": "2026-11-13T04:57:52+00:00",
+      "bytes": 13518927,
+      "sha256": "127e6a20f873c0d9368b7c8fc412cb96d73518d9163e2e2abba9f688a21eebb1",
+      "registry": "repo1.maven.org",
+      "page": 7
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages?critical=true&per_page=100&page=8",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/repo1.maven.org_p008.json.gz",
+      "retrieved_at": "2026-11-13T04:57:52+00:00",
+      "bytes": 500747,
+      "sha256": "b93d002bf41160239476378155b9b54f41a52ce58b717bcaf0a14eeab508f7c1",
+      "registry": "repo1.maven.org",
+      "page": 8
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages?critical=true&per_page=100&page=1",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/proxy.golang.org_p001.json.gz",
+      "retrieved_at": "2026-11-13T04:57:54+00:00",
+      "bytes": 4779957,
+      "sha256": "afab6dc913a0569f504076f7c2f6ced3e9825f9e9a4565aa5ce51a76a4e266b4",
+      "registry": "proxy.golang.org",
+      "page": 1
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages?critical=true&per_page=100&page=2",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/proxy.golang.org_p002.json.gz",
+      "retrieved_at": "2026-11-13T04:57:56+00:00",
+      "bytes": 6947369,
+      "sha256": "442a8741eeb7bc0102e06a29479fe2b9b8648d87f3ca617f4a0cfcaeae5a91fd",
+      "registry": "proxy.golang.org",
+      "page": 2
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages?critical=true&per_page=100&page=3",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/proxy.golang.org_p003.json.gz",
+      "retrieved_at": "2026-11-13T04:57:58+00:00",
+      "bytes": 8552447,
+      "sha256": "fe3ab8270f384b073337f02150dc5f844ad1f46c9ec1d8f3e1f089dff23a509c",
+      "registry": "proxy.golang.org",
+      "page": 3
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages?critical=true&per_page=100&page=4",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/proxy.golang.org_p004.json.gz",
+      "retrieved_at": "2026-11-13T04:58:01+00:00",
+      "bytes": 7730461,
+      "sha256": "af4464464f2ececf79e07a8769874919aa0f2cd056a5a327d51ef46644b5ad42",
+      "registry": "proxy.golang.org",
+      "page": 4
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages?critical=true&per_page=100&page=5",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/proxy.golang.org_p005.json.gz",
+      "retrieved_at": "2026-11-13T04:58:02+00:00",
+      "bytes": 8574488,
+      "sha256": "0d6ffe2670aa8ecc184bf620511da38bca595504d1ccdc9e4cb7c63dcc7d6e91",
+      "registry": "proxy.golang.org",
+      "page": 5
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages?critical=true&per_page=100&page=6",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/proxy.golang.org_p006.json.gz",
+      "retrieved_at": "2026-11-13T04:58:09+00:00",
+      "bytes": 22087897,
+      "sha256": "65e4391702eb2703f625a03657506dca65ec12d856873325fe00e7fdf13aa9f3",
+      "registry": "proxy.golang.org",
+      "page": 6
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages?critical=true&per_page=100&page=7",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/proxy.golang.org_p007.json.gz",
+      "retrieved_at": "2026-11-13T04:58:13+00:00",
+      "bytes": 4980678,
+      "sha256": "5dcde9dceffe1d62e8c3dd7a8828d20a224e6e3b908c453602a880a6ae90a5d7",
+      "registry": "proxy.golang.org",
+      "page": 7
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=1",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p001.json.gz",
+      "retrieved_at": "2026-11-13T04:58:17+00:00",
+      "bytes": 7218570,
+      "sha256": "b6869d7bc3cc37ffc805a3492315b03a0236603c8ee1bcf3cc6ac0374e6a07fe",
+      "registry": "rubygems.org",
+      "page": 1
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=2",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p002.json.gz",
+      "retrieved_at": "2026-11-13T04:58:20+00:00",
+      "bytes": 25082395,
+      "sha256": "22cdc0e2b48bb0674fa4941f2764cf8b3ab7969def202f3ab105a6e44fbc0a22",
+      "registry": "rubygems.org",
+      "page": 2
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=3",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p003.json.gz",
+      "retrieved_at": "2026-11-13T04:58:22+00:00",
+      "bytes": 7232536,
+      "sha256": "75c4708625f083f3ce974bee10b2985f601edf15e6b02e65e3f388c3fe224357",
+      "registry": "rubygems.org",
+      "page": 3
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=4",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p004.json.gz",
+      "retrieved_at": "2026-11-13T04:58:25+00:00",
+      "bytes": 7617955,
+      "sha256": "0676edc79d532b8ab45550b72cc73b5368c2a3f2b4f860673ab8c0f865218e3b",
+      "registry": "rubygems.org",
+      "page": 4
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=5",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p005.json.gz",
+      "retrieved_at": "2026-11-13T04:58:27+00:00",
+      "bytes": 6352186,
+      "sha256": "d03a6a7eeb657a09e94ef2489c180089625083d0aa38ed6a8090ab9c1cd21a98",
+      "registry": "rubygems.org",
+      "page": 5
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=6",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p006.json.gz",
+      "retrieved_at": "2026-11-13T04:58:31+00:00",
+      "bytes": 52718432,
+      "sha256": "41097a1cef9c5dbe0735a7e78834c8e842e7bf6e578641744d0d5d7da4d57243",
+      "registry": "rubygems.org",
+      "page": 6
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=7",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p007.json.gz",
+      "retrieved_at": "2026-11-13T04:58:41+00:00",
+      "bytes": 48481571,
+      "sha256": "5ffafc369a837035be45bf8b4fbd8242cd0d1c6a672c4391fa7df6ff4155966a",
+      "registry": "rubygems.org",
+      "page": 7
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=8",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p008.json.gz",
+      "retrieved_at": "2026-11-13T04:58:45+00:00",
+      "bytes": 30773576,
+      "sha256": "f167393520ef05f81869c7e59ad51d7503ee4f95e7d683281197e8821c20c45f",
+      "registry": "rubygems.org",
+      "page": 8
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=9",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p009.json.gz",
+      "retrieved_at": "2026-11-13T04:58:50+00:00",
+      "bytes": 28294171,
+      "sha256": "0cfc79624fb3a2eb871c33e869347636d35e94308fed0a0ac35d0ca2a2a04da2",
+      "registry": "rubygems.org",
+      "page": 9
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages?critical=true&per_page=100&page=10",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/rubygems.org_p010.json.gz",
+      "retrieved_at": "2026-11-13T04:58:53+00:00",
+      "bytes": 3094064,
+      "sha256": "92a9e2d95dd02ab8a3c44961782fba3f6d97998a28518e4c114322a2738823bc",
+      "registry": "rubygems.org",
+      "page": 10
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/nuget.org/packages?critical=true&per_page=100&page=1",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/nuget.org_p001.json.gz",
+      "retrieved_at": "2026-11-13T04:58:55+00:00",
+      "bytes": 8850573,
+      "sha256": "6e35f4ba6459a905d4426021e618c347727fd2f69dedfaaf308bdab4f504e99c",
+      "registry": "nuget.org",
+      "page": 1
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/nuget.org/packages?critical=true&per_page=100&page=2",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/nuget.org_p002.json.gz",
+      "retrieved_at": "2026-11-13T04:58:57+00:00",
+      "bytes": 18519434,
+      "sha256": "d6f17f9791e435c3e6fb0491f501e5525f902777f648f5671d3cda8192d68792",
+      "registry": "nuget.org",
+      "page": 2
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/nuget.org/packages?critical=true&per_page=100&page=3",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/nuget.org_p003.json.gz",
+      "retrieved_at": "2026-11-13T04:59:00+00:00",
+      "bytes": 9092924,
+      "sha256": "9f629ffbf8cb7d5237cdef2a3835e6b5920946a8ec7a68e4b973e7527dbf8f88",
+      "registry": "nuget.org",
+      "page": 3
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/nuget.org/packages?critical=true&per_page=100&page=4",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/nuget.org_p004.json.gz",
+      "retrieved_at": "2026-11-13T04:59:03+00:00",
+      "bytes": 9839045,
+      "sha256": "11db8ba09ddba3e76e9ddf91744e13a8662a087e82a072bfe0b8012913dff29c",
+      "registry": "nuget.org",
+      "page": 4
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages?critical=true&per_page=100&page=1",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/packagist.org_p001.json.gz",
+      "retrieved_at": "2026-11-13T04:59:07+00:00",
+      "bytes": 6251809,
+      "sha256": "c5f31243f84b39547600e5af0f8ed7c3a1d286635c547ca2a3d3bedbeef4e9b2",
+      "registry": "packagist.org",
+      "page": 1
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages?critical=true&per_page=100&page=2",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/packagist.org_p002.json.gz",
+      "retrieved_at": "2026-11-13T04:59:10+00:00",
+      "bytes": 9307798,
+      "sha256": "45d18140df2a99798cd3510966ff4e6402b8b9bccdbe29988cc230db6a774634",
+      "registry": "packagist.org",
+      "page": 2
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages?critical=true&per_page=100&page=3",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/packagist.org_p003.json.gz",
+      "retrieved_at": "2026-11-13T04:59:12+00:00",
+      "bytes": 10142437,
+      "sha256": "8984968ace5ed142cbd3d39f17bb296fe861c20247ff47cc16dbe49e367a300d",
+      "registry": "packagist.org",
+      "page": 3
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages?critical=true&per_page=100&page=4",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/packagist.org_p004.json.gz",
+      "retrieved_at": "2026-11-13T04:59:14+00:00",
+      "bytes": 16145978,
+      "sha256": "435d3cb78f258c1ef1dc422d4b89235668dc65d12b437ce8e1b9150eed8351d6",
+      "registry": "packagist.org",
+      "page": 4
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages?critical=true&per_page=100&page=5",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/packagist.org_p005.json.gz",
+      "retrieved_at": "2026-11-13T04:59:19+00:00",
+      "bytes": 13206573,
+      "sha256": "05c7be125d18d3a25f8acb026ff8e0dd7ab53a6f94b5a72fb1c6341a3e19c05f",
+      "registry": "packagist.org",
+      "page": 5
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages?critical=true&per_page=100&page=6",
+      "file": "data/raw/ecosystems_critical/20261113T045313Z/packagist.org_p006.json.gz",
+      "retrieved_at": "2026-11-13T04:59:23+00:00",
+      "bytes": 6347375,
+      "sha256": "3ebaffa658d6e16913de186920535c3622c4895337c312ff714c3211ee350460",
+      "registry": "packagist.org",
+      "page": 6
+    }
+  ]
+}

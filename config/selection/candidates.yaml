@@ -1,0 +1,179 @@
+# Candidate pool for the pilot sample (crosswalk).
+#
+# Each entry maps one *project* (the unit of analysis) to its identifier in every
+# significance source. A project may span several repos or packages; signals take
+# the maximum over the mapped identifiers, never the sum, so splitting a project
+# into many packages cannot inflate it.
+#
+#   github:   owner/repo on GitHub, canonical or mirror (used only to join the
+#             OpenSSF Criticality Score and OSS-Fuzz main_repo)
+#   debian:   Debian source package names; entries starting with ^ are regexes
+#             (versioned sources like gcc-16, postgresql-18)
+#   repology: Repology project name
+#   docker:   Docker official image (library/<name>)
+#   packages: <ecosyste.ms registry>:<package name>
+#   ossfuzz:  OSS-Fuzz project name, when main_repo matching is not enough
+#
+# The pool was nominated from the top of each lens (see docs/sample_selection.md)
+# plus deliberate layer coverage; inclusion in this file is NOT inclusion in the
+# sample. score_pilot.py applies the rule.
+
+# ---------------------------------------------------------------- kernel & OS base
+- {id: linux, name: Linux kernel, layer: kernel_os, github: torvalds/linux, debian: [linux], repology: linux}
+- {id: glibc, name: GNU C Library, layer: kernel_os, github: bminor/glibc, debian: [glibc], repology: glibc, ossfuzz: glibc}
+- {id: musl, name: musl libc, layer: kernel_os, debian: [musl], repology: musl}
+- {id: systemd, name: systemd, layer: kernel_os, github: systemd/systemd, debian: [systemd], repology: systemd}
+- {id: coreutils, name: GNU coreutils, layer: kernel_os, github: coreutils/coreutils, debian: [coreutils], repology: coreutils}
+- {id: util-linux, name: util-linux, layer: kernel_os, github: util-linux/util-linux, debian: [util-linux], repology: util-linux}
+- {id: bash, name: GNU Bash, layer: kernel_os, github: bminor/bash, debian: [bash], repology: bash, docker: bash}
+- {id: busybox, name: BusyBox, layer: kernel_os, github: vda-linux/busybox_mirror, debian: [busybox], repology: busybox, docker: busybox}
+
+# ---------------------------------------------------------------- toolchains & build
+- {id: gcc, name: GCC, layer: toolchain, github: gcc-mirror/gcc, debian: ['^gcc-\d+$'], repology: gcc, docker: gcc, niche: compiler}
+- {id: llvm, name: LLVM / Clang, layer: toolchain, github: llvm/llvm-project, debian: ['^llvm-toolchain-\d+$'], repology: llvm, ossfuzz: llvm, niche: compiler}
+- {id: binutils, name: GNU Binutils, layer: toolchain, github: bminor/binutils-gdb, debian: [binutils], repology: binutils, ossfuzz: binutils}
+- {id: cmake, name: CMake, layer: toolchain, github: kitware/cmake, debian: [cmake], repology: cmake, packages: ['pypi.org:cmake'], niche: build_system}
+- {id: gnu-make, name: GNU Make, layer: toolchain, github: mirror/make, debian: [make-dfsg], repology: make, niche: build_system}
+- {id: meson, name: Meson, layer: toolchain, github: mesonbuild/meson, debian: [meson], repology: meson, packages: ['pypi.org:meson'], niche: build_system}
+- {id: ninja, name: Ninja, layer: toolchain, github: ninja-build/ninja, debian: [ninja-build], repology: ninja, packages: ['pypi.org:ninja'], niche: build_system}
+- {id: git, name: Git, layer: toolchain, github: git/git, debian: [git], repology: git, ossfuzz: git}
+- {id: pkgconf, name: pkgconf, layer: toolchain, github: pkgconf/pkgconf, debian: [pkgconf], repology: pkgconf}
+
+# ---------------------------------------------------------------- language runtimes & compilers
+- {id: cpython, name: CPython, layer: runtime, github: python/cpython, debian: ['^python3\.\d+$'], repology: python, docker: python, ossfuzz: cpython3}
+- {id: openjdk, name: OpenJDK, layer: runtime, github: openjdk/jdk, debian: ['^openjdk-\d+$'], repology: openjdk, docker: openjdk}
+- {id: nodejs, name: Node.js, layer: runtime, github: nodejs/node, debian: [nodejs], repology: nodejs, docker: node}
+- {id: go, name: Go, layer: runtime, github: golang/go, debian: ['^golang-1\.\d+$'], repology: go, docker: golang, ossfuzz: golang}
+- {id: rust, name: Rust, layer: runtime, github: rust-lang/rust, debian: [rustc], repology: rust, docker: rust}
+- {id: typescript, name: TypeScript, layer: runtime, github: microsoft/typescript, debian: [node-typescript], repology: typescript, packages: ['npmjs.org:typescript']}
+- {id: ruby, name: Ruby (CRuby), layer: runtime, github: ruby/ruby, debian: ['^ruby\d\.\d+$'], repology: ruby, docker: ruby, ossfuzz: ruby}
+- {id: php, name: PHP, layer: runtime, github: php/php-src, debian: ['^php\d\.\d+$'], repology: php, docker: php, ossfuzz: php}
+- {id: perl, name: Perl 5, layer: runtime, github: perl/perl5, debian: [perl], repology: perl, docker: perl, ossfuzz: perl}
+- {id: dotnet, name: .NET runtime, layer: runtime, github: dotnet/runtime, repology: dotnet}
+- {id: v8, name: V8, layer: runtime, github: v8/v8, repology: v8}
+
+# ---------------------------------------------------------------- core libraries: compression, formats, text, utility
+- {id: zlib, name: zlib, layer: core_libs, github: madler/zlib, debian: [zlib], repology: zlib, ossfuzz: zlib, niche: compression}
+- {id: xz, name: XZ Utils / liblzma, layer: core_libs, github: tukaani-project/xz, debian: [xz-utils], repology: xz, ossfuzz: xz, niche: compression}
+- {id: zstd, name: Zstandard, layer: core_libs, github: facebook/zstd, debian: [libzstd], repology: zstd, ossfuzz: zstd, niche: compression}
+- {id: bzip2, name: bzip2, layer: core_libs, debian: [bzip2], repology: bzip2, ossfuzz: bzip2, niche: compression}
+- {id: brotli, name: Brotli, layer: core_libs, github: google/brotli, debian: [brotli], repology: brotli, ossfuzz: brotli, niche: compression}
+- {id: lz4, name: LZ4, layer: core_libs, github: lz4/lz4, debian: [lz4], repology: lz4, ossfuzz: lz4, niche: compression}
+- {id: libpng, name: libpng, layer: core_libs, github: pnggroup/libpng, debian: [libpng1.6], repology: libpng, ossfuzz: libpng, niche: image_codec}
+- {id: libjpeg-turbo, name: libjpeg-turbo, layer: core_libs, github: libjpeg-turbo/libjpeg-turbo, debian: [libjpeg-turbo], repology: libjpeg-turbo, ossfuzz: libjpeg-turbo, niche: image_codec}
+- {id: libxml2, name: libxml2, layer: core_libs, github: gnome/libxml2, debian: [libxml2], repology: libxml2, ossfuzz: libxml2, niche: parsing}
+- {id: expat, name: Expat, layer: core_libs, github: libexpat/libexpat, debian: [expat], repology: expat, ossfuzz: expat, niche: parsing}
+- {id: icu, name: ICU, layer: core_libs, github: unicode-org/icu, debian: [icu], repology: icu, ossfuzz: icu, niche: text_unicode}
+- {id: pcre2, name: PCRE2, layer: core_libs, github: pcre2project/pcre2, debian: [pcre2], repology: pcre2, ossfuzz: pcre2, niche: parsing}
+- {id: libffi, name: libffi, layer: core_libs, github: libffi/libffi, debian: [libffi], repology: libffi}
+- {id: ncurses, name: ncurses, layer: core_libs, github: mirror/ncurses, debian: [ncurses], repology: ncurses, ossfuzz: ncurses}
+- {id: glib, name: GLib, layer: core_libs, github: gnome/glib, debian: [glib2.0], repology: glib, ossfuzz: glib}
+- {id: protobuf, name: Protocol Buffers, layer: core_libs, github: protocolbuffers/protobuf, debian: [protobuf], repology: protobuf, packages: ['pypi.org:protobuf', 'repo1.maven.org:com.google.protobuf:protobuf-java', 'npmjs.org:google-protobuf']}
+- {id: libarchive, name: libarchive, layer: core_libs, github: libarchive/libarchive, debian: [libarchive], repology: libarchive, ossfuzz: libarchive}
+- {id: boost, name: Boost, layer: core_libs, github: boostorg/boost, debian: ['^boost1\.\d+$'], repology: boost, ossfuzz: boost}
+- {id: abseil, name: Abseil C++, layer: core_libs, github: abseil/abseil-cpp, debian: [abseil], repology: abseil-cpp, ossfuzz: abseil-cpp}
+
+# ---------------------------------------------------------------- security & networking libraries
+- {id: openssl, name: OpenSSL, layer: security_net, github: openssl/openssl, debian: [openssl], repology: openssl, ossfuzz: openssl, niche: tls_crypto}
+- {id: gnutls, name: GnuTLS, layer: security_net, debian: [gnutls28], repology: gnutls, ossfuzz: gnutls, niche: tls_crypto}
+- {id: libgcrypt, name: Libgcrypt, layer: security_net, github: gpg/libgcrypt, debian: [libgcrypt20], repology: libgcrypt, ossfuzz: libgcrypt, niche: tls_crypto}
+- {id: libsodium, name: libsodium, layer: security_net, github: jedisct1/libsodium, debian: [libsodium], repology: libsodium, ossfuzz: libsodium, niche: tls_crypto}
+- {id: curl, name: curl / libcurl, layer: security_net, github: curl/curl, debian: [curl], repology: curl, ossfuzz: curl}
+- {id: openssh, name: OpenSSH, layer: security_net, github: openssh/openssh-portable, debian: [openssh], repology: openssh, ossfuzz: openssh}
+- {id: nghttp2, name: nghttp2, layer: security_net, github: nghttp2/nghttp2, debian: [nghttp2], repology: nghttp2, ossfuzz: nghttp2, niche: protocol}
+- {id: c-ares, name: c-ares, layer: security_net, github: c-ares/c-ares, debian: [c-ares], repology: c-ares, ossfuzz: c-ares, niche: protocol}
+- {id: libuv, name: libuv, layer: security_net, github: libuv/libuv, debian: [libuv1], repology: libuv, niche: event_loop}
+- {id: libevent, name: libevent, layer: security_net, github: libevent/libevent, debian: [libevent], repology: libevent, ossfuzz: libevent, niche: event_loop}
+- {id: krb5, name: MIT Kerberos, layer: security_net, github: krb5/krb5, debian: [krb5], repology: krb5, ossfuzz: krb5}
+- {id: grpc, name: gRPC, layer: security_net, github: grpc/grpc, debian: [grpc], repology: grpc, packages: ['pypi.org:grpcio'], ossfuzz: grpc}
+
+# ---------------------------------------------------------------- data stores & data engines
+- {id: postgresql, name: PostgreSQL, layer: data_stores, github: postgres/postgres, debian: ['^postgresql-\d+$'], repology: postgresql, docker: postgres, ossfuzz: postgresql, managed: 3, niche: rdbms}
+- {id: sqlite, name: SQLite, layer: data_stores, github: sqlite/sqlite, debian: [sqlite3], repology: sqlite, ossfuzz: sqlite3}
+- {id: mysql, name: MySQL, layer: data_stores, github: mysql/mysql-server, debian: ['^mysql-\d+\.\d+$'], repology: mysql, docker: mysql, ossfuzz: mysql-server, managed: 3, niche: rdbms}
+- {id: mariadb, name: MariaDB, layer: data_stores, github: mariadb/server, debian: [mariadb], repology: mariadb, docker: mariadb, ossfuzz: mariadb, managed: 1, niche: rdbms}
+- {id: redis, name: Redis, layer: data_stores, github: redis/redis, debian: [redis], repology: redis, docker: redis, ossfuzz: redis, managed: 3, niche: kv_cache}
+- {id: valkey, name: Valkey, layer: data_stores, github: valkey-io/valkey, debian: [valkey], repology: valkey, managed: 2, niche: kv_cache, first_release: '2024-04-16'}
+- {id: memcached, name: Memcached, layer: data_stores, github: memcached/memcached, debian: [memcached], repology: memcached, docker: memcached, ossfuzz: memcached, managed: 2, niche: kv_cache}
+- {id: mongodb, name: MongoDB, layer: data_stores, github: mongodb/mongo, repology: mongodb, docker: mongo}
+- {id: kafka, name: Apache Kafka, layer: data_stores, github: apache/kafka, repology: kafka, packages: ['repo1.maven.org:org.apache.kafka:kafka-clients'], managed: 3}
+- {id: rocksdb, name: RocksDB, layer: data_stores, github: facebook/rocksdb, debian: [rocksdb], repology: rocksdb}
+- {id: duckdb, name: DuckDB, layer: data_stores, github: duckdb/duckdb, debian: [duckdb], repology: duckdb, packages: ['pypi.org:duckdb'], first_release: '2019-06-27'}
+- {id: elasticsearch, name: Elasticsearch, layer: data_stores, github: elastic/elasticsearch, repology: elasticsearch, docker: elasticsearch, managed: 1, niche: search}
+- {id: opensearch, name: OpenSearch, layer: data_stores, github: opensearch-project/opensearch, debian: [opensearch], repology: opensearch, managed: 1, niche: search}
+- {id: cassandra, name: Apache Cassandra, layer: data_stores, github: apache/cassandra, repology: cassandra, docker: cassandra, managed: 1}
+- {id: zookeeper, name: Apache ZooKeeper, layer: data_stores, github: apache/zookeeper, debian: [zookeeper], repology: zookeeper, docker: zookeeper}
+- {id: rabbitmq, name: RabbitMQ, layer: data_stores, github: rabbitmq/rabbitmq-server, debian: [rabbitmq-server], repology: rabbitmq-server, docker: rabbitmq, managed: 1}
+
+# ---------------------------------------------------------------- servers, infrastructure, cloud-native
+- {id: nginx, name: nginx, layer: servers_infra, github: nginx/nginx, debian: [nginx], repology: nginx, docker: nginx, ossfuzz: nginx, niche: http_server}
+- {id: httpd, name: Apache HTTP Server, layer: servers_infra, github: apache/httpd, debian: [apache2], repology: apache, docker: httpd, ossfuzz: apache-httpd, niche: http_server}
+- {id: haproxy, name: HAProxy, layer: servers_infra, github: haproxy/haproxy, debian: [haproxy], repology: haproxy, docker: haproxy, ossfuzz: haproxy, niche: proxy}
+- {id: kubernetes, name: Kubernetes, layer: servers_infra, github: kubernetes/kubernetes, debian: [kubernetes], repology: kubernetes, packages: ['proxy.golang.org:k8s.io/client-go', 'proxy.golang.org:k8s.io/apimachinery'], ossfuzz: kubernetes, managed: 3}
+- {id: containerd, name: containerd, layer: servers_infra, github: containerd/containerd, debian: [containerd], repology: containerd, packages: ['proxy.golang.org:github.com/containerd/containerd'], ossfuzz: containerd, niche: containers}
+- {id: moby, name: Moby (Docker Engine), layer: servers_infra, github: moby/moby, debian: [docker.io], repology: docker, docker: docker, packages: ['proxy.golang.org:github.com/docker/docker'], ossfuzz: moby, niche: containers}
+- {id: etcd, name: etcd, layer: servers_infra, github: etcd-io/etcd, debian: [etcd], repology: etcd, packages: ['proxy.golang.org:go.etcd.io/etcd/client/v3'], ossfuzz: etcd}
+- {id: envoy, name: Envoy, layer: servers_infra, github: envoyproxy/envoy, repology: envoy, ossfuzz: envoy, niche: proxy}
+- {id: traefik, name: Traefik, layer: servers_infra, github: traefik/traefik, repology: traefik, docker: traefik, niche: proxy}
+- {id: qemu, name: QEMU, layer: servers_infra, github: qemu/qemu, debian: [qemu], repology: qemu, ossfuzz: qemu}
+- {id: tomcat, name: Apache Tomcat, layer: servers_infra, github: apache/tomcat, debian: [tomcat10], repology: tomcat, docker: tomcat, ossfuzz: tomcat}
+
+# ---------------------------------------------------------------- media & graphics
+- {id: ffmpeg, name: FFmpeg, layer: media_graphics, github: ffmpeg/ffmpeg, debian: [ffmpeg], repology: ffmpeg, ossfuzz: ffmpeg}
+- {id: mesa, name: Mesa 3D, layer: media_graphics, debian: [mesa], repology: mesa, ossfuzz: mesa}
+- {id: freetype, name: FreeType, layer: media_graphics, github: freetype/freetype, debian: [freetype], repology: freetype, ossfuzz: freetype2, niche: text_rendering}
+- {id: harfbuzz, name: HarfBuzz, layer: media_graphics, github: harfbuzz/harfbuzz, debian: [harfbuzz], repology: harfbuzz, ossfuzz: harfbuzz, niche: text_rendering}
+- {id: imagemagick, name: ImageMagick, layer: media_graphics, github: imagemagick/imagemagick, debian: [imagemagick], repology: imagemagick, ossfuzz: imagemagick}
+- {id: gstreamer, name: GStreamer, layer: media_graphics, github: gstreamer/gstreamer, debian: [gstreamer1.0], repology: gstreamer, ossfuzz: gstreamer}
+- {id: libwebp, name: libwebp, layer: media_graphics, github: webmproject/libwebp, debian: [libwebp], repology: libwebp, ossfuzz: libwebp, niche: image_codec}
+- {id: opencv, name: OpenCV, layer: media_graphics, github: opencv/opencv, debian: [opencv], repology: opencv, packages: ['pypi.org:opencv-python'], ossfuzz: opencv}
+- {id: libtiff, name: LibTIFF, layer: media_graphics, debian: [tiff], repology: tiff, ossfuzz: libtiff, niche: image_codec}
+
+# ---------------------------------------------------------------- scientific & data computing
+- {id: numpy, name: NumPy, layer: scientific, github: numpy/numpy, debian: [numpy], repology: 'python:numpy', packages: ['pypi.org:numpy'], ossfuzz: numpy}
+- {id: scipy, name: SciPy, layer: scientific, github: scipy/scipy, debian: [scipy], repology: 'python:scipy', packages: ['pypi.org:scipy']}
+- {id: pandas, name: pandas, layer: scientific, github: pandas-dev/pandas, debian: [pandas], repology: 'python:pandas', packages: ['pypi.org:pandas']}
+- {id: matplotlib, name: Matplotlib, layer: scientific, github: matplotlib/matplotlib, debian: [matplotlib], repology: 'python:matplotlib', packages: ['pypi.org:matplotlib'], ossfuzz: matplotlib}
+- {id: scikit-learn, name: scikit-learn, layer: scientific, github: scikit-learn/scikit-learn, debian: [scikit-learn], repology: 'python:scikit-learn', packages: ['pypi.org:scikit-learn']}
+- {id: arrow, name: Apache Arrow, layer: scientific, github: apache/arrow, debian: [apache-arrow], repology: arrow, packages: ['pypi.org:pyarrow', 'npmjs.org:apache-arrow', 'repo1.maven.org:org.apache.arrow:arrow-vector'], ossfuzz: arrow}
+- {id: openblas, name: OpenBLAS, layer: scientific, github: openmathlib/openblas, debian: [openblas], repology: openblas, packages: ['pypi.org:scipy-openblas64']}
+- {id: lapack, name: Reference LAPACK, layer: scientific, github: reference-lapack/lapack, debian: [lapack], repology: lapack}
+- {id: plotly, name: Plotly (plotly.js + plotly.py), layer: scientific, github: plotly/plotly.js, debian: [plotly], repology: 'python:plotly', packages: ['npmjs.org:plotly.js', 'pypi.org:plotly']}
+- {id: d3, name: D3, layer: scientific, github: d3/d3, debian: [d3, node-d3], repology: d3, packages: ['npmjs.org:d3', 'npmjs.org:d3-scale', 'npmjs.org:d3-selection']}
+- {id: polars, name: Polars, layer: scientific, github: pola-rs/polars, repology: 'python:polars', packages: ['pypi.org:polars'], first_release: '2020-08-01'}
+
+# ---------------------------------------------------------------- machine learning frameworks
+- {id: pytorch, name: PyTorch, layer: ml, github: pytorch/pytorch, debian: [pytorch], repology: pytorch, packages: ['pypi.org:torch'], niche: dl_framework}
+- {id: tensorflow, name: TensorFlow, layer: ml, github: tensorflow/tensorflow, debian: [tensorflow], repology: tensorflow, packages: ['pypi.org:tensorflow'], ossfuzz: tensorflow, niche: dl_framework}
+- {id: transformers, name: Hugging Face Transformers, layer: ml, github: huggingface/transformers, debian: [transformers], repology: 'python:transformers', packages: ['pypi.org:transformers']}
+- {id: llama-cpp, name: llama.cpp / ggml, layer: ml, github: ggml-org/llama.cpp, debian: [llama.cpp], repology: llama.cpp, ossfuzz: llamacpp, first_release: '2023-03-10'}
+- {id: onnxruntime, name: ONNX Runtime, layer: ml, github: microsoft/onnxruntime, debian: [onnxruntime], repology: onnxruntime, packages: ['pypi.org:onnxruntime']}
+- {id: vllm, name: vLLM, layer: ml, github: vllm-project/vllm, repology: 'python:vllm', packages: ['pypi.org:vllm'], first_release: '2023-06-20'}
+
+# ---------------------------------------------------------------- application frameworks & ecosystem hubs
+- {id: react, name: React, layer: app_frameworks, github: react/react, debian: [node-react], repology: 'node:react', packages: ['npmjs.org:react'], niche: js_frontend}
+- {id: angular, name: Angular, layer: app_frameworks, github: angular/angular, packages: ['npmjs.org:@angular/core'], niche: js_frontend}
+- {id: vue, name: Vue.js, layer: app_frameworks, github: vuejs/core, packages: ['npmjs.org:vue'], niche: js_frontend}
+- {id: nextjs, name: Next.js, layer: app_frameworks, github: vercel/next.js, packages: ['npmjs.org:next'], niche: js_frontend}
+- {id: django, name: Django, layer: app_frameworks, github: django/django, debian: [python-django], repology: 'python:django', packages: ['pypi.org:django'], ossfuzz: django}
+- {id: spring, name: Spring Framework, layer: app_frameworks, github: spring-projects/spring-framework, debian: [libspring-java], repology: spring-framework, packages: ['repo1.maven.org:org.springframework:spring-core'], ossfuzz: spring-framework}
+- {id: rails, name: Ruby on Rails, layer: app_frameworks, github: rails/rails, debian: [rails], repology: 'ruby:rails', packages: ['rubygems.org:activesupport', 'rubygems.org:rails']}
+- {id: laravel, name: Laravel, layer: app_frameworks, github: laravel/framework, packages: ['packagist.org:illuminate/support', 'packagist.org:laravel/framework'], niche: php_framework}
+- {id: symfony, name: Symfony, layer: app_frameworks, github: symfony/symfony, packages: ['packagist.org:symfony/console', 'packagist.org:symfony/http-foundation'], niche: php_framework}
+- {id: express, name: Express, layer: app_frameworks, github: expressjs/express, debian: [node-express], repology: 'node:express', packages: ['npmjs.org:express']}
+- {id: webpack, name: webpack, layer: app_frameworks, github: webpack/webpack, debian: [node-webpack], repology: 'node:webpack', packages: ['npmjs.org:webpack'], niche: js_build}
+- {id: babel, name: Babel, layer: app_frameworks, github: babel/babel, debian: [node-babel7], packages: ['npmjs.org:@babel/core', 'npmjs.org:@babel/runtime'], niche: js_build}
+- {id: vite, name: Vite, layer: app_frameworks, github: vitejs/vite, packages: ['npmjs.org:vite'], niche: js_build, first_release: '2020-04-21'}
+- {id: lodash, name: Lodash, layer: app_frameworks, github: lodash/lodash, debian: [node-lodash], repology: 'node:lodash', packages: ['npmjs.org:lodash']}
+- {id: requests, name: Requests, layer: app_frameworks, github: psf/requests, debian: [requests], repology: 'python:requests', packages: ['pypi.org:requests'], ossfuzz: requests, niche: py_http}
+- {id: urllib3, name: urllib3, layer: app_frameworks, github: urllib3/urllib3, debian: [python-urllib3], repology: 'python:urllib3', packages: ['pypi.org:urllib3'], ossfuzz: urllib3, niche: py_http}
+- {id: jackson, name: Jackson Databind, layer: app_frameworks, github: fasterxml/jackson-databind, debian: [jackson-databind], repology: jackson-databind, packages: ['repo1.maven.org:com.fasterxml.jackson.core:jackson-databind'], ossfuzz: jackson-databind}
+- {id: netty, name: Netty, layer: app_frameworks, github: netty/netty, debian: [netty], repology: netty, packages: ['repo1.maven.org:io.netty:netty-handler', 'repo1.maven.org:io.netty:netty-common']}
+- {id: log4j, name: Apache Log4j 2, layer: app_frameworks, github: apache/logging-log4j2, debian: [apache-log4j2], repology: log4j, packages: ['repo1.maven.org:org.apache.logging.log4j:log4j-core', 'repo1.maven.org:org.apache.logging.log4j:log4j-api'], ossfuzz: log4j2}
+- {id: guava, name: Guava, layer: app_frameworks, github: google/guava, debian: [guava-libraries], repology: guava, packages: ['repo1.maven.org:com.google.guava:guava'], ossfuzz: guava}
+- {id: serde, name: Serde, layer: app_frameworks, github: serde-rs/serde, debian: [rust-serde], repology: 'rust:serde', packages: ['crates.io:serde']}
+- {id: tokio, name: Tokio, layer: app_frameworks, github: tokio-rs/tokio, debian: [rust-tokio], repology: 'rust:tokio', packages: ['crates.io:tokio']}
+- {id: pytest, name: pytest, layer: app_frameworks, github: pytest-dev/pytest, debian: [pytest], repology: 'python:pytest', packages: ['pypi.org:pytest']}
+- {id: setuptools, name: setuptools, layer: app_frameworks, github: pypa/setuptools, debian: [setuptools], repology: 'python:setuptools', packages: ['pypi.org:setuptools']}
+- {id: uv, name: uv, layer: toolchain, github: astral-sh/uv, debian: [uv], repology: uv, packages: ['pypi.org:uv'], first_release: '2024-02-15'}
+- {id: ruff, name: Ruff, layer: toolchain, github: astral-sh/ruff, debian: [ruff], repology: ruff-python-linter, packages: ['pypi.org:ruff'], first_release: '2022-08-29'}

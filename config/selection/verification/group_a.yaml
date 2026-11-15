@@ -1,0 +1,287 @@
+# Group A dev-infrastructure verification. Compiled 2026-11-12.
+# Commit dates and SHAs come from the GitHub/GitLab/Forgejo/patchwork APIs queried on 2026-11-12/13.
+# "unverified" means the claim was not confirmed against a source in this session.
+# Comments starting with "# scope:" qualify an ai_policy entry whose rule covers only part of the project.
+
+- id: linux
+  canonical_repo: {url: "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git", vcs: git}
+  github: {slug: torvalds/linux, role: official_mirror}   # Torvalds pushes to it; PRs are disabled (API 404)
+  history_start: {date: 2005-04-16, note: "Root commit 1da177e4c3f4 'Linux-2.6.12-rc2'. Nothing earlier was imported. BitKeeper-era history (2002-2005) is only in separate 'history' repos, and pre-2002 history only in tarball-reconstructed repos. The master branch holds about 1.5M commits including merges."}
+  review:
+    current: {type: "email to LKML plus subsystem lists; some subsystems run patchwork.kernel.org; archived on lore.kernel.org", url: "https://lore.kernel.org", since: "early 1990s (email patches since the project began; exact year unverified)"}
+    past: [{type: "BitKeeper pulls (this was the VCS, not a review venue; patches were still emailed)", url: "n/a", until: 2005-04}]
+    states_observable: "No project-wide accept/reject state exists. Subsystems that use patchwork set states (New/Under Review/Accepted/Rejected/Changes Requested/Superseded/RFC/Not Applicable/Awaiting Upstream/Deferred), but inconsistently. Otherwise a patch counts as accepted when it matches a mainline or linux-next commit (Link:/Message-ID, patch-id or subject), and rejected vs pending has to be inferred from NAKs and thread inactivity."
+    access: "lore.kernel.org public-inbox archives (git-cloneable, mbox/Atom, lei/b4); patchwork.kernel.org REST API (/api/); full git history"
+  issues:
+    current: {type: "mailing lists per MAINTAINERS (primary); bugzilla.kernel.org used by only a few subsystems; regzbot for regressions", url: "https://bugzilla.kernel.org", since: "Bugzilla 2002-11 (bug #1 created 2002-11-06)"}
+    past: []
+    access: "Bugzilla REST API (/rest/bug; needs a search term; bugs past #222,000 by 2026-11); lore archives"
+  license: {spdx: "GPL-2.0-only WITH Linux-syscall-note", changes: [{date: "1992 (v0.12)", from: "custom license barring commercial redistribution (0.01-0.11)", to: "GPL-2.0"}, {date: unverified, from: "GPL-2.0 (version not pinned)", to: "GPL-2.0-only (explicit v2-only note in COPYING)"}]}
+  governance: "Linus Torvalds has final say over mainline; Greg Kroah-Hartman runs stable. Hierarchical subsystem maintainers. Torvalds and GKH are Linux Foundation fellows. LF Technical Advisory Board; yearly Maintainers Summit."
+  ai_policy: {status: conditions, date: 2026-02-22, url: "https://docs.kernel.org/process/coding-assistants.html"}
+  # scope: Documentation/process/coding-assistants.rst (commit 78d979db6cef, Sasha Levin, committed to the docs tree 2026-01-06; in mainline at 7.0-rc1 on 2026-02-22; released in 7.0 on 2026-04-12).
+  # generated-content.rst (Dave Hansen, a66437c27979, 2026-01-20) asks for transparency about tool use. Rules: humans only sign the DCO, and the human takes responsibility.
+  # The Assisted-by tag was REMOVED in 7.4-rc1 (commit 1e035297ffda, 2026-10-14, after the Maintainers Summit consensus). Disclosure now belongs in the cover letter.
+  notes: "Assisted-by trailers are only valid from about 2026-02 to 2026-10. The removal commit says roughly 10% of 18,533 non-merge 7.3 commits carried the tag, but LLM use was far wider, so counts are a floor. Patches flow from maintainer trees through linux-next to mainline via signed-tag pull merges, which means many merge commits and author dates that are far older than commit dates. Stable/LTS lives in a separate repo (stable/linux.git) with backport duplicates ('commit X upstream'). Signed-off-by chains (DCO), Co-developed-by, Reviewed/Acked/Tested/Reported-by, Link:/Closes: trailers. DRM and a few other subsystems use gitlab.freedesktop.org for issues. AI-found security fixes surged in 2026 (see the maintainer_burden note)."
+  confidence: high
+  sources: ["https://docs.kernel.org/process/coding-assistants.html", "https://docs.kernel.org/7.1/_sources/process/coding-assistants.rst.txt", "https://github.com/torvalds/linux/commit/1e035297ffda", "https://github.com/torvalds/linux/commit/78d979db6cef", "https://www.theregister.com/ai-and-ml/2026/10/14/linux-kernel-devs-drop_obligatory_confession_of_ai_tool_usage/5303140", "https://docs.kernel.org/admin-guide/reporting-issues.html", "https://bugzilla.kernel.org/rest/bug?id=1", "https://patchwork.kernel.org/api/projects/"]
+
+- id: glibc
+  canonical_repo: {url: "https://sourceware.org/git/glibc.git", vcs: git}
+  github: {slug: bminor/glibc, role: unofficial_mirror}   # description: "Unofficial mirror of sourceware glibc repository"
+  history_start: {date: 1989-04-16, note: "Root commit 9a64fa84a67e 'Initial revision' (Roland McGrath, sysdeps/vax/jmp_buf.h) is RCS/CVS-era per-file history. The CVS-to-git conversion (Jim Meyering) became master after glibc 2.10 in 2009-05. That conversion aggregated commits, so pre-2009 commit granularity is not comparable."}
+  review:
+    current: {type: "mailing list libc-alpha@sourceware.org plus patchwork.sourceware.org (project 'glibc')", url: "https://patchwork.sourceware.org/project/glibc/list/", since: "list since the 1990s; patchwork records from 2012-11 (oldest patch in the API)"}
+    past: []
+    states_observable: "Patchwork states are kept up fairly well (new/under review/accepted/rejected/changes requested/committed/superseded/RFC/deferred), and Linaro/sourceware pre-commit CI posts check results. Many patches still sit in 'new', so patchwork state has to be cross-checked against commits (Reviewed-by trailers, subjects)."
+    access: "patchwork REST API (https://patchwork.sourceware.org/api/); inbox.sourceware.org public-inbox (mbox/Atom, cloneable); pipermail archives"
+  issues:
+    current: {type: "Bugzilla (Sourceware), product glibc", url: "https://sourceware.org/bugzilla/", since: "2004-01 (bug #1 created 2004-01-21)"}
+    past: [{type: "pre-2004 tracker (GNATS/glibcbug)", until: unverified}]
+    access: "Bugzilla REST API (works without login)"
+  license: {spdx: "LGPL-2.1-or-later", changes: [{date: 2001-07-06, from: "LGPL-2.0-or-later", to: "LGPL-2.1-or-later"}]}
+  governance: "GNU project (FSF), run by the glibc stewards and maintainer consensus. Hosted on Sourceware (an SFC member project). Copyright assignment is no longer required: the DCO is accepted from 2021-08-02."
+  ai_policy: {status: none_found, date: null, url: null}
+  # A secondhand report (Phoronix, via a search summary) says glibc largely follows the GNU Binutils LLM position (https://sourceware.org/binutils/wiki/LLM_Generated_Content: no legally significant LLM output). This is unverified; the glibc wiki was blocked by Anubis. The GCC policy of 2026-07-29 does not cover glibc.
+  notes: "Signed-off-by appears only from 2021-08 (DCO); before that, FSF assignment. Release branches carry backport duplicates. Not on forge.sourceware.org (no glibc repo there). Distinct contributor groups by sysdeps/arch subtree. Many committers push others' patches; check the Author field vs the committer."
+  confidence: medium
+  sources: ["https://patchwork.sourceware.org/api/projects/", "https://sourceware.org/bugzilla/rest/bug?product=glibc&limit=3&order=bug_id", "https://www.sourceware.org/ml/libc-alpha/2009-05/msg00040.html", "https://sourceware.org/ml/libc-alpha/2001-07/msg00086.html", "https://sourceware.org/pipermail/libc-alpha/2021-June/127583.html", "https://sourceware.org/binutils/wiki/LLM_Generated_Content", "https://github.com/bminor/glibc"]
+
+- id: gcc
+  canonical_repo: {url: "https://gcc.gnu.org/git/gcc.git", vcs: git}
+  github: {slug: gcc-mirror/gcc, role: unofficial_mirror}
+  history_start: {date: 1988-11-23, note: "Root commit 6f39d4ff6715 'Initial revision' (Charles Hannum). History was imported RCS/CVS -> SVN (2005) -> git on 2020-01-12 (reposurgeon, Joseph Myers). Some branch histories were disputed during the conversion."}
+  review:
+    current: {type: "mailing list gcc-patches@gcc.gnu.org (plus component lists: libstdc++, fortran, ...); patchwork.sourceware.org project 'gcc'; experimental Forgejo PRs on forge.sourceware.org/gcc/gcc", url: "https://gcc.gnu.org/pipermail/gcc-patches/", since: "list since the EGCS era (~1997, unverified); patchwork from 2021-09; forge since 2024-10-23"}
+    past: []
+    states_observable: "Approval is an 'OK'/'OK for trunk' reply on the list, and acceptance is the matching commit (PR refs, ChangeLog). Patchwork 'gcc' states are mostly left at 'new'. The forge has about 275 PRs (71 open, 204 closed), almost none with the merged flag, because changes are pushed to gcc.gnu.org git."
+    access: "patchwork REST API; inbox.sourceware.org public-inbox and pipermail; Forgejo API (https://forge.sourceware.org/api/v1/repos/gcc/gcc/pulls)"
+  issues:
+    current: {type: "Bugzilla", url: "https://gcc.gnu.org/bugzilla/", since: "2003 (GNATS PRs from 1999-08 imported)"}
+    past: [{type: GNATS, until: 2003-04}]
+    access: "Bugzilla REST API (works)"
+  license: {spdx: "GPL-3.0-or-later WITH GCC-exception-3.1", changes: [{date: 2007, from: "GPL-2.0-or-later", to: "GPL-3.0-or-later (GCC 4.2.2/4.3)"}, {date: 2009, from: "older libgcc/libstdc++ exceptions", to: "GCC Runtime Library Exception 3.1 (GCC 4.4)"}]}
+  governance: "GCC Steering Committee within GNU/FSF; area maintainers listed in MAINTAINERS; heavy corporate participation (Red Hat, SUSE, Arm, Intel, IBM, ...). DCO allowed from 2021-06 alongside FSF assignment."
+  ai_policy: {status: ban, date: 2026-07-29, url: "https://gcc.gnu.org/ai-policy.html"}
+  # scope: declines legally significant (~15+ lines) LLM-generated or LLM-derived content. Legally insignificant LLM content is allowed if marked with Assisted-by:.
+  # LLM-generated test cases are exempt. Research, bug-finding and review uses are allowed. To be reviewed by early 2027. Announced by David Edelsohn on gcc@ 2026-07-29.
+  notes: "Since 2020, ChangeLog files are generated from commit messages. Signed-off-by is optional (DCO from 2021-06). This is a monorepo of front ends and runtimes. Bulk imports from other projects (libsanitizer from LLVM, libgo from Go, libphobos/D, gccrs from Rust-GCC on GitHub) create large vendor commits by syncers. Many devel/ and vendor branches. Forge PRs (mostly libstdc++ maintainers testing the workflow) should not be read as the review venue."
+  confidence: high
+  sources: ["https://gcc.gnu.org/ai-policy.html", "https://gcc.gnu.org/pipermail/gcc/2026-July/248628.html", "https://gcc.gnu.org/contribute.html", "https://forge.sourceware.org/api/v1/repos/gcc/gcc", "https://patchwork.sourceware.org/api/projects/", "https://gcc.gnu.org/bugzilla/rest/bug?product=gcc&limit=3&order=bug_id", "https://git.github.io/rev_news/2020/02/19/edition-60", "https://gcc.gnu.org/pipermail/gcc-patches/2003-March/099783.html", "https://gcc.gnu.org/pipermail/gcc/2021-June/236182.html"]
+
+- id: git
+  canonical_repo: {url: "https://git.kernel.org/pub/scm/git/git.git", vcs: git}
+  github: {slug: git/git, role: official_mirror}   # "publish-only repository"; PRs are bridged to the list by GitGitGadget
+  history_start: {date: 2005-04-07, note: "Root commit e83c5163316f 'Initial revision of git'. Self-hosted from day one with nothing imported. Extra root commits come from the subtree-merged gitk and git-gui."}
+  review:
+    current: {type: "mailing list git@vger.kernel.org; GitGitGadget turns GitHub PRs (gitgitgadget/git, git/git) into list patches", url: "https://lore.kernel.org/git/", since: "2005 (list); GitGitGadget 2018-06"}
+    past: []
+    states_observable: "Junio's periodic 'What's cooking in git.git' emails give each topic's state (will merge to next/master, needs review, on hold, discarded). Topic branches show up in seen/next/master merges. The 'git' project on patchwork.kernel.org exists from 2018-09, but every state is 'new'. GitGitGadget PR open/closed is visible via the GitHub API."
+    access: "lore.kernel.org/git public-inbox (cloneable, archive since 2005); GitHub API (about 2,050 PRs on gitgitgadget/git and 2,100 on git/git); gitster/git topic branches"
+  issues:
+    current: {type: "mailing list only (no tracker; 'git bugreport' output goes to the list)", url: "https://lore.kernel.org/git/", since: 2005}
+    past: []
+    access: "lore public-inbox"
+  license: {spdx: "GPL-2.0-only", changes: []}
+  governance: "Junio C Hamano has been maintainer since 2005-07. Git is a Software Freedom Conservancy member project with a Project Leadership Committee."
+  ai_policy: {status: conditions, date: 2025-11-04, url: "https://git-scm.com/docs/SubmittingPatches#ai"}
+  # scope: restrictive. SubmittingPatches section "Use of Artificial Intelligence (AI)" (commit 7b0c37953d, 2025-10-01; merged as cc/doc-submitting-patches-with-ai on 2025-11-04).
+  # It cites DCO doubts and says "we will reject anything that looks AI generated" or that the sender can't explain. It recommends AI for guidance and debugging, not for full solutions.
+  notes: "Commits keep the original author (git am). Junio creates many topic-merge commits ('Merge branch xx/topic'). Re-rolls (v2..vN) are separate email threads. 'seen' is rewound often. Signed-off-by is required. Git for Windows is a separate fork with its own GitHub issues and PRs."
+  confidence: high
+  sources: ["https://github.com/git/git/blob/master/Documentation/SubmittingPatches", "https://github.com/git/git/commit/7b0c37953d", "https://patchwork.kernel.org/api/projects/", "https://github.com/gitgitgadget/git"]
+
+- id: busybox
+  canonical_repo: {url: "https://git.busybox.net/busybox", vcs: git}
+  github: {slug: vda-linux/busybox_mirror, role: official_mirror}   # maintainer's account, created 2026-04-21; linked from busybox.net; the old mirror/busybox is archived (last commit 2024-07)
+  history_start: {date: 1999-10-05, note: "Root commit cc8ed39b2401 'Initial revision' (Erik Andersen). History went CVS -> SVN -> git (git live 2009-04-30). The 1995-1999 history (Bruce Perens era) is missing."}
+  review:
+    current: {type: "mailing list busybox@busybox.net; ad-hoc GitHub PRs on the mirror since 2026-06 (none merged via GitHub)", url: "https://lists.busybox.net/mailman/listinfo/busybox", since: "1999 (list; unverified exact)"}
+    past: []
+    states_observable: "No tracker for proposals, so acceptance has to be inferred by matching list patches to commits. GitHub PRs only show open/closed (0 of about 10 merged)."
+    access: "pipermail list archives; git history; GitHub API for the mirror's issues and PRs"
+  issues:
+    current: {type: "GitHub issues on vda-linux/busybox_mirror (bugs.busybox.net now just says 'Please report bugs on GitHub')", url: "https://github.com/vda-linux/busybox_mirror/issues", since: "2026-04-23 (issue #1)"}
+    past: [{type: "Bugzilla at bugs.busybox.net", until: "2026 (offline by mid-2026 per oss-security 2026-08-24; exact date unverified)"}]
+    access: "GitHub API; old Bugzilla data appears to be offline (whether it was archived is unverified)"
+  license: {spdx: "GPL-2.0-only", changes: [{date: 2006-12-14, from: "GPL-2.0-or-later (through 1.2.2.1)", to: "GPL-2.0-only (1.3.0 onward)"}]}
+  governance: "Single maintainer, Denys Vlasenko (BDFL-style). Earlier leads were Bruce Perens, Erik Andersen and Rob Landley. Volunteer project."
+  ai_policy: {status: none_found, date: null, url: null}
+  notes: "Infrastructure is in flux in 2026: new GitHub mirror and issue tracker, Bugzilla offline, and a security contact reported bouncing (oss-security 2026-08-24). Releases are sparse (1.37.0 on 2024-09-27, 1.38.0 on 2026-05-13). Most commits are by the maintainer. The git SHAs of the official mirror match the canonical repo (same root SHA)."
+  confidence: medium
+  sources: ["https://busybox.net/", "https://busybox.net/source.html", "https://bugs.busybox.net/", "https://github.com/vda-linux/busybox_mirror", "https://seclists.org/oss-sec/2026/q3/556", "https://lists.uclibc.org/pipermail/uclibc/2009-April/042434.html", "https://lwn.net/Articles/202109/"]
+
+- id: openssh
+  canonical_repo: {url: "https://anongit.mindrot.org/openssh.git", vcs: git}   # portable; the OpenBSD upstream (src/usr.bin/ssh) lives in OpenBSD CVS
+  github: {slug: openssh/openssh-portable, role: official_mirror}   # PRs are accepted for discussion and CI but never merged on GitHub (0 of the latest 100)
+  history_start: {date: 1999-10-27, note: "Root commit d4a8b7e34dd6 'Initial revision' (Damien Miller). Portable moved from CVS to git in 2014-10, after 6.7. OpenBSD upstream syncs have been imported with cvs2gitdump since 2017-10 (git cvsimport before that)."}
+  review:
+    current: {type: "mailing list openssh-unix-dev@mindrot.org plus patches attached in Bugzilla plus GitHub PRs on the mirror", url: "https://lists.mindrot.org/mailman/listinfo/openssh-unix-dev", since: "1999 (list); GitHub mirror since 2014-01"}
+    past: []
+    states_observable: "Only Bugzilla status/resolution (e.g. RESOLVED FIXED/WONTFIX) for patches attached to bugs. GitHub PRs are always closed unmerged, so acceptance must be inferred from commit messages that credit authors or cite bz#/GHPR numbers (unverified how consistently)."
+    access: "GitHub API (PRs); Bugzilla 5 (REST needs login; HTML/CSV buglists); pipermail archives"
+  issues:
+    current: {type: "Bugzilla", url: "https://bugzilla.mindrot.org/", since: unverified}
+    past: []
+    access: "Bugzilla REST returns 'must log in'; web buglists only"
+  license: {spdx: "SSH-OpenSSH", changes: []}   # LICENCE: mix of BSD-style/ISC/public-domain components, "no GPL code"
+  governance: "OpenBSD project (Theo de Raadt; OpenBSD Foundation funds it). Portable is maintained by Damien Miller and Darren Tucker."
+  ai_policy: {status: none_found, date: null, url: null}
+  # OpenBSD rejects code of doubtful copyright case by case (e.g. Theo de Raadt on an LLM-derived ext4 port, 2026-03), but no written OpenSSH/OpenBSD policy was found.
+  notes: "Most commits are 'upstream:' syncs of OpenBSD CVS commits, authored as login@openbsd.org with an 'OpenBSD-Commit-ID:' trailer. External contributors are credited in the message text ('patch from X'), not in the git author field. History is two-layered (OpenBSD vs portable-only). www.openssh.com redirected to www.openssh.org on 2026-11-12."
+  confidence: medium
+  sources: ["https://www.openssh.org/portable.html", "https://www.openssh.org/report.html", "https://lists.mindrot.org/pipermail/openssh-unix-dev/2014-October/033024.html", "https://lists.mindrot.org/pipermail/openssh-unix-dev/2014-January/031988.html", "https://github.com/openssh/openssh-portable", "https://lwn.net/Articles/1064541/"]
+
+- id: postgresql
+  canonical_repo: {url: "https://git.postgresql.org/git/postgresql.git", vcs: git}
+  github: {slug: postgres/postgres, role: official_mirror}   # "we don't work with pull requests on github"
+  history_start: {date: 1996-07-09, note: "Root commit d31084e9d111 'Postgres95 1.01 Distribution - Virgin Sources'. Moved from CVS to git in 2010-09. Berkeley POSTGRES history from before 1996 is absent."}
+  review:
+    current: {type: "mailing list pgsql-hackers plus the CommitFest app", url: "https://commitfest.postgresql.org", since: "2008 (CommitFest process); current app since 2015-01-19"}
+    past: [{type: "first CommitFest app (read-only at commitfest-old.postgresql.org)", url: "https://commitfest-old.postgresql.org", until: 2015-01}]
+    states_observable: "Each CF entry has a status: active ones are Needs Review, Waiting on Author and Ready for Committer; closed ones are Committed, Rejected, Withdrawn and Returned with Feedback, plus Moved to next CF. The mailing list is the source of truth. Unmoved entries stay in closed CFs, and the 2025 app update added auto-move rules, Drafts CFs and tags."
+    access: "No documented CF API or export (scrape HTML; app source is pgcommitfest2 on git.postgresql.org). List archives offer mbox downloads. cfbot CI branches are at github.com/postgresql-cfbot/postgresql."
+  issues:
+    current: {type: "mailing list pgsql-bugs plus web bug form (BUG #nnnnn); no tracker", url: "https://www.postgresql.org/list/pgsql-bugs/", since: unverified}
+    past: []
+    access: "list archives (mbox)"
+  license: {spdx: PostgreSQL, changes: []}
+  governance: "PostgreSQL Global Development Group, led by the Core Team, with committers and contributors and several community non-profits. No single company controls it."
+  ai_policy: {status: none_found, date: null, url: null}
+  # As of 2026-11-12, policy is being debated on pgsql-hackers in 2026 with nothing adopted. Commits disclosing AI involvement appear from 2026-04 (see the maintainer_burden note).
+  notes: "Major distortion: committers apply each patch as one commit with themselves as git author (26 of the latest 30 commits carry an 'Author:' line, mostly naming someone other than the committer). Real authors and reviewers are in 'Author:', 'Reviewed-by:' and 'Discussion:' lines in the message, so attribute from the message, not git metadata. Back-patching duplicates fixes across REL_x_STABLE branches. Reverts happen (e.g. PG19 features in 2026). CF names changed to PGxx-n in 2025."
+  confidence: high
+  sources: ["https://commitfest.postgresql.org/help", "https://wiki.postgresql.org/wiki/CommitFest_App", "https://wiki.postgresql.org/wiki/Submitting_a_Patch", "https://www.postgresql.org/message-id/54C056B1.1070106%40agliodbs.com", "https://github.com/postgres/postgres", "https://github.com/postgresql-cfbot/postgresql", "https://percona.community/blog/2026/06/26/why-postgresql-needs-an-ai-usage-policy/"]
+
+- id: sqlite
+  canonical_repo: {url: "https://sqlite.org/src", vcs: fossil}
+  github: {slug: sqlite/sqlite, role: official_mirror}   # "Official Git mirror", created 2019-03; issues disabled
+  history_start: {date: 2000-05-29, note: "First check-in ce0da46e617d 'initial empty check-in' (drh). Moved from CVS to Fossil on 2009-08-11 with full history."}
+  review:
+    current: {type: "none for outsiders ('open-source, not open-contribution'); patches need a public-domain affidavit and may be reimplemented; discussion on the SQLite Forum", url: "https://sqlite.org/forum/forum", since: "2020-03-12 (forum)"}
+    past: [{type: "sqlite-users/sqlite-dev mailing lists", until: 2020-03}]
+    states_observable: "Not observable as proposals; there is no PR or patch queue. The only proxy is Fossil branches merged to trunk vs left as closed leaves."
+    access: "'fossil clone https://sqlite.org/src' (full history); git mirror; forum is web-only (forum clone unverified)"
+  issues:
+    current: {type: "SQLite Forum for real-world bugs; separate SQLite Bug Forum for AI-agent, fuzzer and static-analysis reports", url: "https://sqlite.org/bugs/forum", since: "2026-05-17 (Bug Forum split)"}
+    past: [{type: "Fossil tickets open to the public", until: "unverified (~2019-2020; tickets now developer-only)"}, {type: "mailing lists", until: 2020-03}]
+    access: "web only"
+  license: {spdx: blessing, changes: []}   # public-domain dedication
+  governance: "Hwaci (Hipp, Wyrick & Company): D. Richard Hipp and a small core team, funded by the SQLite Consortium and support contracts."
+  ai_policy: {status: none_found, date: null, url: null}
+  # No policy on code, since outside code is not accepted anyway. Reports: support.html (2025-11-13) says not to send AI-generated bug reports to the Help Forum. On 2026-05-17 a Bug Forum was split off because of an "avalanche of AI-generated bug reports".
+  notes: "The tiny committer set means activity reflects the core team, not community uptake. Fossil hashes differ from the git-mirror SHAs. The mirror only exists since 2019 but carries full history. The forum split is a clean 2026-05-17 discontinuity for report metrics."
+  confidence: high
+  sources: ["https://sqlite.org/copyright.html", "https://sqlite.org/support.html", "https://sqlite.org/bugs/about", "https://fossil-scm.org/home/doc/trunk/www/history.md", "https://github.com/sqlite/sqlite"]
+
+- id: ffmpeg
+  canonical_repo: {url: "https://code.ffmpeg.org/FFmpeg/FFmpeg", vcs: git}
+  # CONFLICT: the 2025-07 announcement says "The main repository will become code.ffmpeg.org/FFmpeg/FFmpeg, with all others being mirrored to it",
+  # but download.html still labels https://git.ffmpeg.org/ffmpeg.git "Main FFmpeg Git repository" and git-howto still pushes via source.ffmpeg.org.
+  # Forgejo, git.ffmpeg.org and GitHub all had the same master (634e00732ada) on 2026-11-13. git.videolan.org is not named anywhere current.
+  github: {slug: FFmpeg/FFmpeg, role: official_mirror}   # "Mirror of https://git.ffmpeg.org/ffmpeg.git"
+  history_start: {date: 2000-12-20, note: "Root commit 77bb6835ba75 is the cvs2svn init, with Fabrice Bellard's import the same day. History went CVS -> SVN -> git; the last SVN commit was around 2011-01-17/19, and git was announced 2011-02-24."}
+  review:
+    current: {type: "dual venue: Forgejo PRs at code.ffmpeg.org plus the ffmpeg-devel list with patchwork.ffmpeg.org", url: "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls", since: "Forgejo repo created 2025-01-21, opened 2025-07, announced 2025-08-22; patchwork since 2016-07"}
+    past: [{type: "ffmpeg-devel list as the only venue", url: "https://ffmpeg.org/pipermail/ffmpeg-devel/", until: 2025-07}]
+    states_observable: "Forgejo shows open/closed/merged (merged=true is set for PRs merged on Forgejo; closed-unmerged mixes rejected, abandoned and manually applied). Patchwork has accepted/rejected/superseded/changes requested, but recent entries are almost all 'new'."
+    access: "Forgejo REST API (/api/v1; about 4.8k PRs, 885 open and 3,902 closed, as of 2026-11-13); patchwork REST API; Mailman3/HyperKitty and pipermail archives"
+  issues:
+    current: {type: "Forgejo issues (primary per doc/issue_tracker.txt, 2026-05) with Trac as legacy", url: "https://code.ffmpeg.org/FFmpeg/FFmpeg/issues", since: 2025-07}
+    past: [{type: "Roundup", until: 2011}, {type: "Trac (trac.ffmpeg.org)", until: "being phased out since 2025-07 (still accepted 'for the time being')"}]
+    access: "Forgejo API; Trac sits behind Anubis (CSV/query export unverified)"
+  license: {spdx: "LGPL-2.1-or-later", changes: []}   # GPL-2.0-or-later/GPL-3.0-or-later when GPL or version3 parts are enabled; early-2000s licensing history unverified
+  governance: "Volunteer community. A General Assembly elects the Technical Committee and Community Committee (structure since about 2020; not re-verified). Funds go through SPI. Michael Niedermayer is the long-time de facto lead. CI is sponsored by GitHub and Blacksmith (2026-11)."
+  ai_policy: {status: ban, date: 2026-09-13, url: "https://ffmpeg.org/security.html"}
+  # scope: SECURITY-REPORT FIXES ONLY. "LLM-generated patches are not accepted" (security.html, 2026-09-13/21), and "Automated submissions are not accepted" for vulnerability reports (2026-04-08).
+  # There is no general contribution policy: the 2025-07 RFC "Introducing policies regarding AI contributions" was never resolved, and developer.texi offers an LLM review bot ("Forgejo Fairy").
+  notes: "The Libav fork era (2011-2018) produced thousands of 'Merge commit ...' merges from qatar/libav carrying Libav authors, so exclude or flag them. Since 2025 the project has two venues. master rejects merge commits, so Forgejo merges stay linear, but venue attribution requires matching commits to PRs. Forgejo PR/issue numbers start at 20001. AI-found CVEs surged in 2025-2026 (Big Sleep, Glasswing)."
+  confidence: medium
+  sources: ["https://ffmpeg.org/download.html", "https://ffmpeg.org/index.html", "https://ffmpeg.org/pipermail/ffmpeg-devel/2025-July/346938.html", "https://ffmpeg.org/security.html", "https://github.com/FFmpeg/FFmpeg/blob/master/doc/developer.texi", "https://github.com/FFmpeg/FFmpeg/blob/master/doc/issue_tracker.txt", "https://code.ffmpeg.org/api/v1/repos/FFmpeg/FFmpeg", "https://patchwork.ffmpeg.org/api/", "https://ffmpeg.org/pipermail/ffmpeg-devel/2025-July/346224.html", "https://lists.ffmpeg.org/pipermail/ffmpeg-devel/2011-February/105146.html"]
+
+- id: mesa
+  canonical_repo: {url: "https://gitlab.freedesktop.org/mesa/mesa", vcs: git}
+  github: {slug: null, role: none}   # no official mirror found; github.com/mesa3d/mesa returns 404
+  history_start: {date: 1998-02-14, note: "Root commit e58a10af 'initial rev' (Brian Paul), imported from CVS. Mesa dates from 1993, so the earliest years are missing. The GitLab project was created 2018-06."}
+  review:
+    current: {type: "GitLab merge requests, merged by Marge-bot", url: "https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests", since: "2018-12 (MR !1 on 2018-12-12)"}
+    past: [{type: "mesa-dev mailing list patches", url: "https://lists.freedesktop.org/archives/mesa-dev/", until: "unverified (~2019-2020; docs now say do NOT email patches)"}]
+    states_observable: "GitLab MR state (opened/merged/closed). Every merged commit carries a 'Part-of: <MR URL>' trailer added by Marge, so commits link exactly to MRs."
+    access: "GitLab REST/GraphQL API; mesa-dev pipermail archives"
+  issues:
+    current: {type: "GitLab issues (work items)", url: "https://gitlab.freedesktop.org/mesa/mesa/-/issues", since: 2019-09}
+    past: [{type: "Bugzilla (bugs.freedesktop.org); bugs imported by 'bugzilla-migration', the oldest dated 2013", until: 2019-09}]
+    access: "GitLab API"
+  license: {spdx: MIT, changes: [{date: unverified, from: "LGPL (early Mesa; Brian Paul relicensed for XFree86 integration)", to: MIT}]}   # some parts under other licenses (e.g. SGI-B-2.0 GLX)
+  governance: "Community project hosted on freedesktop.org (X.Org Foundation umbrella). Contributors are mostly paid engineers (Intel, AMD, Valve, Collabora, Google, Red Hat, Igalia, ...)."
+  ai_policy: {status: disclosure, date: 2026-04-06, url: "https://docs.mesa3d.org/submittingpatches.html"}
+  # scope: 'docs: add AI disclosure requirements' (Karol Herbst, merged 2026-04-06). Requires 'Assisted-by: LLM' or 'Generated-by: LLM' and bans autonomous tools and review bots.
+  # Later changes: 2026-09-02 discourages AI-written comments and commit messages; 2026-10-22 forbids naming the model and Co-authored-by. A 'coding assistant' mention dates from 2025-09-18.
+  notes: "Marge rebases and leaves no merge commits. Stable branches get cherry-picks with '(cherry picked from commit ...)' duplicates. This is a monorepo of many drivers (gallium, vulkan, compiler), so filter by path for per-driver work. The mailing-list era (pre-2019) has only Reviewed-by trailers as review evidence."
+  confidence: high
+  sources: ["https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/docs/submittingpatches.rst", "https://gitlab.freedesktop.org/api/v4/projects/176", "https://lists.freedesktop.org/archives/mesa-dev/2019-September/222952.html", "https://lists.freedesktop.org/archives/mesa-commit/2019-September/095156.html", "https://docs.mesa3d.org/license.html", "https://sources.debian.org/copyright/license/mesa/5.0.0-5.1"]
+
+- id: qemu
+  canonical_repo: {url: "https://gitlab.com/qemu-project/qemu", vcs: git}   # canonical since 2021-01-19; git.qemu.org became a mirror
+  github: {slug: qemu/qemu, role: official_mirror}   # "Pull Requests are disabled"
+  history_start: {date: 2003-02-18, note: "Root commit e63c3dc74bfb is the cvs2svn init, with Fabrice Bellard's import the same day. History went CVS -> SVN -> git (dates unverified)."}
+  review:
+    current: {type: "mailing list qemu-devel@nongnu.org tracked by patchew; submaintainers send PULL requests by mail; GitLab MRs not accepted", url: "https://patchew.org/QEMU/", since: "list since the 2000s; patchew since about 2016 (unverified)"}
+    past: []
+    states_observable: "The patchew API gives per-series is_merged (matched against master), is_obsolete (superseded), is_reviewed and is_tested. The 'qemu-devel' project on patchwork.kernel.org also exists, but all its states are 'new'."
+    access: "patchew REST API (https://patchew.org/api/v1/); lore.kernel.org/qemu-devel public-inbox; lists.gnu.org mbox archives"
+  issues:
+    current: {type: "GitLab issues", url: "https://gitlab.com/qemu-project/qemu/-/issues", since: 2021-05}
+    past: [{type: "Launchpad bugs (open tickets migrated)", until: 2021-05}]
+    access: "GitLab API"
+  license: {spdx: "GPL-2.0-only", changes: []}   # "QEMU as a whole is released under GPL v2"; individual files carry compatible licenses
+  governance: "QEMU Leadership Committee; Software Freedom Conservancy member project. Maintainers are mostly corporate (Red Hat, Linaro, IBM, ...)."
+  ai_policy: {status: ban, date: 2025-06-24, url: "https://www.qemu.org/docs/master/devel/code-provenance.html#use-of-ai-generated-content"}
+  # scope: declines code "known or suspected" to include AI output (commit 3d40db0efc, Daniel Berrangé, merged 2025-06-24). The exception process was clarified on 2025-09-24.
+  # STILL IN FORCE: the 2026-05-28/29 relaxation series (Bonzini) was NOT merged as of 2026-11-12 (the doc only got typo/format edits in 2026).
+  # AGENTS.md (2026-09-08, Alex Bennée; extended 2026-11-03) tells agents to refuse upstream code and warns that violations may lead to CoC sanctions.
+  notes: "Pull-request merge commits are made by the rotating release manager; Signed-off-by chains are long. Submodules and vendored subprojects (roms, subprojects/) inflate churn. Policy reversal watch: the relaxation proposal stalled."
+  confidence: high
+  sources: ["https://github.com/qemu/qemu/blob/master/docs/devel/code-provenance.rst", "https://github.com/qemu/qemu/blob/master/AGENTS.md", "https://www.qemu.org/contribute/", "https://www.qemu.org/docs/master/devel/submitting-a-patch.html", "https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04556.html", "https://lore.kernel.org/all/a6d77040-1dba-90c7-5ebe-5778177e686e@redhat.com/", "https://patchew.org/api/v1/projects/", "https://patchew.org/QEMU/20260529094619.1034458-1-pbonzini@redhat.com/"]
+
+- id: freetype
+  canonical_repo: {url: "https://gitlab.freedesktop.org/freetype/freetype", vcs: git}   # canonical since 2021-01; Savannah repos remain as mirrors
+  github: {slug: freetype/freetype, role: official_mirror}   # "please DO NOT add pull requests here or open issues!"
+  history_start: {date: 1999-12-16, note: "Root commit d2b1f357049f 'Initial revision' (David Turner) is the FreeType 2 tree imported from CVS. FreeType 1.x (from 1996) is only in old Savannah CVS."}
+  review:
+    current: {type: "GitLab MRs plus freetype-devel@nongnu.org patches", url: "https://gitlab.freedesktop.org/freetype/freetype/-/merge_requests", since: "2021-01 (MR !1 opened 2020-10-26)"}
+    past: [{type: "freetype-devel list (Savannah era)", url: "https://lists.nongnu.org/archive/html/freetype-devel/", until: "2021-01 (the list is still accepted)"}]
+    states_observable: "MR state exists, but maintainers often apply MRs by hand and then close them (183 merged of 477 MRs), so 'closed' does not mean rejected. Match against commits."
+    access: "GitLab API; lists.nongnu.org mbox archives"
+  issues:
+    current: {type: "GitLab issues", url: "https://gitlab.freedesktop.org/freetype/freetype/-/issues", since: "2021-01 (Savannah issues imported by freetype-bot, dating back to 2005)"}
+    past: [{type: "Savannah bug tracker", until: 2021-01}]
+    access: "GitLab API"
+  license: {spdx: "FTL OR GPL-2.0-or-later", changes: []}   # when dual licensing started is unverified
+  governance: "Small volunteer team led by Werner Lemberg; hosted on freedesktop.org."
+  ai_policy: {status: none_found, date: null, url: null}
+  # No policy. The 2.15.0 CHANGES (2026-10-12) credits OFF5 support "contributed by Behdad Esfahbod, using various LLMs" and bug fixes from AI-tool scrutiny, i.e. LLM-derived code is being accepted.
+  notes: "The lead maintainer commits much of the code himself, including manual application of others' patches. ChangeLog-style messages. Demos are in a separate repo (freetype-demos). FreeType 2.15.0 is a visible case of AI-assisted code entering a mature project."
+  confidence: medium
+  sources: ["https://freetype.org/developer.html", "https://lists.libreplanet.org/archive/html/freetype/2021-01/msg00002.html", "https://lists.endsoftwarepatents.org/archive/html/freetype/2021-07/msg00001.html", "https://github.com/freetype/freetype/blob/master/docs/CHANGES", "https://gitlab.freedesktop.org/api/v4/projects/freetype%2Ffreetype"]
+
+- id: libxml2
+  canonical_repo: {url: "https://gitlab.gnome.org/GNOME/libxml2", vcs: git}
+  github: {slug: GNOME/libxml2, role: official_mirror}   # "Read-only mirror"
+  history_start: {date: 1998-07-24, note: "Root commit 01791d57d650 (Daniel Veillard), imported from GNOME CVS/SVN (conversion dates unverified). Moved to GNOME GitLab in 2018-05."}
+  review:
+    current: {type: "GitLab merge requests", url: "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests", since: "2018-06"}
+    past: [{type: "xml@gnome.org list plus bugzilla.gnome.org patches", until: "2018-05 (the list is now defunct; Discourse since 2023-11)"}]
+    states_observable: "MR state exists, but under Wellnhofer many MRs were closed after he committed them himself (239 merged, 218 closed, 35 open), so match against commits."
+    access: "GitLab API (gitlab.gnome.org/api/v4)"
+  issues:
+    current: {type: "GitLab issues", url: "https://gitlab.gnome.org/GNOME/libxml2/-/issues", since: "2018-06"}
+    past: [{type: "bugzilla.gnome.org", until: "2018 (whether bugs were migrated is unverified)"}]
+    access: "GitLab API"
+  license: {spdx: MIT, changes: []}
+  governance: "GNOME-hosted volunteer project. Nick Wellnhofer was effectively the sole maintainer until he removed himself on 2025-12-06 (step-down announced 2025-09-15). Iván Chavero and Daniel Garcia Moreno were added 2025-12-10."
+  ai_policy: {status: ban, date: 2026-05-29, url: "https://gitlab.gnome.org/GNOME/libxml2/-/blob/master/README.md"}
+  # scope: README "Strict No LLM / No AI Policy" (commit b30494c584 by Daniel Garcia Moreno, copied from Zig): no LLMs for issues, patches/PRs, or tracker comments including translation.
+  notes: "The maintainer turnover from 2025-09 to 2025-12 is a structural break: low activity, then a new maintainer and a burst of outside fix commits. 2025-05-27 README 'Set expectations straight': security bugs are best-effort and untrusted input is not recommended. Wellnhofer reportedly started an AGPL fork (secondary source, unverified). libxslt is separate (unmaintained mid-2025)."
+  confidence: high
+  sources: ["https://github.com/GNOME/libxml2/blob/master/README.md", "https://github.com/GNOME/libxml2/commit/b30494c584", "https://github.com/GNOME/libxml2/blob/master/libxml2.doap", "https://discourse.gnome.org/t/stepping-down-as-libxml2-maintainer/31398", "https://gitlab.gnome.org/api/v4/projects/GNOME%2Flibxml2"]

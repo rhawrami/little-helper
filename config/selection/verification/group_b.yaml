@@ -1,0 +1,302 @@
+# Group B verification: development infrastructure for longitudinal mining
+# Verified 2026-11-12 against project docs, official announcements, and the GitHub,
+# GitLab, Gerrit, and Jira APIs. PR counts come from GitHub GraphQL on 2026-11-12.
+# "unverified" marks facts recalled from memory or not checked against a primary source.
+
+- id: openjdk
+  canonical_repo: {url: "https://github.com/openjdk/jdk", vcs: git}
+  github: {slug: openjdk/jdk, role: canonical}
+  history_start: {date: 2007-12-01, note: "Root commit is 'Initial load' (J. Duke). Pre-2007 Sun history is absent. The Mercurial forest (hotspot, jdk, langtools, ...) was consolidated into one repo by JEP 296 (JDK 10), then converted to Git with history kept by JEP 357 and JEP 369 (JDK 16)."}
+  review:
+    current: {type: "GitHub PRs driven by Skara bots: jcheck, plus mlbridge, which posts RFR mails to *-dev lists", url: "https://github.com/openjdk/jdk/pulls", since: 2020-09}
+    past:
+      - {type: "Mercurial (hg.openjdk.java.net) + webrevs on cr.openjdk.java.net + RFR threads on mailing lists", url: "https://hg.openjdk.org/", until: 2020-09}
+    states_observable: "PRs are never GitHub-merged. The Skara bot pushes the commit after /integrate and closes the PR with label 'integrated' (33,391 closed vs 25 'merged', and those 25 are merge-PRs). Accepted = closed+integrated; rejected or withdrawn = closed without 'integrated'; pending = open. Before 2020-09, rejections are visible only in mailing-list RFR threads."
+    access: "GitHub REST/GraphQL; mail.openjdk.org pipermail archives; commits carry the JBS id in the title ('8380947: ...') and Reviewed-by trailers."
+  issues:
+    current: {type: "Jira (JDK Bug System, JBS)", url: "https://bugs.openjdk.org/browse/JDK", since: "2012-10 (Oracle-internal cutover; external JBS access ~2013)"}
+    past:
+      - {type: "Sun legacy bug system / bugs.sun.com (migrated into JBS)", until: 2012-10}
+    access: "Jira REST API, anonymous read works: /rest/api/2/search returned 378,121 JDK issues. Filing requires an OpenJDK Author account. Hostname moved from bugs.openjdk.java.net (move date unverified)."
+  license: {spdx: "GPL-2.0-only WITH Classpath-exception-2.0", changes: [{date: "2006-11 announced / 2007-05 source release (unverified dates)", from: "proprietary (Sun)", to: "GPL-2.0-only WITH Classpath-exception-2.0"}]}
+  governance: "Company-led: Oracle is the corporate sponsor. OpenJDK Governing Board; contributions need the Oracle Contributor Agreement (OCA)."
+  ai_policy: {status: ban, date: 2026-04-09, url: "https://openjdk.org/legal/ai"}
+  notes: "'OpenJDK Interim Policy on Generative AI' (Governing Board approved, dated 9 April 2026) bans contributing LLM- or diffusion-generated content in code, PRs, email, wiki, and JBS. Private use for comprehension and review is allowed. A PR-template checkbox was added the same day (commit 8380947). GitHub 'merged' counts are useless here; use the 'integrated' label. Each PR lands as one squashed commit. Update releases live in separate repos (openjdk/jdkNNu)."
+  confidence: high
+  sources: ["https://openjdk.org/legal/ai", "https://openjdk.org/jeps/369", "https://openjdk.org/jeps/357", "https://github.com/openjdk/jdk/blob/master/.github/pull_request_template.md", "https://mail.openjdk.org/pipermail/announce/2012-October/000138.html", "https://wiki.openjdk.org/x/KgD5"]
+
+- id: go
+  canonical_repo: {url: "https://go.googlesource.com/go", vcs: git}
+  github: {slug: golang/go, role: official_mirror}
+  history_start: {date: 2008-03-03, note: "Real history starts with 'Go spec starting point' (Griesemer, 2008-03-03 UTC). Four joke root commits dated 1972-07-19 to 1988-04-01 (Kernighan 'hello, world') are artificial; exclude them. 2008-2009 history was imported from Google-internal VCS (messages carry 'SVN=nnnnnn'). Mercurial (code.google.com) ran 2009-11 to 2014-12, then the repo was converted to Git."}
+  review:
+    current: {type: "Gerrit CLs. GitHub PRs have been accepted since 2018-02 via GerritBot, which mirrors each PR into a CL.", url: "https://go-review.googlesource.com", since: 2014-12}
+    past:
+      - {type: "Google-internal review (codereview.prom.corp.google.com)", until: 2009-11}
+      - {type: "Rietveld (codereview.appspot.com) + Mercurial; commits carry R=/CC= and golang.org/cl links", url: "https://codereview.appspot.com", until: 2014-12}
+      - {type: "GitHub PRs refused and closed ('The Go project does not use pull requests')", url: "https://github.com/golang/go/pull/9220", until: 2018-02}
+    states_observable: "Use Gerrit status (MERGED / ABANDONED / NEW). GitHub PRs are always 'closed' (1 ever merged vs 4,914 closed): GerritBot closes the PR when its CL is merged or abandoned, so accepted vs rejected needs the Gerrit status or the gopherbot comment text."
+    access: "Gerrit REST API, anonymous (https://go-review.googlesource.com/changes/?q=project:go+status:merged; JSON with )]}' prefix). Filter project:go because the same Gerrit hosts golang.org/x repos. Commits carry Change-Id and Reviewed-on trailers."
+  issues:
+    current: {type: "GitHub Issues (also used for proposals)", url: "https://github.com/golang/go/issues", since: 2014-12}
+    past:
+      - {type: "Google Code tracker (code.google.com/p/go), migrated with original numbers and dates, authored as 'gopherbot'", until: 2014-12}
+    access: "GitHub API (74,636 issues)"
+  license: {spdx: BSD-3-Clause, changes: []}
+  governance: "Company-led (Google Go team; proposal review committee); separate PATENTS grant."
+  ai_policy: {status: none_found, date: null, url: "https://go.dev/doc/contribute"}
+  notes: "No AI text in the contribution guide. A golang-dev thread (2026-02-03, 'What should we do with CLs generated by AI?', prompted by a Claude co-author line in CL 741504) reached no policy. Gerrit submits single rebased/cherry-picked commits, so master is linear. GitHub PRs (~5.6k) are a small slice of all CLs. Release branches get cherry-picks."
+  confidence: high
+  sources: ["https://go.dev/doc/contribute", "https://go.dev/wiki/GerritBot", "https://github.com/golang/go/blob/master/.github/PULL_REQUEST_TEMPLATE", "https://github.com/golang/go/pull/23752", "https://groups.google.com/g/golang-dev/c/4Li4Ovd_ehE"]
+
+- id: cmake
+  canonical_repo: {url: "https://gitlab.kitware.com/cmake/cmake", vcs: git}
+  github: {slug: Kitware/CMake, role: official_mirror}
+  history_start: {date: 2000-08-29, note: "CVS history was imported at the move to Git on 2010-02-22 (tagged CMake-CVS-Final in CVS). The GitLab project was created 2015-11-17."}
+  review:
+    current: {type: "GitLab MRs; @kwrobot integrates on 'Do: merge'", url: "https://gitlab.kitware.com/cmake/cmake/-/merge_requests", since: 2016-02}
+    past:
+      - {type: "Patches via cmake-developers mailing list and Mantis, merged by maintainers (topic 'stage' workflow; details unverified)", until: 2016-02}
+      - {type: "CVS commit access", until: 2010-02}
+    states_observable: "GitLab MR state merged/closed/opened (merges done by kwrobot). Closed MRs carry workflow labels such as workflow:expired (inactivity) and workflow:external-discussion, so expiry can be separated from rejection."
+    access: "GitLab REST API v4, anonymous (project id 541). The GitHub mirror has PRs disabled (0 PRs) and issues disabled."
+  issues:
+    current: {type: "GitLab issues", url: "https://gitlab.kitware.com/cmake/cmake/-/issues", since: 2016-06-10}
+    past:
+      - {type: "Mantis (public.kitware.com/Bug). Imported by kwrobot with original numbers and dates (back to 2003); Mantis left read-only.", until: 2016-06}
+    access: "GitLab REST API v4"
+  license: {spdx: BSD-3-Clause, changes: [{date: 2009-09-28, from: "BSD-style license with a 'modified versions must be marked' clause (no SPDX id)", to: BSD-3-Clause}]}
+  governance: "Company-led (Kitware)"
+  ai_policy: {status: conditions, date: 2026-03-14, url: "https://gitlab.kitware.com/cmake/cmake/-/blob/master/Help/dev/ai-policy.rst"}
+  notes: "AI policy: a human author must be responsible for every MR, issue, or post and must fully understand the MR. AI tools are not authors and must not be listed as co-authors, so no AI trailers to mine. Integration uses 'Merge topic ...' merge commits with Acked-by/Reviewed-by trailers generated from MR votes. Daily 'CMake Nightly Date Stamp' commits by Kitware Robot inflate commit counts."
+  confidence: high
+  sources: ["https://gitlab.kitware.com/cmake/cmake/-/blob/master/Help/dev/ai-policy.rst", "https://gitlab.kitware.com/cmake/cmake/-/blob/master/Help/dev/review.rst", "https://cmake.org/pipermail/cmake-developers/2016-June/028636.html", "https://mail.kde.org/pipermail/kde-windows/2010-February/004680.html", "https://github.com/Kitware/CMake/commit/96afb12087", "https://github.com/Kitware/CMake/blob/master/.github/pull_request_template.md"]
+
+- id: httpd
+  canonical_repo: {url: "https://github.com/apache/httpd", vcs: git}
+  github: {slug: apache/httpd, role: canonical}
+  history_start: {date: 1996-07-03, note: "cvs2svn-converted CVS history; pre-1996 Apache history is absent. Subversion (svn.apache.org/repos/asf/httpd/httpd) was canonical until 2026-10-26: the last git-svn-id commit is 2026-10-26 20:29 UTC and native git commits start 21:13 UTC the same day. Before that the GitHub repo (created 2009) was a read-only mirror."}
+  review:
+    current: {type: "GitHub PRs for all changes. 2.4.x backports are PRs whose reviews replace STATUS-file votes.", url: "https://github.com/apache/httpd/pulls", since: 2026-10}
+    past:
+      - {type: "SVN commits under RTC/CTR; patches on dev@httpd and Bugzilla; backport votes in the STATUS file", url: "https://svn.apache.org/repos/asf/httpd/httpd/", until: 2026-10}
+      - {type: "PRs on the read-only GitHub mirror (since 2012-08): could not be merged, closed after manual SVN commit", url: "https://github.com/apache/httpd/pulls", until: 2026-10}
+    states_observable: "Since 2026-10-26, GitHub merged vs closed-unmerged is meaningful (82 merged, all after the switch). For 2012-08..2026-10 mirror PRs, 0 were ever 'merged', so acceptance must be inferred from SVN commit messages and STATUS votes."
+    access: "GitHub API; lists.apache.org archives (dev@, cvs@ receives PR notifications); STATUS history in git."
+  issues:
+    current: {type: "Bugzilla (product 'Apache httpd-2')", url: "https://bz.apache.org/bugzilla/", since: unverified}
+    past:
+      - {type: "earlier ASF bug database (GNATS-era bugs.apache.org)", until: unverified}
+    access: "Since ~2025-06, ASF Bugzilla requires login because of AI-scraper abuse: the REST API answers 'You must log in' and CSV export redirects to login. GitHub issues are disabled in .asf.yaml. Commit messages cite Bugzilla ids as 'PR NNNNN' (not GitHub PRs)."
+  license: {spdx: Apache-2.0, changes: [{date: "2004 (2.0.49/1.3.31; unverified)", from: Apache-1.1, to: Apache-2.0}, {date: "~2000 (unverified)", from: Apache-1.0, to: Apache-1.1}]}
+  governance: "Foundation: Apache Software Foundation (PMC)"
+  ai_policy: {status: conditions, date: 2023-07-18, url: "https://www.apache.org/legal/generative-tooling.html"}
+  notes: "There is no httpd-specific AI policy; ASF-wide Generative Tooling guidance applies (first published 2023-07-18; Generated-by/Co-authored-by trailer recommended). The AGENTS.md added 2026-11-03 is build and PR guidance for agents, not a policy. The 2026-10-26 move from SVN to GitHub PRs is a hard structural break. Rulesets require linear history, with squash/rebase merges only. Docs build still lives in SVN (INFRA-28588)."
+  confidence: high
+  sources: ["https://httpd.apache.org/dev/devnotes.html", "https://github.com/apache/httpd/blob/trunk/.asf.yaml", "https://github.com/apache/httpd/blob/trunk/AGENTS.md", "https://www.apache.org/legal/generative-tooling.html", "https://status.apache.org/incidents/v7dlvtbg36gp", "https://bz.apache.org/bugzilla/"]
+
+- id: kafka
+  canonical_repo: {url: "https://gitbox.apache.org/repos/asf/kafka.git (dual read/write with github.com/apache/kafka)", vcs: git}
+  github: {slug: apache/kafka, role: canonical}
+  history_start: {date: 2011-08-01, note: "Starts with the initial SVN check-in at the Apache Incubator. LinkedIn pre-Apache history (kafka-dev/kafka) was not imported. SVN ran until ~2012-12 (last git-svn-id 2012-12-11), then ASF git."}
+  review:
+    current: {type: "GitHub PRs, squash-merge only. KIPs on cwiki + dev@ vote for major changes.", url: "https://github.com/apache/kafka/pulls", since: 2015-07}
+    past:
+      - {type: "Patches attached to JIRA + Review Board (reviews.apache.org)", url: "https://reviews.apache.org", until: "2015-07 (approx.)"}
+      - {type: "GitHub PRs committed via kafka-merge-pr.py and auto-closed by asfgit (not GitHub-merged)", until: "2017-12 (approx.)"}
+    states_observable: "From ~2017-12, merged vs closed-unmerged is reliable (2018-02..03: 210 merged / 105 closed). Before that, committed PRs show as closed (2016: 4 merged vs 1,568 closed), so match 'Closes #N' / 'This closes #N' in commit messages."
+    access: "GitHub API; ASF Jira REST, anonymous (20,202 KAFKA issues); KIP pages on cwiki; lists.apache.org."
+  issues:
+    current: {type: Jira, url: "https://issues.apache.org/jira/browse/KAFKA", since: 2011}
+    past: []
+    access: "Jira REST API (anonymous read verified). GitHub issues are disabled."
+  license: {spdx: Apache-2.0, changes: []}
+  governance: "Foundation: Apache Software Foundation (PMC); Confluent is a heavy contributor."
+  ai_policy: {status: disclosure, date: 2026-06-18, url: "https://github.com/apache/kafka/blob/trunk/CONTRIBUTING.md#ai-generated-contributions"}
+  notes: "CONTRIBUTING asks ('please') for a Co-Authored-By or Generated-by trailer, citing the ASF guidance (2023-07-18). AGENTS.md was added 2026-06-12. Squash commit message = PR title + description, so trailers on PR-branch commits are lost unless they are in the description. Titles are 'KAFKA-NNNN:' or 'MINOR:'. Integration branch is trunk."
+  confidence: high
+  sources: ["https://github.com/apache/kafka/blob/trunk/CONTRIBUTING.md", "https://kafka.apache.org/community/developer/", "https://github.com/apache/kafka/blob/trunk/.asf.yaml", "https://issues.apache.org/jira/browse/KAFKA", "https://www.apache.org/legal/generative-tooling.html"]
+
+- id: icu
+  canonical_repo: {url: "https://github.com/unicode-org/icu", vcs: git}
+  github: {slug: unicode-org/icu, role: canonical}
+  history_start: {date: 1999-08-16, note: "cvs2svn-converted CVS history from the IBM era. CVS moved to SVN on 2006-11-30, and SVN to Git/GitHub on 2018-07-16. icu4c and icu4j share one repo. The GitHub repo existed from 2016-01, apparently as a mirror (role unverified)."}
+  review:
+    current: {type: "GitHub PRs; each must reference a Jira ticket ICU-NNNNN; CLA via cla-assistant", url: "https://github.com/unicode-org/icu/pulls", since: 2018-07}
+    past:
+      - {type: "Trac tickets + SVN commits (ticket-based review)", url: "bugs.icu-project.org/trac", until: 2018-07}
+      - {type: "CVS + Jitterbug", until: 2006-11}
+    states_observable: "GitHub merged vs closed-unmerged is used normally (3,664 merged / 504 closed). Jira ticket resolution and ICU-TC acceptance give a second signal."
+    access: "GitHub API; Jira Cloud REST v3 (/rest/api/3/search/jql), anonymous read verified (v2 search removed)."
+  issues:
+    current: {type: "Jira (Atlassian Cloud)", url: "https://unicode-org.atlassian.net/browse/ICU", since: 2018-07}
+    past:
+      - {type: "Trac (bugs.icu-project.org)", until: 2018-07}
+      - {type: Jitterbug, until: 2006-11}
+    access: "Jira Cloud REST v3. GitHub issues are disabled."
+  license: {spdx: Unicode-3.0, changes: [{date: "2016 (ICU 58; LICENSE commit 2016-06-30)", from: ICU, to: Unicode-DFS-2016}, {date: "2023 (ICU 74; LICENSE commit 2023-08-18)", from: Unicode-DFS-2016, to: Unicode-3.0}]}
+  governance: "Consortium: Unicode Consortium ICU Technical Committee (IBM transferred ICU 2016-05)"
+  ai_policy: {status: none_found, date: null, url: "https://github.com/unicode-org/icu/blob/main/CONTRIBUTING.md"}
+  notes: "No AI text in CONTRIBUTING, the PR template, or the unicode-org/.github CONTRIBUTING. Every commit and PR title is prefixed with a Jira key, so commit-issue linkage is easy. icu4c, icu4j, and tools are mixed in one repo; filter by path. Maintenance branches use cherry-picks."
+  confidence: high
+  sources: ["https://icu.unicode.org/repository", "http://blog.unicode.org/2018/07/icu-moves-to-github-and-jira.html", "https://blog.unicode.org/2016/05/icu-joins-unicode-consortium.html", "https://github.com/unicode-org/icu/blob/main/.github/pull_request_template.md", "https://github.com/unicode-org/icu/blob/main/LICENSE"]
+
+- id: xz
+  canonical_repo: {url: "https://github.com/tukaani-project/xz", vcs: git}
+  github: {slug: tukaani-project/xz, role: canonical}
+  history_start: {date: 2007-12-08, note: "First commit is 'Imported to git.' (Lasse Collin); any pre-git development history is not preserved (unverified). git.tukaani.org was the original host. The GitHub repo was created 2022-10 and is now primary, mirrored with delay to git.tukaani.org and Codeberg."}
+  review:
+    current: {type: "GitHub PRs and issues, plus email/IRC; the maintainer usually re-commits patches himself", url: "https://github.com/tukaani-project/xz/pulls", since: 2022-12}
+    past:
+      - {type: "Email patches / IRC to maintainer (xz-devel list)", until: "ongoing (still accepted)"}
+    states_observable: "Not reliable. 34 PRs show 'merged', almost all from 2022-12..2023-11 under co-maintainer 'Jia Tan'. Since 2024, PRs are closed unmerged with comments like 'I committed these. Thanks!'. GitHub force-closed all PRs on 2024-04-05, marking them closed by Lasse Collin when he did not close them, and re-closed reopened ones on 2024-04-12. Classify by comment text or commit matching."
+    access: "GitHub API"
+  issues:
+    current: {type: "GitHub Issues (plus email/IRC)", url: "https://github.com/tukaani-project/xz/issues", since: 2023-01}
+    past:
+      - {type: "email/IRC only", until: 2022-12}
+    access: "GitHub API"
+  license: {spdx: "0BSD (core); some scripts/build files GPL-2.0, GPL-3.0, LGPL-2.1 (see COPYING; exact SPDX expressions unverified)", changes: [{date: "2024-02-12 commit; first release 5.5.2beta on 2024-02-14", from: "public domain (core) + GPL/LGPL parts", to: "0BSD (core) + GPL/LGPL parts"}]}
+  governance: "Volunteer, single maintainer (Lasse Collin)"
+  ai_policy: {status: none_found, date: null, url: "https://tukaani.org/xz/"}
+  notes: "Backdoor CVE-2024-3094 was in the 5.6.0 and 5.6.1 release tarballs built by 'Jia Tan'; the trigger code never entered git. GitHub disabled the repo and suspended both maintainers' accounts on 2024-03-29 (Lasse's reinstated 2024-04-02; repos back 2024-04-09). History was deliberately not rebased, so Jia Tan's 2022-2024 commits, including the malicious test files, remain. Treat 2022-10..2024-03 as a distinct regime. Release tarballs can differ from git. Clean releases resumed 2024-05-29."
+  confidence: high
+  sources: ["https://tukaani.org/xz/", "https://tukaani.org/xz-backdoor/", "https://www.phoronix.com/news/GitHub-Disables-XZ-Repo", "https://github.com/tukaani-project/xz/blob/master/COPYING", "https://github.com/tukaani-project/xz/blob/master/AUTHORS"]
+
+- id: zlib
+  canonical_repo: {url: "https://github.com/madler/zlib", vcs: git}
+  github: {slug: madler/zlib, role: canonical}
+  history_start: {date: 2011-09-10, note: "Releases-only reconstruction: versions 0.71 (1995-04-14) through 1.2.5 (2010-04-19) are one commit per release, all dated 2011-09-10. Real development history starts 2011-09 (1.2.5.1)."}
+  review:
+    current: {type: "GitHub PRs and issues, plus email (zlib@gzip.org); the maintainer re-applies changes himself", url: "https://github.com/madler/zlib/pulls", since: 2012-02}
+    past:
+      - {type: "Email to zlib@gzip.org / Mark Adler", until: "ongoing"}
+    states_observable: "Effectively unobservable from PR state: 3 PRs ever 'merged' (all 2023-07) vs 629 closed. Accepted PRs are closed with comments like 'Applied. Thanks.' and land as maintainer-authored commits, often rewritten. Classify via maintainer comments or diff matching."
+    access: "GitHub API"
+  issues:
+    current: {type: "GitHub Issues", url: "https://github.com/madler/zlib/issues", since: 2012-02}
+    past:
+      - {type: "email only", until: 2012-02}
+    access: "GitHub API"
+  license: {spdx: Zlib, changes: []}
+  governance: "Single maintainer (Mark Adler; Jean-loup Gailly co-author)"
+  ai_policy: {status: none_found, date: null, url: "https://github.com/madler/zlib"}
+  notes: "Default branch is develop; master only advances at releases (latest 1.4, 2026-11-04; previous 1.3.2, 2026-02-17). Contributor counts from git authorship badly undercount because the maintainer re-authors applied changes. Release cadence is sparse."
+  confidence: high
+  sources: ["https://zlib.net/", "https://github.com/madler/zlib/blob/develop/ChangeLog", "https://github.com/madler/zlib/pulls?q=is%3Apr+is%3Aclosed"]
+
+- id: php
+  canonical_repo: {url: "https://github.com/php/php-src", vcs: git}
+  github: {slug: php/php-src, role: canonical}
+  history_start: {date: 1999-04-07, note: "cvs2svn-converted CVS history from the PHP 4/Zend era; PHP/FI and PHP 3 history are not in the repo. CVS moved to SVN ~2009, then to git.php.net ~2012-03 (both dates unverified). GitHub became canonical on 2021-03-28 after malicious commits via git.php.net."}
+  review:
+    current: {type: "GitHub PRs. Language changes go through RFCs on wiki.php.net with an internals@ vote.", url: "https://github.com/php/php-src/pulls", since: 2011-07}
+    past:
+      - {type: "git.php.net canonical; PRs on the GitHub mirror merged by pushing to git.php.net", until: 2021-03}
+      - {type: "Patches on internals@ mailing list / bugs.php.net attachments", until: "~2012 (unverified)"}
+    states_observable: "Mixed: 6,091 merged vs 11,792 closed. Maintainers often land fixes locally on the lowest supported branch and merge up, closing the PR via 'Closes GH-NNNN' in the commit, so closed does not mean rejected. Match commit trailers."
+    access: "GitHub API; RFC vote tables on wiki.php.net; externals.io / news-web.php.net archives."
+  issues:
+    current: {type: "GitHub Issues", url: "https://github.com/php/php-src/issues", since: 2021-11}
+    past:
+      - {type: "bugs.php.net (custom tracker; kept for security reports at migration, then read-only for general bugs)", until: 2021-11}
+    access: "GitHub API; bugs.php.net HTML only (no API verified)"
+  license: {spdx: BSD-3-Clause, changes: [{date: "2026-04-12 (LICENSE changed on master for PHP 8.6; RFC vote closed 2026-04-04)", from: "PHP-3.01 + Zend-2.0", to: "BSD-3-Clause (published as PHP License v4 / Zend Engine License v3)"}, {date: "2002 (PHP 4.2.x)", from: "PHP-2.02 + Zend 0.92", to: "PHP-3.0 + Zend-2.0"}]}
+  governance: "Community RFC voting among php-src contributors; the PHP Group holds the license; The PHP Foundation (2021-11) funds core developers."
+  ai_policy: {status: disclosure, date: 2026-03-24, url: "https://github.com/php/php-src/blob/master/CONTRIBUTING.md#llm-usage-in-github-comments"}
+  notes: "AI rule is narrow: it recommends, but does not require, marking LLM-generated GitHub comments as quotes. There is no rule on AI-generated code. AGENTS.md and CLAUDE.md were added 2026-09-08 (agent guidance on duplicate PRs and security scanning); a duplicate-PR policy followed 2026-10-24. The merge-up workflow produces many 'Merge branch PHP-8.x' commits. GH- vs bugs.php.net numbering must be disambiguated."
+  confidence: high
+  sources: ["https://news-web.php.net/php.internals/113838", "https://wiki.php.net/rfc/github_issues", "https://wiki.php.net/rfc/php_license_update", "https://github.com/php/php-src/blob/master/CONTRIBUTING.md", "https://github.com/php/php-src/blob/master/AGENTS.md", "https://github.com/php/php-src/blob/master/LICENSE"]
+
+- id: cpython
+  canonical_repo: {url: "https://github.com/python/cpython", vcs: git}
+  github: {slug: python/cpython, role: canonical}
+  history_start: {date: 1990-08-09, note: "Root commit is 'Initial revision' (Guido van Rossum). History came through CVS, then SVN (~2005), then Mercurial (2011-03), then Git/GitHub (2017-02-10, PEP 512). The intermediate dates were not re-fetched."}
+  review:
+    current: {type: "GitHub PRs", url: "https://github.com/python/cpython/pulls", since: 2017-02}
+    past:
+      - {type: "Patches on bugs.python.org (Roundup) with Rietveld review; Mercurial", url: "https://bugs.python.org", until: 2017-02}
+      - {type: "SourceForge patch tracker", until: "~2007 (unverified)"}
+    states_observable: "GitHub merged (squash) vs closed-unmerged is reliable (66,144 merged / 11,757 closed). Exclude backport PRs auto-opened by the miss-islington bot. Since 2026-10, maintainers may apply 'AI-needs-explanation' or 'AI-guidelines-not-met' (close) labels."
+    access: "GitHub API; bugs.python.org kept online read-only (HTML)."
+  issues:
+    current: {type: "GitHub Issues", url: "https://github.com/python/cpython/issues", since: 2022-04}
+    past:
+      - {type: "bugs.python.org (Roundup); migrated with bpo numbers and original dates (PEP 581/588)", until: 2022-04}
+      - {type: "SourceForge tracker", until: "~2007 (unverified)"}
+    access: "GitHub API"
+  license: {spdx: "Python-2.0 (PSF License stack; doc code examples 0BSD)", changes: [{date: "2001 (Python 2.1; unverified)", from: "CNRI / BeOpen licenses (1.6 / 2.0)", to: "PSF License"}]}
+  governance: "Foundation: PSF owns the IP; technical governance by the elected Steering Council (PEP 13, since 2019-02)."
+  ai_policy: {status: conditions, date: 2024-10-22, url: "https://devguide.python.org/getting-started/ai-tools/"}
+  notes: "Devguide AI page added 2024-10-22 (devguide #1451) and rewritten 2026-05-21 (#1778). It holds authors responsible and requires review in detail; disclosure is 'appreciated, not required'. An unproductive-PR closure clause was added 2026-07-21, enforcement labels 2026-10-28 (#1947), and AGENTS.md 2026-09-03. Squash merges; PRs and issues share one number space; bpo issues were imported in 2022-04 with original dates."
+  confidence: high
+  sources: ["https://devguide.python.org/getting-started/ai-tools/", "https://github.com/python/devguide/pull/1451", "https://github.com/python/cpython/blob/main/AGENTS.md", "https://peps.python.org/pep-0512/", "https://peps.python.org/pep-0581/", "https://peps.python.org/pep-0013/"]
+
+- id: llvm
+  canonical_repo: {url: "https://github.com/llvm/llvm-project", vcs: git}
+  github: {slug: llvm/llvm-project, role: canonical}
+  history_start: {date: 2001-06-06, note: "cvs2svn root. History went CVS to SVN, then became the Git monorepo on GitHub (2019-10-21/22, when llvm-svn: trailers stop). The monorepo assembles per-subproject SVN histories (clang, lldb, libcxx, ...), so it has multiple roots."}
+  review:
+    current: {type: "GitHub PRs", url: "https://github.com/llvm/llvm-project/pulls", since: 2023-09}
+    past:
+      - {type: "Phabricator (reviews.llvm.org); read-only from 2023-10, now a static archive", url: "https://reviews.llvm.org", until: 2023-09}
+      - {type: "Patches on llvm-commits mailing list and post-commit review", until: "~2012 (unverified)"}
+      - {type: "GitHub PRs on the monorepo not accepted (328 opened before 2023-08; 1 merged)", until: 2023-08}
+    states_observable: "Since 2023-09, GitHub merged (squash-only) vs closed-unmerged is usable, but committers can still push without a PR. In the Phabricator era (~2012-2023), accepted reviews show up as 'Differential Revision: https://reviews.llvm.org/D...' commit trailers; abandoned ones are only in the static archive."
+    access: "GitHub API; static reviews.llvm.org archive (HTML; D-pages still return 200); Discourse for RFCs."
+  issues:
+    current: {type: "GitHub Issues", url: "https://github.com/llvm/llvm-project/issues", since: 2021-12}
+    past:
+      - {type: "Bugzilla (bugs.llvm.org); imported by llvmbot with original dates and 'bugzilla' label; migration completed 2021-12-11", until: 2021-12}
+    access: "GitHub API (102k issues)"
+  license: {spdx: "Apache-2.0 WITH LLVM-exception (legacy code also NCSA)", changes: [{date: 2019-01-19, from: NCSA, to: "Apache-2.0 WITH LLVM-exception"}]}
+  governance: "Foundation: LLVM Foundation (non-profit) plus community governance (area-team details unverified)."
+  ai_policy: {status: conditions, date: 2024-09-10, url: "https://llvm.org/docs/AIToolPolicy.html"}
+  notes: "AI timeline: AI-content section added to DeveloperPolicy 2024-09-10 (#91014); AI banned on 'good first issue' issues 2025-12-18 (#172515); human-in-the-loop AIToolPolicy 2026-01-16 (#154441); Bazel-fixer bot exception 2026-03-05; AI policy added to HowToSubmitABug 2026-10-29. The monorepo has 30+ subprojects, so filter by path. Expect high revert/reland churn and 11.7k open PRs."
+  confidence: high
+  sources: ["https://llvm.org/docs/AIToolPolicy.html", "https://github.com/llvm/llvm-project/pull/154441", "https://github.com/llvm/llvm-project/pull/91014", "https://github.com/llvm/llvm-project/pull/172515", "https://discourse.llvm.org/t/pull-request-migration-reminder-sept-1-oct-1/73043", "https://maskray.me/blog/2023-12-30-reviews.llvm.org-became-read-only-archive", "https://lists.llvm.org/pipermail/cfe-dev/2021-December/069580.html", "https://github.com/llvm/llvm-project/blob/main/LICENSE.TXT"]
+
+- id: curl
+  canonical_repo: {url: "https://github.com/curl/curl", vcs: git}
+  github: {slug: curl/curl, role: canonical}
+  history_start: {date: 1999-12-29, note: "Root 'Initial revision' is the SourceForge CVS import (project joined SourceForge 1999-12-28). CVS use began 1999-09 and curl dates to 1998-03, so earlier history is missing. Moved from CVS to git hosted on GitHub in 2010-03."}
+  review:
+    current: {type: "GitHub PRs (plus curl-library mailing list)", url: "https://github.com/curl/curl/pulls", since: 2010-10}
+    past:
+      - {type: "Patches on curl-library mailing list", until: "ongoing, minor"}
+    states_observable: "PR state is misleading: 222 'merged' vs 16,699 closed. Maintainers rebase or squash locally and push with a 'Closes #N' trailer, which auto-closes the PR. Accepted = referenced by a 'Closes #N' commit; rejected = closed with no such commit."
+    access: "GitHub API"
+  issues:
+    current: {type: "GitHub Issues", url: "https://github.com/curl/curl/issues", since: 2015-02}
+    past:
+      - {type: "SourceForge bug tracker", until: "~2015 (unverified)"}
+      - {type: "HackerOne bug bounty for security reports; now GitHub private vulnerability reporting or security@curl.se", until: 2026-01-31}
+    access: "GitHub API"
+  license: {spdx: curl, changes: [{date: "1998-10 (4.9)", from: GPL, to: MPL}, {date: "2001-01 (7.5.2)", from: MPL, to: "MIT/X-style OR MPL"}, {date: "2002-10-01 (7.10)", from: "MIT/X-style OR MPL", to: "MIT/X-style only (SPDX 'curl')"}]}
+  governance: "Volunteer BDFL project (Daniel Stenberg, employed full-time on curl by wolfSSL since 2019); no legal entity and no umbrella foundation."
+  ai_policy: {status: conditions, date: 2025-05-12, url: "https://github.com/curl/curl/blob/master/docs/CONTRIBUTE.md#on-ai-use-in-curl"}
+  notes: "'On AI use in curl' (2025-05-12) makes disclosure mandatory when an AI tool found a reported issue and bans fake-report submitters. AI-assisted code is accepted if it meets normal standards. AI warnings were added to issue and PR templates 2026-05-28. The bug bounty ended 2026-01-31. Linear history; Reported-by and Closes trailers are mineable."
+  confidence: high
+  sources: ["https://github.com/curl/curl/blob/master/docs/CONTRIBUTE.md", "https://github.com/curl/curl/blob/master/docs/HISTORY.md", "https://github.com/curl/curl/blob/master/docs/GOVERNANCE.md", "https://github.com/curl/curl/blob/master/.github/pull_request_template.md", "https://daniel.haxx.se/blog/2026/01/26/the-end-of-the-curl-bug-bounty/"]
+
+- id: openssl
+  canonical_repo: {url: "private committer-only origin; public downstream clone at https://github.com/openssl/openssl", vcs: git}
+  github: {slug: openssl/openssl, role: official_mirror}
+  history_start: {date: 1998-12-21, note: "cvs2svn-converted CVS history starting with the SSLeay 0.9.1b vendor import at OpenSSL's founding (1998-12). Earlier SSLeay history is absent."}
+  review:
+    current: {type: "GitHub PRs (committer/OTC approvals, then landed by script)", url: "https://github.com/openssl/openssl/pulls", since: "2013-05 (sole channel after RT retired 2016-10)"}
+    past:
+      - {type: "Request Tracker (rt.openssl.org) patches + openssl-dev list", until: 2016-10}
+    states_observable: "PR state is misleading: 153 'merged' vs 19,046 closed. Committers push to the private origin and close the PR ('Applied to master'). Commits carry a 'Merged-from: https://github.com/openssl/openssl/pull/N' trailer (older: '(Merged from ...)'; absent in sampled pre-2016 commits), and PRs carry labels such as 'approval: done' / 'approval: ready to merge'. Accepted = referenced by a Merged-from trailer."
+    access: "GitHub API"
+  issues:
+    current: {type: "GitHub Issues", url: "https://github.com/openssl/openssl/issues", since: 2016-10}
+    past:
+      - {type: "RT (rt.openssl.org); old tickets bulk-closed and some migrated to GitHub 2017-02", until: 2016-10}
+    access: "GitHub API"
+  license: {spdx: Apache-2.0, changes: [{date: "2018-12-06 on master; first release 3.0.0 on 2021-09-07", from: "OpenSSL (OpenSSL + SSLeay dual license)", to: Apache-2.0}]}
+  governance: "Foundation-led: OpenSSL Foundation and OpenSSL Corporation as co-equal bodies since the 2024-07 restructure (OMC dissolved); Technical Advisory Committees formed 2025-03."
+  ai_policy: {status: disclosure, date: 2026-06-18, url: "https://openssl-library.org/policies/general/ai-policy/"}
+  notes: "Policy: an 'Assisted-by: agent:model' trailer is required for non-trivial AI content, needs CLA v1.1+ with AI clauses, and requires human review. Assisted-by trailers appear in live commits (e.g. 2026-11-12). A serial-submission policy (2025-10) and bulk-PR guidance (2026-08-27) cap PR floods. Fixes are cherry-picked to several stable branches, which duplicates commits."
+  confidence: high
+  sources: ["https://www.openssl.org/source/gitrepo.html", "https://openssl-library.org/policies/general/ai-policy/", "https://github.com/openssl/openssl/blob/master/CONTRIBUTING.md", "https://mta.openssl.org/pipermail/openssl-dev/2016-October/008632.html", "https://openssl-library.org/post/2024-07-24-openssl-new-governance-structure", "https://github.com/openssl/openssl/commit/151333164e"]

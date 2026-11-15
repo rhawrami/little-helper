@@ -1,0 +1,456 @@
+{
+  "source": "github_probe",
+  "run_id": "20261113T051238Z",
+  "entries": [
+    {
+      "url": "graphql:torvalds/linux",
+      "file": "data/raw/github_probe/20261113T051238Z/torvalds__linux.json",
+      "retrieved_at": "2026-11-13T05:12:43+00:00",
+      "bytes": 823,
+      "sha256": "326eef8852282216bf687920f20fd606125d39aae5b77ff0feb612f58714f882",
+      "project": "linux",
+      "repo": "torvalds/linux"
+    },
+    {
+      "url": "graphql:bminor/glibc",
+      "file": "data/raw/github_probe/20261113T051238Z/bminor__glibc.json",
+      "retrieved_at": "2026-11-13T05:12:44+00:00",
+      "bytes": 840,
+      "sha256": "22712e412ec358dde42421fc201043e79a2c8b2dd9ce40de0b5f909904d43021",
+      "project": "glibc",
+      "repo": "bminor/glibc"
+    },
+    {
+      "url": "graphql:systemd/systemd",
+      "file": "data/raw/github_probe/20261113T051238Z/systemd__systemd.json",
+      "retrieved_at": "2026-11-13T05:12:45+00:00",
+      "bytes": 846,
+      "sha256": "cc06f22a74813219ab4d2b6612b215013b6912ce637c90350e1838470fa846ba",
+      "project": "systemd",
+      "repo": "systemd/systemd"
+    },
+    {
+      "url": "graphql:mirror/busybox",
+      "file": "data/raw/github_probe/20261113T051238Z/mirror__busybox.json",
+      "retrieved_at": "2026-11-13T05:12:47+00:00",
+      "bytes": 814,
+      "sha256": "b2582d21f812989529e77fb9c33d77231fe7941f7bbf5877b9650d7f0a2920e2",
+      "project": "busybox",
+      "repo": "mirror/busybox"
+    },
+    {
+      "url": "graphql:gcc-mirror/gcc",
+      "file": "data/raw/github_probe/20261113T051238Z/gcc-mirror__gcc.json",
+      "retrieved_at": "2026-11-13T05:12:48+00:00",
+      "bytes": 797,
+      "sha256": "75ff1ce13b62384bfcc2e0d18f8c6a0b916ee6a83c905fec9858582eae42c826",
+      "project": "gcc",
+      "repo": "gcc-mirror/gcc"
+    },
+    {
+      "url": "graphql:llvm/llvm-project",
+      "file": "data/raw/github_probe/20261113T051238Z/llvm__llvm-project.json",
+      "retrieved_at": "2026-11-13T05:12:51+00:00",
+      "bytes": 912,
+      "sha256": "45713fa9ec7b68b45bc014badd9f4698cfbdefa236a988426b34371f60bfd96f",
+      "project": "llvm",
+      "repo": "llvm/llvm-project"
+    },
+    {
+      "url": "graphql:kitware/cmake",
+      "file": "data/raw/github_probe/20261113T051238Z/kitware__cmake.json",
+      "retrieved_at": "2026-11-13T05:12:51+00:00",
+      "bytes": 832,
+      "sha256": "76f1dca041ec3c8f7688f34318e1aaf7b5e48a2e472b7f369a2e9017b20797be",
+      "project": "cmake",
+      "repo": "kitware/cmake"
+    },
+    {
+      "url": "graphql:git/git",
+      "file": "data/raw/github_probe/20261113T051238Z/git__git.json",
+      "retrieved_at": "2026-11-13T05:12:53+00:00",
+      "bytes": 1056,
+      "sha256": "0a0ad981a351a540c8ef378798917d774c80565aed856637fd09a7c78f5b8abc",
+      "project": "git",
+      "repo": "git/git"
+    },
+    {
+      "url": "graphql:astral-sh/uv",
+      "file": "data/raw/github_probe/20261113T051238Z/astral-sh__uv.json",
+      "retrieved_at": "2026-11-13T05:12:53+00:00",
+      "bytes": 876,
+      "sha256": "f0e1a7bf85774eb1174dee1b28d0ec529699ed2753d9e6be2a1700f84f9715a2",
+      "project": "uv",
+      "repo": "astral-sh/uv"
+    },
+    {
+      "url": "graphql:python/cpython",
+      "file": "data/raw/github_probe/20261113T051238Z/python__cpython.json",
+      "retrieved_at": "2026-11-13T05:12:55+00:00",
+      "bytes": 844,
+      "sha256": "a25ec11b6c773d1c06708eafa529c33929fa9b691618aa586c5fcdf98ca81532",
+      "project": "cpython",
+      "repo": "python/cpython"
+    },
+    {
+      "url": "graphql:nodejs/node",
+      "file": "data/raw/github_probe/20261113T051238Z/nodejs__node.json",
+      "retrieved_at": "2026-11-13T05:12:55+00:00",
+      "bytes": 870,
+      "sha256": "371f1da98fef20176398f8959a5305931dde61d19b88f662042dfa49c3b63380",
+      "project": "nodejs",
+      "repo": "nodejs/node"
+    },
+    {
+      "url": "graphql:openjdk/jdk",
+      "file": "data/raw/github_probe/20261113T051238Z/openjdk__jdk.json",
+      "retrieved_at": "2026-11-13T05:12:57+00:00",
+      "bytes": 855,
+      "sha256": "bf9d0ccc4aa49e74f29919de3e21839c9b696c2d50318f90af4db94452cfe4f1",
+      "project": "openjdk",
+      "repo": "openjdk/jdk"
+    },
+    {
+      "url": "graphql:golang/go",
+      "file": "data/raw/github_probe/20261113T051238Z/golang__go.json",
+      "retrieved_at": "2026-11-13T05:12:57+00:00",
+      "bytes": 831,
+      "sha256": "62f6395e00ebc082dc8ee21e8bcd1668d2f98e555f1922535f6698d5d3385f49",
+      "project": "go",
+      "repo": "golang/go"
+    },
+    {
+      "url": "graphql:rust-lang/rust",
+      "file": "data/raw/github_probe/20261113T051238Z/rust-lang__rust.json",
+      "retrieved_at": "2026-11-13T05:12:59+00:00",
+      "bytes": 874,
+      "sha256": "91c1707fd01dfbe92256c620420c2c67fcd7705e9a44b52af58e0c68c748cbc3",
+      "project": "rust",
+      "repo": "rust-lang/rust"
+    },
+    {
+      "url": "graphql:php/php-src",
+      "file": "data/raw/github_probe/20261113T051238Z/php__php-src.json",
+      "retrieved_at": "2026-11-13T05:13:00+00:00",
+      "bytes": 830,
+      "sha256": "77e034b880062ffddfd6b84bfb04a9bf3c7146a5adeb801358e68b037c2042b2",
+      "project": "php",
+      "repo": "php/php-src"
+    },
+    {
+      "url": "graphql:madler/zlib",
+      "file": "data/raw/github_probe/20261113T051238Z/madler__zlib.json",
+      "retrieved_at": "2026-11-13T05:13:00+00:00",
+      "bytes": 866,
+      "sha256": "fb8f996468d3d9e63797f7135f84ea206eef8d039412cf896c7d40bd44b14ffb",
+      "project": "zlib",
+      "repo": "madler/zlib"
+    },
+    {
+      "url": "graphql:tukaani-project/xz",
+      "file": "data/raw/github_probe/20261113T051238Z/tukaani-project__xz.json",
+      "retrieved_at": "2026-11-13T05:13:01+00:00",
+      "bytes": 813,
+      "sha256": "add12fd23db11a7e1a38c694c4c2e34cd08a8fd820e28f6a3848bbb108dcc6d0",
+      "project": "xz",
+      "repo": "tukaani-project/xz"
+    },
+    {
+      "url": "graphql:gnome/libxml2",
+      "file": "data/raw/github_probe/20261113T051238Z/gnome__libxml2.json",
+      "retrieved_at": "2026-11-13T05:13:02+00:00",
+      "bytes": 854,
+      "sha256": "033437515c240b5bb1c9d9d1d62dffe9766ec840e53ab21540320df63a537e11",
+      "project": "libxml2",
+      "repo": "gnome/libxml2"
+    },
+    {
+      "url": "graphql:unicode-org/icu",
+      "file": "data/raw/github_probe/20261113T051238Z/unicode-org__icu.json",
+      "retrieved_at": "2026-11-13T05:13:03+00:00",
+      "bytes": 843,
+      "sha256": "f757f87e4f7c7a9270e8b7936c47ecb3db97d281376b03ed5d0698e47d5f9081",
+      "project": "icu",
+      "repo": "unicode-org/icu"
+    },
+    {
+      "url": "graphql:protocolbuffers/protobuf",
+      "file": "data/raw/github_probe/20261113T051238Z/protocolbuffers__protobuf.json",
+      "retrieved_at": "2026-11-13T05:13:04+00:00",
+      "bytes": 870,
+      "sha256": "ad50003656f2dab2edd181be910c512f99f37730cad188f8b15d74f01455991a",
+      "project": "protobuf",
+      "repo": "protocolbuffers/protobuf"
+    },
+    {
+      "url": "graphql:openssl/openssl",
+      "file": "data/raw/github_probe/20261113T051238Z/openssl__openssl.json",
+      "retrieved_at": "2026-11-13T05:13:05+00:00",
+      "bytes": 849,
+      "sha256": "87745dbf8b968269ef5acaadf9021d21e631457bb330f52e473db9ef8b208cf1",
+      "project": "openssl",
+      "repo": "openssl/openssl"
+    },
+    {
+      "url": "graphql:curl/curl",
+      "file": "data/raw/github_probe/20261113T051238Z/curl__curl.json",
+      "retrieved_at": "2026-11-13T05:13:06+00:00",
+      "bytes": 1089,
+      "sha256": "a8215a5298c49bc6c06f459943193022d8a832d87cade380278d525fd1bb81d3",
+      "project": "curl",
+      "repo": "curl/curl"
+    },
+    {
+      "url": "graphql:openssh/openssh-portable",
+      "file": "data/raw/github_probe/20261113T051238Z/openssh__openssh-portable.json",
+      "retrieved_at": "2026-11-13T05:13:06+00:00",
+      "bytes": 827,
+      "sha256": "462dd3ca75a3bc1b5b60c735c7bf3042d1850d5e96491ba9b3343c77495035c9",
+      "project": "openssh",
+      "repo": "openssh/openssh-portable"
+    },
+    {
+      "url": "graphql:libuv/libuv",
+      "file": "data/raw/github_probe/20261113T051238Z/libuv__libuv.json",
+      "retrieved_at": "2026-11-13T05:13:07+00:00",
+      "bytes": 826,
+      "sha256": "5d429c2b8514b1ff9c2be34d494c0f63ed2becc1a90fb1f4dba1b7169b17cc5b",
+      "project": "libuv",
+      "repo": "libuv/libuv"
+    },
+    {
+      "url": "graphql:postgres/postgres",
+      "file": "data/raw/github_probe/20261113T051238Z/postgres__postgres.json",
+      "retrieved_at": "2026-11-13T05:13:08+00:00",
+      "bytes": 1007,
+      "sha256": "e64930a2852ca1080369b12641f96d97c95f06e6b0d0d628732fda95c6a34299",
+      "project": "postgresql",
+      "repo": "postgres/postgres"
+    },
+    {
+      "url": "graphql:sqlite/sqlite",
+      "file": "data/raw/github_probe/20261113T051238Z/sqlite__sqlite.json",
+      "retrieved_at": "2026-11-13T05:13:09+00:00",
+      "bytes": 843,
+      "sha256": "3fd8e2962eb989360a2778fb58cc6c5822ddbaa13a328b03dda7193251a726aa",
+      "project": "sqlite",
+      "repo": "sqlite/sqlite"
+    },
+    {
+      "url": "graphql:redis/redis",
+      "file": "data/raw/github_probe/20261113T051238Z/redis__redis.json",
+      "retrieved_at": "2026-11-13T05:13:10+00:00",
+      "bytes": 1000,
+      "sha256": "b3f061e82937d2404df48208afab16d5a778d87f2a0f49b70b9aa48ea89ba730",
+      "project": "redis",
+      "repo": "redis/redis"
+    },
+    {
+      "url": "graphql:valkey-io/valkey",
+      "file": "data/raw/github_probe/20261113T051238Z/valkey-io__valkey.json",
+      "retrieved_at": "2026-11-13T05:13:10+00:00",
+      "bytes": 913,
+      "sha256": "6ac7f74832d7c85d47b2ff6e90b5534e55b0a7964cac8a6553de4bfeeb85ac20",
+      "project": "valkey",
+      "repo": "valkey-io/valkey"
+    },
+    {
+      "url": "graphql:apache/kafka",
+      "file": "data/raw/github_probe/20261113T051238Z/apache__kafka.json",
+      "retrieved_at": "2026-11-13T05:13:11+00:00",
+      "bytes": 855,
+      "sha256": "87f89d13a60891c56f8003b3c5f8f58a1b792fb7265bcbd70240a244ca1ba640",
+      "project": "kafka",
+      "repo": "apache/kafka"
+    },
+    {
+      "url": "graphql:nginx/nginx",
+      "file": "data/raw/github_probe/20261113T051238Z/nginx__nginx.json",
+      "retrieved_at": "2026-11-13T05:13:12+00:00",
+      "bytes": 845,
+      "sha256": "2ffe2b09f50758e26dc666bd19924e07a5087e654591abb4199a9a4182b19a05",
+      "project": "nginx",
+      "repo": "nginx/nginx"
+    },
+    {
+      "url": "graphql:apache/httpd",
+      "file": "data/raw/github_probe/20261113T051238Z/apache__httpd.json",
+      "retrieved_at": "2026-11-13T05:13:13+00:00",
+      "bytes": 816,
+      "sha256": "66230969705a343bc435a261b179f3dd97c1eb2ab07165a30e69ae8bef666f35",
+      "project": "httpd",
+      "repo": "apache/httpd"
+    },
+    {
+      "url": "graphql:kubernetes/kubernetes",
+      "file": "data/raw/github_probe/20261113T051238Z/kubernetes__kubernetes.json",
+      "retrieved_at": "2026-11-13T05:13:14+00:00",
+      "bytes": 873,
+      "sha256": "3ccc98463b8a626e577b3ff9a9b915a01f4c79ea2795eccbb841413d7b7785ec",
+      "project": "kubernetes",
+      "repo": "kubernetes/kubernetes"
+    },
+    {
+      "url": "graphql:containerd/containerd",
+      "file": "data/raw/github_probe/20261113T051238Z/containerd__containerd.json",
+      "retrieved_at": "2026-11-13T05:13:15+00:00",
+      "bytes": 851,
+      "sha256": "6615e81662857cc394f740fddd0b783fb4a6a74fcebfaef71225ad3d8f0e9a69",
+      "project": "containerd",
+      "repo": "containerd/containerd"
+    },
+    {
+      "url": "graphql:qemu/qemu",
+      "file": "data/raw/github_probe/20261113T051238Z/qemu__qemu.json",
+      "retrieved_at": "2026-11-13T05:13:16+00:00",
+      "bytes": 977,
+      "sha256": "d7c6b75cad985cb8a606d4d0d81d6a99461df6105762908cb49f6fa64e6ef71e",
+      "project": "qemu",
+      "repo": "qemu/qemu"
+    },
+    {
+      "url": "graphql:ffmpeg/ffmpeg",
+      "file": "data/raw/github_probe/20261113T051238Z/ffmpeg__ffmpeg.json",
+      "retrieved_at": "2026-11-13T05:13:17+00:00",
+      "bytes": 840,
+      "sha256": "d14d7a650a337bd3ac3d72f4db3ae648adc9d7209c4af5ad61d8bbc7d66441fd",
+      "project": "ffmpeg",
+      "repo": "ffmpeg/ffmpeg"
+    },
+    {
+      "url": "graphql:freetype/freetype",
+      "file": "data/raw/github_probe/20261113T051238Z/freetype__freetype.json",
+      "retrieved_at": "2026-11-13T05:13:17+00:00",
+      "bytes": 927,
+      "sha256": "53f6ef92d31401bad5a1f0f597188adb81332a2e64e130dbd9f92a5b47694987",
+      "project": "freetype",
+      "repo": "freetype/freetype"
+    },
+    {
+      "url": "graphql:numpy/numpy",
+      "file": "data/raw/github_probe/20261113T051238Z/numpy__numpy.json",
+      "retrieved_at": "2026-11-13T05:13:18+00:00",
+      "bytes": 868,
+      "sha256": "e58a42c0d81a1c16007e54d76c11dd68d2731f96cab643f490c247562f7a0199",
+      "project": "numpy",
+      "repo": "numpy/numpy"
+    },
+    {
+      "url": "graphql:pandas-dev/pandas",
+      "file": "data/raw/github_probe/20261113T051238Z/pandas-dev__pandas.json",
+      "retrieved_at": "2026-11-13T05:13:19+00:00",
+      "bytes": 988,
+      "sha256": "877b4c531433de59ac0e1bb707eb540bc7c4696aadd3d4d7eec423d804f0ae7b",
+      "project": "pandas",
+      "repo": "pandas-dev/pandas"
+    },
+    {
+      "url": "graphql:matplotlib/matplotlib",
+      "file": "data/raw/github_probe/20261113T051238Z/matplotlib__matplotlib.json",
+      "retrieved_at": "2026-11-13T05:13:20+00:00",
+      "bytes": 828,
+      "sha256": "11d42ca1e5c82653eff49edcd04c46d99062c9c7fa44c5342580620fa334c1c5",
+      "project": "matplotlib",
+      "repo": "matplotlib/matplotlib"
+    },
+    {
+      "url": "graphql:scikit-learn/scikit-learn",
+      "file": "data/raw/github_probe/20261113T051238Z/scikit-learn__scikit-learn.json",
+      "retrieved_at": "2026-11-13T05:13:21+00:00",
+      "bytes": 862,
+      "sha256": "054581a97f3fef28b2320deebe862e87f7e2aca4a8f1812e737bf01e92a711b0",
+      "project": "scikit-learn",
+      "repo": "scikit-learn/scikit-learn"
+    },
+    {
+      "url": "graphql:plotly/plotly.js",
+      "file": "data/raw/github_probe/20261113T051238Z/plotly__plotly.js.json",
+      "retrieved_at": "2026-11-13T05:13:22+00:00",
+      "bytes": 861,
+      "sha256": "1bab45cab10b66afbcfd828a4520e44bbdf9d4220a3bcd60f89699c170b52a62",
+      "project": "plotly",
+      "repo": "plotly/plotly.js"
+    },
+    {
+      "url": "graphql:plotly/plotly.py",
+      "file": "data/raw/github_probe/20261113T051238Z/plotly__plotly.py.json",
+      "retrieved_at": "2026-11-13T05:13:22+00:00",
+      "bytes": 853,
+      "sha256": "899c270ea3fc648bdd8975e84c8a42f0d336f002b4b544ca04dd522e77e0b10a",
+      "project": "plotly",
+      "repo": "plotly/plotly.py"
+    },
+    {
+      "url": "graphql:d3/d3",
+      "file": "data/raw/github_probe/20261113T051238Z/d3__d3.json",
+      "retrieved_at": "2026-11-13T05:13:23+00:00",
+      "bytes": 873,
+      "sha256": "bbdb15d0a4eeac5ea249ff672eee74c1c658a85aadd8756fed11e5f00e05aae6",
+      "project": "d3",
+      "repo": "d3/d3"
+    },
+    {
+      "url": "graphql:pytorch/pytorch",
+      "file": "data/raw/github_probe/20261113T051238Z/pytorch__pytorch.json",
+      "retrieved_at": "2026-11-13T05:13:26+00:00",
+      "bytes": 889,
+      "sha256": "aa9409b79111cebb9b85e54f15f1f9844d3eb69e3d0a2ad62b7c25ac24d49fb4",
+      "project": "pytorch",
+      "repo": "pytorch/pytorch"
+    },
+    {
+      "url": "graphql:huggingface/transformers",
+      "file": "data/raw/github_probe/20261113T051238Z/huggingface__transformers.json",
+      "retrieved_at": "2026-11-13T05:13:27+00:00",
+      "bytes": 1001,
+      "sha256": "a6cf57130ceead8a1a08d6be94ed15f84c4d3252e4ed2a482974ee41d314c846",
+      "project": "transformers",
+      "repo": "huggingface/transformers"
+    },
+    {
+      "url": "graphql:facebook/react",
+      "file": "data/raw/github_probe/20261113T051238Z/facebook__react.json",
+      "retrieved_at": "2026-11-13T05:13:28+00:00",
+      "bytes": 845,
+      "sha256": "8980ebf96856f59801bdeb522bbfdd5bec8233c21dc5d7447293d17fb0405068",
+      "project": "react",
+      "repo": "facebook/react"
+    },
+    {
+      "url": "graphql:vitejs/vite",
+      "file": "data/raw/github_probe/20261113T051238Z/vitejs__vite.json",
+      "retrieved_at": "2026-11-13T05:13:29+00:00",
+      "bytes": 839,
+      "sha256": "760c5e4aa0053b0962c7ffa682aba4ed581f4caf12009bccaa73f59023c1eab6",
+      "project": "vite",
+      "repo": "vitejs/vite"
+    },
+    {
+      "url": "graphql:django/django",
+      "file": "data/raw/github_probe/20261113T051238Z/django__django.json",
+      "retrieved_at": "2026-11-13T05:13:30+00:00",
+      "bytes": 857,
+      "sha256": "73d97f89187213732034292baa7bebe4f2b60b7c3f6f4737dd3cc7801bf19ea6",
+      "project": "django",
+      "repo": "django/django"
+    },
+    {
+      "url": "graphql:spring-projects/spring-framework",
+      "file": "data/raw/github_probe/20261113T051238Z/spring-projects__spring-framework.json",
+      "retrieved_at": "2026-11-13T05:13:32+00:00",
+      "bytes": 841,
+      "sha256": "b3edf75c6c88b767c334b6fc05fec37442823881e5af2067a607774d968bd887",
+      "project": "spring",
+      "repo": "spring-projects/spring-framework"
+    },
+    {
+      "url": "graphql:rails/rails",
+      "file": "data/raw/github_probe/20261113T051238Z/rails__rails.json",
+      "retrieved_at": "2026-11-13T05:13:33+00:00",
+      "bytes": 814,
+      "sha256": "adefd15b7a7d2e16a5ce9c34c19f49aae3743ebd1fa9aab81ddf19b9780fd117",
+      "project": "rails",
+      "repo": "rails/rails"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "source": "repology",
+  "run_id": "20261113T045313Z",
+  "entries": [
+    {
+      "url": "https://repology.org/api/v1/projects/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p001.json.gz",
+      "retrieved_at": "2026-11-13T04:53:18+00:00",
+      "bytes": 12918592,
+      "sha256": "3188d91ed9f20c44d641ec0acf35a806b074bbeea12911aa5f8587082e1cec45",
+      "page": 1
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/cups-filters/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p002.json.gz",
+      "retrieved_at": "2026-11-13T04:53:24+00:00",
+      "bytes": 15195284,
+      "sha256": "fbeed39e814549d50dc79dc14c385b800f530f89980b69b6a08a3433bbdd9d33",
+      "page": 2
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/ghc/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p003.json.gz",
+      "retrieved_at": "2026-11-13T04:53:29+00:00",
+      "bytes": 13081757,
+      "sha256": "9833780e566f4d497c0b3f786d217bb3e8b501af735ad40cc434a6b671ec291a",
+      "page": 3
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/iwd/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p004.json.gz",
+      "retrieved_at": "2026-11-13T04:53:34+00:00",
+      "bytes": 11561420,
+      "sha256": "cf3cb330e4d5d806ff435d466f246fa35087f50a448879da7297e6bf26fe2236",
+      "page": 4
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/leveldb/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p005.json.gz",
+      "retrieved_at": "2026-11-13T04:53:39+00:00",
+      "bytes": 10432882,
+      "sha256": "ae73a1c286d78cf0f184381d77f807156df5bc0be513463ededeffca32629fb6",
+      "page": 5
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/libogg/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p006.json.gz",
+      "retrieved_at": "2026-11-13T04:53:45+00:00",
+      "bytes": 15260159,
+      "sha256": "ff59c841b3f78fb8f0e56f97af2f0667a910ddfa27ffd9c02352277c905e1626",
+      "page": 6
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/lyx/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p007.json.gz",
+      "retrieved_at": "2026-11-13T04:53:50+00:00",
+      "bytes": 13120605,
+      "sha256": "61827dd989fcdfb9ea1d9ec272f24dd5683468b1355cd5a9075c65eac488c2d7",
+      "page": 7
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/p11-kit/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p008.json.gz",
+      "retrieved_at": "2026-11-13T04:53:54+00:00",
+      "bytes": 10526059,
+      "sha256": "d7e9453f4fb94b094281439d4f3549bfe6c8dd3a00e996cb583d0502325d3c52",
+      "page": 8
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/perl:xml-parser/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p009.json.gz",
+      "retrieved_at": "2026-11-13T04:53:59+00:00",
+      "bytes": 12828231,
+      "sha256": "bb8cadd23181ef36dfd829a4cdd70eab797c622c0e60471a8268a8d265580e99",
+      "page": 9
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/python:packaging/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p010.json.gz",
+      "retrieved_at": "2026-11-13T04:54:05+00:00",
+      "bytes": 16120340,
+      "sha256": "4c428e23c954c1a148de0b603d72dc4811064528f9ee9a766dd78ce7becc632c",
+      "page": 10
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/runc/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p011.json.gz",
+      "retrieved_at": "2026-11-13T04:54:10+00:00",
+      "bytes": 12810776,
+      "sha256": "8c27859d9c0143a2fb4426f095d68fc829eb26f141d65007b168c56369991755",
+      "page": 11
+    },
+    {
+      "url": "https://repology.org/api/v1/projects/usbmuxd/?families=30-",
+      "file": "data/raw/repology/20261113T045313Z/projects_p012.json.gz",
+      "retrieved_at": "2026-11-13T04:54:15+00:00",
+      "bytes": 11032409,
+      "sha256": "436efe6acb5ffab5f4e5f1fefcba8aea42108ef3d5a8906a4f32ea8b04b43bcf",
+      "page": 12
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "source": "popcon",
+  "run_id": "20261113T045213Z",
+  "entries": [
+    {
+      "url": "https://popcon.debian.org/source/by_inst",
+      "file": "data/raw/popcon/20261113T045213Z/source_by_inst.txt.gz",
+      "retrieved_at": "2026-11-13T04:52:34+00:00",
+      "bytes": 4245269,
+      "sha256": "8ab2c3093b2cc19b1a77b78031f7015e833fff660874a44328340f63cc1affa7"
+    }
+  ]
+}

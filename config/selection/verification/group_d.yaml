@@ -1,0 +1,246 @@
+# Group D verification: GitHub-hosted community and scientific projects
+# Verified 2026-11-12 from GitHub REST/search API (gh CLI), project docs, and git history of policy files.
+# PR-state counts are GitHub search counts by PR creation year: "merged" = is:merged; "closed" = is:closed is:unmerged.
+# The AI-policy dates below are the merge dates of the commits that introduced the policy text, found by bisecting each file's history.
+# ai_policy.date = first formal contributor-facing AI policy of any type; ai_policy.status = the type in force now.
+# When the type changed later (e.g. conditions -> disclosure), the timeline is in notes.
+
+- id: uv
+  canonical_repo: {url: "https://github.com/astral-sh/uv", vcs: git}
+  github: {slug: astral-sh/uv, role: canonical}
+  history_start: {date: 2023-10-05, note: "First commit 'Add README and LICENSE files' (Charlie Marsh). The repo was created 2023-10-02 as private 'puffin' (astral-sh/puffin now redirects to uv). The first public release, 0.1.0, came on 2024-02-15, and issues and PRs from the private period are included."}
+  review:
+    current: {type: github_pr, url: "https://github.com/astral-sh/uv/pulls", since: 2023-10}
+    past: []
+    states_observable: "Reliable. PRs are squash-merged in the GitHub UI: all of the last 100 main commits are committed by GitHub, with no merge commits. For PRs created in 2025, 2,801 are merged and 362 closed. Since 2026-10-23, an ai-policy workflow labels policy closures 'bot:ai-policy-close' or 'bot:ai-policy-comment'."
+    access: "GitHub REST/GraphQL API; GH Archive"
+  issues:
+    current: {type: github_issues, url: "https://github.com/astral-sh/uv/issues", since: 2023-10-05}
+    past: []
+    access: "GitHub REST/GraphQL API"
+  license: {spdx: "MIT OR Apache-2.0", changes: []}
+  governance: "Company: Astral Software. On 2026-03-19 Astral announced an agreement to join OpenAI (Codex team), with the tools to stay open source. Whether the deal has closed is unverified: no closing notice was found on astral.sh/blog through 2026-10-27."
+  ai_policy: {status: conditions, date: 2026-03-13, url: "https://github.com/astral-sh/.github/blob/main/AI_POLICY.md"}
+  notes: "The policy is org-wide (astral-sh/.github PR #1, 2026-03-13). It requires a human in the loop, bans autonomous agents and AI-written comments, and requires AI excerpts to be quoted and disclosed. There is no blanket code-disclosure rule. uv CONTRIBUTING has linked to it since 2026-03-15 (#18448), and an enforcement workflow with labels arrived 2026-10-23 (#22857). AGENTS.md was added 2026-04-07 (#18902). The PR template has no AI field. Very high PR throughput and dependency-bot PRs mean bot PRs should be excluded. A possible ownership change (OpenAI) is a governance break point."
+  confidence: high
+  sources: ["https://github.com/astral-sh/uv", "https://github.com/astral-sh/.github/commit/88a2f5d5c9", "https://github.com/astral-sh/uv/pull/18448", "https://github.com/astral-sh/uv/pull/22857", "https://astral.sh/blog", "https://simonwillison.net/2026/Mar/19/openai-acquiring-astral/"]
+
+- id: numpy
+  canonical_repo: {url: "https://github.com/numpy/numpy", vcs: git}
+  github: {slug: numpy/numpy, role: canonical}
+  history_start: {date: 2001-12-18, note: "Earliest commit f1a2d6376c (Eric Jones, scipy_distutils) is inherited from the scipy/scipy_core SVN. SVN was converted to git and frozen 2010-09-16 (Pauli Virtanen). Numeric (1995 onward) and numarray history is not included."}
+  review:
+    current: {type: github_pr, url: "https://github.com/numpy/numpy/pulls", since: 2010-09}
+    past: [{type: "patches via Trac tickets and the numpy-discussion mailing list", url: "https://mail.python.org/pipermail/numpy-discussion/", until: 2010-09}]
+    states_observable: "Reliable. Merges are mostly GitHub squash or rebase: 90 of the last 100 commits are GitHub-committed and 8 are merge commits. 2025: 1,469 merged vs 209 closed. Closed PRs sampled from 2013 were genuine closures."
+    access: "GitHub REST/GraphQL API; GH Archive"
+  issues:
+    current: {type: github_issues, url: "https://github.com/numpy/numpy/issues", since: 2012-12}
+    past: [{type: "Trac (projects.scipy.org/numpy); tickets imported into GitHub, migration reported complete 2012-12-05", until: 2012-12}]
+    access: "GitHub API. Issue numbers before 2012-12 are PRs only. Imported Trac tickets carry their original dates in the body, not in created_at."
+  license: {spdx: BSD-3-Clause, changes: []}
+  governance: "NumFOCUS fiscally sponsored project (sponsorship start date unverified); community Steering Council."
+  ai_policy: {status: disclosure, date: 2026-03-08, url: "https://numpy.org/devdocs/dev/ai_policy.html"}
+  notes: "AI policy (PR #30933, merged 2026-03-08): mandatory disclosure, and PRs without it are rejected. It also requires human responsibility and understanding, bans autonomous agent PRs, and allows AI in communication only for translation or grammar. It is adapted from SciPy's. An 'AI Disclosure' section was added to the PR template 2026-03-11 (#30932). GitHub reports the license as NOASSERTION because pyproject declares 'BSD-3-Clause AND 0BSD AND MIT AND CC0-1.0' (bundled code). Some early PRs merged via CLI."
+  confidence: high
+  sources: ["https://github.com/numpy/numpy/pull/30933", "https://github.com/numpy/numpy/pull/30932", "https://mail.python.org/pipermail/numpy-discussion/2010-September/052774.html", "https://mail.python.org/pipermail/numpy-discussion/2012-December/064655.html", "https://numfocus.org/sponsored-projects"]
+
+- id: pandas
+  canonical_repo: {url: "https://github.com/pandas-dev/pandas", vcs: git}
+  github: {slug: pandas-dev/pandas, role: canonical}
+  history_start: {date: 2009-07-31, note: "First commit 'Initial directory structure.' (Wes McKinney). AQR-internal history from 2008 is absent. pandas 0.1 was hosted on Google Code (Dec 2009), and the 0.3.0 announcement (Feb 2011) says development had migrated to GitHub. The repo was created 2010-08-24 and was formerly pydata/pandas (codecov links show this in 2016). Exact rename dates are unverified."}
+  review:
+    current: {type: github_pr, url: "https://github.com/pandas-dev/pandas/pulls", since: 2011-06}
+    past: []
+    states_observable: "Unreliable before about 2017. Maintainers (e.g. jreback) landed PRs via CLI commits ('closes #N'), so accepted PRs show CLOSED with a closed event that carries a commit_id. 2016: 338 merged vs 969 closed, and 6 of 8 sampled closed PRs were actually landed. Since about 2017, squash merges make MERGED reliable (2019: 2,850 vs 580; 2025: 1,226 vs 750)."
+    access: "GitHub REST/GraphQL API. Use issue events (closed with commit_id) to recover pre-2017 acceptance."
+  issues:
+    current: {type: github_issues, url: "https://github.com/pandas-dev/pandas/issues", since: 2010-09}
+    past: [{type: "Google Code project (tracker use unverified)", until: 2010}]
+    access: "GitHub REST/GraphQL API"
+  license: {spdx: BSD-3-Clause, changes: []}
+  governance: "NumFOCUS fiscally sponsored since 2015 (pandas About page); core team with a steering committee."
+  ai_policy: {status: disclosure, date: 2026-01-27, url: "https://pandas.pydata.org/docs/dev/development/contributing.html#automated-contributions-policy"}
+  notes: "'Automated contributions policy' added 2026-01-27 (#63891). It requires disclosure of the tool and full human review, and forbids AI speaking for you. An earlier PR-template checkbox about prompting AI to follow AGENTS.md came with AGENTS.md on 2025-11-13 (#62541). The policy was tightened 2026-08-14 (#66767): human-written comments, a disclosure naming tool, model, and effort setting, and a mandatory AI/no-AI checkbox in the PR template. Squash merges hide intra-PR commits."
+  confidence: high
+  sources: ["https://github.com/pandas-dev/pandas/pull/63891", "https://github.com/pandas-dev/pandas/pull/66767", "https://github.com/pandas-dev/pandas/pull/62541", "https://pandas.pydata.org/about/", "https://www.python.org/pipermail/scipy-user/2011-February/028513.html"]
+
+- id: matplotlib
+  canonical_repo: {url: "https://github.com/matplotlib/matplotlib", vcs: git}
+  github: {slug: matplotlib/matplotlib, role: canonical}
+  history_start: {date: 2003-05-12, note: "First commit 'The new matplotlib hierarchy' (John Hunter). History runs CVS to SourceForge SVN to git. SVN was frozen 2011-02-18 and the GitHub repo created 2011-02-19. Some earliest CVS-era history was lost in the CVS-to-SVN migration (per a 2011 mailing-list post)."}
+  review:
+    current: {type: github_pr, url: "https://github.com/matplotlib/matplotlib/pulls", since: 2011-02}
+    past: [{type: "patches via SourceForge tracker and mailing list", url: "https://sourceforge.net/projects/matplotlib/", until: 2011-02}]
+    states_observable: "Reliable. GitHub merge commits are used (46 of the last 100 main commits). 2025: 807 merged vs 192 closed. Closures of AI or agent PRs are visible as closed-unmerged; e.g. #31132 was closed by scottshambaugh 39 minutes after opening and locked 2026-02-12."
+    access: "GitHub REST/GraphQL API; GH Archive"
+  issues:
+    current: {type: github_issues, url: "https://github.com/matplotlib/matplotlib/issues", since: 2011-02}
+    past: [{type: "SourceForge tracker (closure date and ticket migration unverified)", until: "2011 (approx.)"}]
+    access: "GitHub REST/GraphQL API"
+  license: {spdx: PSF-2.0, changes: [{date: "2013 (v1.3.0)", from: "PSF-based license with licensor John D. Hunter", to: "PSF-based Matplotlib License with licensor Matplotlib Development Team (no SPDX change)"}]}
+  governance: "NumFOCUS fiscally sponsored project (start date unverified); community steering council."
+  ai_policy: {status: disclosure, date: 2024-11-25, url: "https://matplotlib.org/devdocs/devel/contribute.html#generative-ai"}
+  notes: "AI-policy timeline: 2024-11-25, 'Restrictions on Generative AI Usage' (#28335): understand changes, don't post LLM output. 2026-02-20 (#31142): AI-generated PRs on good-first-issues are closed. 2026-02-25 (#31124): 'AI Disclosure' section in the PR template, the start of disclosure. 2026-04-08 (#31459): acceptable and unacceptable uses, banning bots or agents that interact directly, with possible bans or reports to GitHub. The agent incident was PR #31132 by crabby-rathbun, opened 2026-02-10. Matplotlib is a SWE-bench source repo (184 of 2,294 tasks), so it has benchmark exposure. meson.build declares 'PSF-2.0 AND MIT AND CC0-1.0 AND OFL-1.1 AND ...' (fonts). GitHub cannot detect the license."
+  confidence: high
+  sources: ["https://github.com/matplotlib/matplotlib/pull/28335", "https://github.com/matplotlib/matplotlib/pull/31142", "https://github.com/matplotlib/matplotlib/pull/31124", "https://github.com/matplotlib/matplotlib/pull/31459", "https://github.com/matplotlib/matplotlib/pull/31132", "https://discourse.matplotlib.org/t/svn-is-frozen-github-migration-underway/15056", "https://arxiv.org/abs/2310.06770"]
+
+- id: scikit-learn
+  canonical_repo: {url: "https://github.com/scikit-learn/scikit-learn", vcs: git}
+  github: {slug: scikit-learn/scikit-learn, role: canonical}
+  history_start: {date: 2010-01-05, note: "First commit 'Initial repository layout' (Fabian Pedregosa). The 2007-2009 scikits.learn work (Cournapeau GSoC, Brucher) is not in git. Release 0.4 (2010-08-26) notes 'Migration to GIT'. The first public release was 2010-02-01."}
+  review:
+    current: {type: github_pr, url: "https://github.com/scikit-learn/scikit-learn/pulls", since: 2010-09}
+    past: [{type: "SourceForge-hosted SVN/git with patches via tracker and mailing list", until: 2010-08}]
+    states_observable: "Reliable now: squash merges, with all of the last 100 main commits GitHub-committed (2025: 1,227 merged vs 490 closed). In about 2011-2015 some PRs were landed by rebase and closed with 'Merged as <sha>' or 'merged by rebase' comments (2012: 283 merged vs 230 closed), so parse comments for those years."
+    access: "GitHub REST/GraphQL API; GH Archive"
+  issues:
+    current: {type: github_issues, url: "https://github.com/scikit-learn/scikit-learn/issues", since: 2010-08}
+    past: [{type: "SourceForge tracker (migration unverified)", until: 2010-08}]
+    access: "GitHub REST/GraphQL API"
+  license: {spdx: BSD-3-Clause, changes: []}
+  governance: "NumFOCUS fiscally sponsored (listed as Sponsored on numfocus.org); community governance document with maintainers and a technical committee. Financially supported by Probabl (Inria spin-off) and others; INRIA holds copyright for work by its employees."
+  ai_policy: {status: disclosure, date: 2024-06-19, url: "https://scikit-learn.org/dev/developers/contributing.html#automated-contributions-policy"}
+  notes: "Timeline: 2024-06-19 (#29287), 'Automated Contributions Policy' (conditions: no fully-automated submissions, account blocking). 2025-08-08 (#31643), a hidden HTML notice in the docs and PR template telling AI tools not to open PRs. 2025-12-01 (#32566), AI use must be stated in the PR description, with an 'AI usage disclosure' section in the PR template (disclosure). Violating PRs are 'closed without review'. scikit-learn is a SWE-bench source repo (229 of 2,294 tasks)."
+  confidence: high
+  sources: ["https://github.com/scikit-learn/scikit-learn/pull/29287", "https://github.com/scikit-learn/scikit-learn/pull/31643", "https://github.com/scikit-learn/scikit-learn/pull/32566", "https://scikit-learn.org/1.2/whats_new/older_versions.html", "https://scikit-learn.org/stable/about.html", "https://numfocus.org/sponsored-projects"]
+
+- id: plotly
+  canonical_repo: {url: ["https://github.com/plotly/plotly.js", "https://github.com/plotly/plotly.py"], vcs: git}
+  github: {slug: [plotly/plotly.js, plotly/plotly.py], role: canonical}
+  history_start: {date: 2012-06-19, note: "plotly.js: earliest commit 2012-06-19 ('initial commit', internal 'streambed' history). The repo was private until open-sourcing in 2015-11; the GitHub repo was created 2015-11-05 and LICENSE added 2015-11-09. plotly.py: earliest commit 2013-11-21 ('first')."}
+  review:
+    current: {type: github_pr, url: "https://github.com/plotly/plotly.js/pulls ; https://github.com/plotly/plotly.py/pulls", since: "plotly.py 2013-11; plotly.js 2015-11"}
+    past: []
+    states_observable: "Reliable. GitHub merges are used, about a third of them merge commits. Volume is low: in 2025, plotly.js had 118 merged vs 20 closed and plotly.py 185 vs 30. Much work is by Plotly staff, and some items are labelled 'plotly-internal'."
+    access: "GitHub REST/GraphQL API"
+  issues:
+    current: {type: github_issues, url: "https://github.com/plotly/plotly.js/issues ; https://github.com/plotly/plotly.py/issues", since: "plotly.py 2013-12; plotly.js 2015-11"}
+    past: []
+    access: "GitHub REST/GraphQL API (the community.plotly.com forum is separate)"
+  license: {spdx: MIT, changes: [{date: 2015-11, from: "proprietary (plotly.js internal code)", to: MIT}]}
+  governance: "Company: Plotly Technologies Inc."
+  ai_policy: {status: conditions, date: 2026-08-24, url: "https://github.com/plotly/plotly.js/blob/master/AGENTS.md"}
+  notes: "The policy covers plotly.js only. AGENTS.md and CONTRIBUTING 'Using a coding agent' (#7983, 2026-08-24) require work to start from an issue and a human to review code before a PR; agents must leave some steps to humans. No AI policy was found for plotly.py. Layout break in plotly.py: from 2019-06-13 (#1604) it used a top-level packages/ multi-package layout (plotly, chart-studio, plotly-geo, jupyterlab-plotly). On 2025-01-30 chart-studio and plotly-geo moved to their own repos with history (#4972), and packages/python/plotly moved to top level. This rewrites paths, so file-level history needs rename-following. plotly.js commits built dist/ bundles at releases (large diffs) and vendors stackgl_modules. plotly.js's 2012-2015 history predates open source. Dash, plotly.R, and Kaleido are separate repos."
+  confidence: high
+  sources: ["https://github.com/plotly/plotly.js", "https://github.com/plotly/plotly.py", "https://github.com/plotly/plotly.py/pull/1604", "https://github.com/plotly/plotly.py/pull/4972", "https://github.com/plotly/plotly.js/pull/7983"]
+
+- id: d3
+  canonical_repo: {url: ["https://github.com/d3/d3", "https://github.com/d3/d3-array", "https://github.com/d3/d3-axis", "https://github.com/d3/d3-brush", "https://github.com/d3/d3-chord", "https://github.com/d3/d3-color", "https://github.com/d3/d3-contour", "https://github.com/d3/d3-delaunay", "https://github.com/d3/d3-dispatch", "https://github.com/d3/d3-drag", "https://github.com/d3/d3-dsv", "https://github.com/d3/d3-ease", "https://github.com/d3/d3-fetch", "https://github.com/d3/d3-force", "https://github.com/d3/d3-format", "https://github.com/d3/d3-geo", "https://github.com/d3/d3-hierarchy", "https://github.com/d3/d3-interpolate", "https://github.com/d3/d3-path", "https://github.com/d3/d3-polygon", "https://github.com/d3/d3-quadtree", "https://github.com/d3/d3-random", "https://github.com/d3/d3-scale", "https://github.com/d3/d3-scale-chromatic", "https://github.com/d3/d3-selection", "https://github.com/d3/d3-shape", "https://github.com/d3/d3-time", "https://github.com/d3/d3-time-format", "https://github.com/d3/d3-timer", "https://github.com/d3/d3-transition", "https://github.com/d3/d3-zoom"], vcs: git}
+  github: {slug: "d3/d3 plus 30 d3/d3-* module repos", role: canonical}
+  history_start: {date: 2010-09-27, note: "d3/d3 'Initial commit.' (Mike Bostock). Module repos have separate roots, mostly created 2015-05 to 2016-06; some are older (d3-queue 2012-01, d3-dsv 2013-03) and d3-contour (2017) and d3-delaunay (2018) newer. Pre-v4 code lived in the d3/d3 monolith. The Protovis predecessor is not included."}
+  review:
+    current: {type: github_pr, url: "https://github.com/d3/d3/pulls (and each module repo)", since: 2010}
+    past: []
+    states_observable: "GitHub states are reliable but volume is very low (d3/d3 2025: 3 merged vs 15 closed). Much change lands as direct pushes by maintainers: 12 of the last 40 d3/d3 commits have no associated PR. Commit-level mining across all module repos is more informative than PR counts."
+    access: "GitHub REST/GraphQL API per repo (31 repos in the bundle; the org has 54 repos, including archived ones)"
+  issues:
+    current: {type: github_issues, url: "https://github.com/d3/d3/issues (and per module)", since: 2010-09}
+    past: []
+    access: "GitHub REST/GraphQL API per repo"
+  license: {spdx: ISC, changes: [{date: 2021-06-11, from: BSD-3-Clause, to: ISC}]}
+  governance: "Volunteer/BDFL style. Creator Mike Bostock maintains D3 with Philippe Riviere, both at Observable, Inc. (d3js.org). There is no foundation or formal governance."
+  ai_policy: {status: none_found, date: null, url: null}
+  notes: "Split: v4.0.0 (released 2016-06-28) made D3 modular, with 'each library has its own repo and release cycle'. Since then d3/d3 is mainly the bundle plus docs, and its package.json depends on 30 d3-* modules. Deprecated or archived modules (d3-collection, d3-voronoi, d3-request, d3-queue, d3-selection-multi) must be handled. The license changed with v7.0.0 (commit 23b0212743); module repos moved to ISC in their 2021 majors, but some minor repos (e.g. d3-ease, d3-sankey, d3-hexbin) still show BSD-3-Clause. Activity is bursty: after long dormancy, on 2026-11-03 roughly 30 repos were updated at once (7.9.1/7.9.2: pnpm, vitest, npm trusted publishing, ES bundle), which will look like a churn spike. No CONTRIBUTING or AGENTS file was found in d3/d3."
+  confidence: medium
+  sources: ["https://github.com/d3/d3/releases/tag/v4.0.0", "https://github.com/d3/d3/commit/23b0212743", "https://github.com/d3/d3/releases/tag/v7.9.1", "https://d3js.org/what-is-d3", "https://github.com/orgs/d3/repositories"]
+
+- id: pytorch
+  canonical_repo: {url: "https://github.com/pytorch/pytorch", vcs: git}
+  github: {slug: pytorch/pytorch, role: canonical}
+  history_start: {date: 2012-01-25, note: "Earliest commits are 'initial revamp of torch7 tree' (Ronan Collobert), the imported Lua Torch TH/THC history. Caffe2 history (root 2015-06-25) was merged in 2018-03-30. The repo was created 2016-08-13. There are multiple root commits, so PyTorch-proper activity starts 2016."}
+  review:
+    current: {type: "github_pr landed by pytorchmergebot (@pytorchbot merge); ghstack and GitHub-native stacks", url: "https://github.com/pytorch/pytorch/pulls", since: 2022}
+    past: [{type: "GitHub merge button", url: "https://github.com/pytorch/pytorch/pulls", until: "2018 (approx.)"}, {type: "facebook-github-bot landing via Meta-internal Phabricator/fbcode; PR closed with 'merged this pull request in <sha>' and label 'merged'", until: "2022-06 (approx.)"}]
+    states_observable: "Landed PRs appear CLOSED, not MERGED. pytorchmergebot pushes the commit, adds the label 'Merged', and closes the PR (closed event carries commit_id). For PRs created in 2025, 410 are merged vs 18,738 closed, and 12,635 of the closed have the Merged label. is:merged mostly covers release-branch cherry-picks and dependabot. Accepted = Merged label, or a main commit with the trailer 'Pull Request resolved: <PR url>' (99 of the last 100). Rejected = closed without that label, including the stale bot (closes 90 days after the last update) and, from 2026-10, AI-triage closures. Bot reverts reopen PRs."
+    access: "GitHub REST/GraphQL API (label and event queries); commit trailers 'Pull Request resolved:' and 'Approved by:'"
+  issues:
+    current: {type: github_issues, url: "https://github.com/pytorch/pytorch/issues", since: 2016-08}
+    past: []
+    access: "GitHub REST/GraphQL API. AI-based issue triage and labelling was documented 2026-10-02."
+  license: {spdx: BSD-3-Clause, changes: []}
+  governance: "Foundation: PyTorch Foundation under the Linux Foundation since 2022-09-12. Technical decisions rest with maintainers (codified technical governance); Meta is the largest contributor."
+  ai_policy: {status: disclosure, date: 2026-01-28, url: "https://github.com/pytorch/pytorch/blob/main/AI_POLICY.md"}
+  notes: "'AI-Assisted Development' section plus template update 2026-01-28 (#173670); standalone AI_POLICY.md 2026-07-15 (#189178). The policy requires AI-generated text to be disclosed and contained (the PR template has an 'Agent details' section), no raw AI replies, and no fully autonomous agents. Metric distortions: ghstack (gh/<user>/<n>/base|head branches; one PR per commit); all main commits are committed by 'PyTorch MergeBot'; Meta-internal diffs carry 'Differential Revision: D...' (about 15 of the last 100); CLA. Since 2026-09-01 (#195048), GreenLight (pytorchgreenlight[bot], an AI reviewer) can approve PRs by merge_rules.yaml authors without human review. Since 2026-10-02 (#198527), an AI-triage, automated-review, and label lifecycle closes PRs lacking an 'actionable' issue. Caffe2's LICENSE lineage was relicensed to Apache on 2017-09-28 before the merge. pyproject now declares a compound expression for bundled code, so GitHub shows NOASSERTION; the top-level LICENSE is BSD-3-Clause-style."
+  confidence: high
+  sources: ["https://github.com/pytorch/pytorch/blob/main/CONTRIBUTING.md", "https://github.com/pytorch/pytorch/pull/173670", "https://github.com/pytorch/pytorch/pull/189178", "https://github.com/pytorch/pytorch/pull/195048", "https://github.com/pytorch/pytorch/pull/198527", "https://github.com/pytorch/pytorch/wiki/Bot-commands", "https://www.linuxfoundation.org/press/press-release/meta-transitions-pytorch-to-the-linux-foundation", "https://pytorch.org/blog/pytorchfoundation/"]
+
+- id: transformers
+  canonical_repo: {url: "https://github.com/huggingface/transformers", vcs: git}
+  github: {slug: huggingface/transformers, role: canonical}
+  history_start: {date: 2018-10-29, note: "'Initial commit' (Thomas Wolf); the repo was created the same day. The project was renamed from pytorch-pretrained-BERT to pytorch-transformers (v1.0.0, 2019-07-16) and then to transformers (v2.0.0, 2019-09-26); old names redirect."}
+  review:
+    current: {type: github_pr, url: "https://github.com/huggingface/transformers/pulls", since: 2018-11}
+    past: []
+    states_observable: "Reliable. PRs are squash-merged in the GitHub UI: all of the last 100 main commits are GitHub-committed. 2025: 3,861 merged vs 1,630 closed. From 2026-11-10, PRs not tied to an eligible issue (one labelled triaged, contributions-welcome, or New model) are closed by rule, so closure shares will jump."
+    access: "GitHub REST/GraphQL API; GH Archive"
+  issues:
+    current: {type: github_issues, url: "https://github.com/huggingface/transformers/issues", since: 2018-11}
+    past: []
+    access: "GitHub REST/GraphQL API"
+  license: {spdx: Apache-2.0, changes: []}
+  governance: "Company: Hugging Face, Inc."
+  ai_policy: {status: conditions, date: 2026-03-22, url: "https://github.com/huggingface/transformers/blob/main/CONTRIBUTING.md"}
+  notes: "Timeline: on 2026-03-22 (#44890, 'big angry code agent warnings'), first-time contributors were asked not to use code agents, autonomous agents not to open PRs or issues, agent-written PRs were said to be likely closed, and users could be blocked. On 2026-11-10 (#49783) that text was replaced by strict issue-gating contribution rules, with agent instructions moved to AGENTS.md (first added 2025-06-10, #38734). No explicit disclosure requirement was found. Diff-size distortion: generated modeling_*.py files are committed alongside modular_*.py sources, plus 'Copied from' syncs, so large mechanical diffs and model-addition PRs dominate line counts. The start date of the modular converter is unverified."
+  confidence: high
+  sources: ["https://github.com/huggingface/transformers/pull/44890", "https://github.com/huggingface/transformers/pull/49783", "https://github.com/huggingface/transformers/pull/38734", "https://github.com/huggingface/transformers/releases/tag/v1.0.0", "https://github.com/huggingface/transformers/releases/tag/v2.0.0"]
+
+- id: vite
+  canonical_repo: {url: "https://github.com/vitejs/vite", vcs: git}
+  github: {slug: vitejs/vite, role: canonical}
+  history_start: {date: 2020-04-20, note: "'init' (Evan You); the repo was created 2020-04-21."}
+  review:
+    current: {type: github_pr, url: "https://github.com/vitejs/vite/pulls", since: 2020-04}
+    past: []
+    states_observable: "Reliable. PRs are squash-merged: all of the last 100 main commits are GitHub-committed. 2025: 858 merged vs 251 closed. From 2026-08-21 a bot workflow (bot.yml) and the AI policy allow direct closure."
+    access: "GitHub REST/GraphQL API; GH Archive"
+  issues:
+    current: {type: github_issues, url: "https://github.com/vitejs/vite/issues", since: 2020-04-21}
+    past: []
+    access: "GitHub REST/GraphQL API"
+  license: {spdx: MIT, changes: []}
+  governance: "Run by the Vite core team, with no formal governance document on vite.dev/team; Evan You is the creator. VoidZero Inc. (Evan You's company) employed several core members, and VoidZero joined Cloudflare on 2026-06-04. Vite's blog says team governance and the MIT license are unchanged, and Cloudflare added a $1M ecosystem fund administered by the Vite team."
+  ai_policy: {status: conditions, date: 2026-08-21, url: "https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md#ai-policy"}
+  notes: "AI Policy (#23311, 2026-08-21), adapted from Nuxt: 'Never let an LLM speak for you / think for you'. Violations may be closed directly, and the PR template points AI users to the policy. There is no mandatory disclosure. The repo is a pnpm monorepo (packages/vite, create-vite, plugin-legacy, playground), with heavy dependency-bot PRs. Corporate-ownership changes on 2024-10 (VoidZero) and 2026-06 (Cloudflare) are potential break points."
+  confidence: high
+  sources: ["https://github.com/vitejs/vite/pull/23311", "https://vite.dev/blog/cloudflare-supports-vite", "https://vite.dev/team", "https://voidzero.dev/posts/voidzero-cloudflare"]
+
+- id: django
+  canonical_repo: {url: "https://github.com/django/django", vcs: git}
+  github: {slug: django/django, role: canonical}
+  history_start: {date: 2005-07-13, note: "The first commits import Django from a private SVN ('created from r. 8825'), so pre-public history is absent. Public SVN (2005-2012) was converted with git-svn and Django moved to GitHub 2012-04-27/28. SVN branch-merge information was not preserved."}
+  review:
+    current: {type: "github_pr + Trac ticket triage (Unreviewed / Accepted / Ready for checkin)", url: "https://github.com/django/django/pulls", since: 2012-04}
+    past: [{type: "patches attached to Trac tickets", url: "https://code.djangoproject.com/", until: 2012-04}]
+    states_observable: "Era-dependent. From 2012 to about 2018, mergers committed from the CLI and closed PRs with 'merged in <sha>' comments, so accepted PRs show CLOSED. In 2013 there were 321 merged vs 1,181 closed, and all 8 sampled 2014 closed PRs had in fact been merged. Recent years are mostly reliable (2022: 777 merged vs 356 closed), but about 20% of recent main commits (8 of 40) have no associated PR. Authoritative acceptance is the Trac resolution (fixed, wontfix, duplicate, etc.) plus 'Fixed #N --' or 'Refs #N --' in commit messages. PRs created in 2026 so far: 804 closed vs 663 merged, a rising rejection share."
+    access: "GitHub API for PRs; Trac query, report, and ticket export as CSV/TSV/RSS (?format=csv / ?format=tab)"
+  issues:
+    current: {type: trac, url: "https://code.djangoproject.com/", since: 2005}
+    past: []
+    access: "Trac web export (CSV/TSV/RSS). GitHub Issues are disabled on django/django. Feature proposals go to the GitHub repo django/new-features, created 2025-04-23. Moving off Trac has been debated since 2024 with no decision (forum posts through 2026-07-25)."
+  license: {spdx: BSD-3-Clause, changes: []}
+  governance: "Foundation: Django Software Foundation (est. 2008) with paid Fellows. Technical direction from the Steering Council and mergers."
+  ai_policy: {status: disclosure, date: 2026-01-08, url: "https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/submitting-patches/#ai-assisted-contributions"}
+  notes: "Code policy: PR #19594 (opened 2025-06-25, merged 2026-01-08) added the 'AI-Assisted Contributions' docs section and a mandatory PR-template disclosure checkbox. It bans requesting automated AI reviews on django/django and includes a 'Note for AI Tools'. Security-report guidance for AI-assisted reports was added earlier, 2025-06-17 (PR #19552). Django is the largest SWE-bench source (850 of 2,294 tasks), so benchmark exposure is heavy. History is linear (rebase, committers are Fellows), commits are backported to stable/* branches, and Trac ticket IDs in commit messages allow linkage."
+  confidence: high
+  sources: ["https://github.com/django/django/pull/19594", "https://github.com/django/django/pull/19552", "https://www.holovaty.com/writing/django-github", "https://forum.djangoproject.com/t/discuss-migrating-off-of-trac-onto-something-else/36253", "https://github.com/django/new-features", "https://arxiv.org/abs/2310.06770"]
+
+- id: rails
+  canonical_repo: {url: "https://github.com/rails/rails", vcs: git}
+  github: {slug: rails/rails, role: canonical}
+  history_start: {date: 2004-11-24, note: "'Initial' (David Heinemeier Hansson). SVN history from 2004 was converted when Rails moved to git and GitHub (announced 2008-04-02; on GitHub 2008-04-11). Pre-release Basecamp-era code is absent."}
+  review:
+    current: {type: github_pr, url: "https://github.com/rails/rails/pulls", since: 2011-05}
+    past: [{type: "patches on Trac (dev.rubyonrails.org)", until: 2008-04}, {type: "patches on Lighthouse (rails.lighthouseapp.com)", until: 2011-05}]
+    states_observable: "Reliable. GitHub merges with merge commits are used (41 of the last 100), and all 30 sampled recent non-merge commits map to PRs. 2025: 1,214 merged vs 350 closed. The first GitHub PR (#4) dates from 2010-09, so 2010-09 to 2011-05 overlaps with Lighthouse."
+    access: "GitHub REST/GraphQL API; GH Archive"
+  issues:
+    current: {type: github_issues, url: "https://github.com/rails/rails/issues", since: 2011-05}
+    past: [{type: "Trac (dev.rubyonrails.org)", until: 2008-04}, {type: "Lighthouse (opened 2008-04-15)", until: 2011-05}]
+    access: "GitHub API. Lighthouse tickets were archived. In issue #404 (2011-05-05) DHH asked for volunteers to port them; whether a bulk migration happened is unverified."
+  license: {spdx: MIT, changes: []}
+  governance: "Rails Core Team (DHH, creator); the Rails Foundation (non-profit, launched 2022-11-14; corporate members including 37signals, Shopify, and GitHub) funds the ecosystem and documentation."
+  ai_policy: {status: none_found, date: null, url: null}
+  notes: "No AI-contribution policy was found in CONTRIBUTING.md, the 'Contributing to Ruby on Rails' guide, or the PR template. AGENTS.md (a codebase guide for AI agents, not a policy) was committed 2026-03-31 (authored 2025-10-23). Rails is a monorepo of gems (activerecord, actionpack, etc.). Backports to *-stable branches duplicate commits."
+  confidence: high
+  sources: ["https://rubyonrails.org/2008/4/2/rails-is-moving-from-svn-to-git", "https://rubyonrails.org/2008/4/11/rails-premieres-on-github", "https://rubyonrails.org/2008/4/15/rails-and-family-on-lighthouse", "https://github.com/rails/rails/issues/404", "https://rubyonrails.org/2022/11/14/the-rails-foundation", "https://github.com/rails/rails/blob/main/AGENTS.md"]

@@ -1,0 +1,14 @@
+{
+  "source": "criticality_score",
+  "run_id": "20261113T045213Z",
+  "entries": [
+    {
+      "url": "https://raw.githubusercontent.com/ossf/criticality_score/main/data/20250725_all.csv.gz",
+      "file": "data/raw/criticality_score/20261113T045213Z/20250725_all.csv.gz",
+      "retrieved_at": "2026-11-13T04:52:41+00:00",
+      "bytes": 119125649,
+      "sha256": "c34a8550b8afce33f318c97b0f0fa5edb22393faf8d7bb467906815a55632685",
+      "git_sha": "4f914f36f7a78bebe768bd0c3b4b40fbe0e6dd78"
+    }
+  ]
+}

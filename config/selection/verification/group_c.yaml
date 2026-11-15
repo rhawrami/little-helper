@@ -1,0 +1,249 @@
+# Group C verification, 2026-11-12. Counts and dates come from gh REST/GraphQL queries run on 2026-11-12
+# unless a source URL is given. "derived" means it was inferred from API data, not taken from project docs.
+# PR counts below are all-time GraphQL totals (open/closed-unmerged/merged).
+
+- id: systemd
+  canonical_repo: {url: "https://github.com/systemd/systemd", vcs: git}
+  github: {slug: systemd/systemd, role: canonical}
+  history_start: {date: 2005-04-27, note: "Oldest reachable commit (f0083e3d4e, Greg KH, 'added initial files') is udev history, merged into systemd in April 2012. systemd's own first commit is 6091827530 'initial commit', 2009-11-17 (Lennart Poettering). Use 2009-11-17 as the start of systemd proper. About 94.2k commits on main."}
+  review:
+    current: {type: "GitHub PRs, merged by maintainers (merge, squash, or rebase all allowed); no merge queue", url: "https://github.com/systemd/systemd/pulls", since: 2015-06}
+    past: [{type: "Patches on the systemd-devel mailing list; git on freedesktop.org", url: "https://lists.freedesktop.org/archives/systemd-devel/", until: 2015-06}]
+    states_observable: "Reliable: MERGED means accepted. Closed-unmerged is a small share (about 12%; 25,600 merged vs 3,657 closed-unmerged), and none of the sampled closures came from bots or landing commits."
+    access: "GitHub REST/GraphQL and GH Archive; systemd-devel archives (pipermail) for pre-2015 review."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/systemd/systemd/issues", since: 2015-06}
+    past: [{type: "freedesktop.org Bugzilla (bugs.freedesktop.org); old bugs not migrated, new systemd bugs blocked there from ~2015", until: 2015-07}]
+    access: "GitHub API. The fd.o Bugzilla archive is unverified (fd.o has since retired Bugzilla)."
+  license: {spdx: "LGPL-2.1-or-later (udev parts GPL-2.0-or-later; GitHub reports GPL-2.0)", changes: [{date: 2012-04-12, from: GPL-2.0-or-later, to: "LGPL-2.1-or-later (commit 5430f7f2bc 'relicense to LGPLv2.1 (with exceptions)')"}]}
+  governance: "Independent volunteer and multi-company core team (maintainers employed at Microsoft, Meta, Red Hat, etc.); no foundation. Poettering said in 2015 the project would not become a company or foundation."
+  ai_policy: {status: conditions, date: 2025-07-14, url: "https://github.com/systemd/systemd/blob/main/docs/CONTRIBUTING.md#policy-on-the-use-of-large-language-models-llms-and-ai-tooling"}
+  notes: "AI policy has changed several times. 2025-07-14 (cb372a3ce4): disclosure required in commits and PR. 2026-03-13 (bbd707a882): disclosure via a 'Co-developed-by: <model>' trailer. 2026-06-17 (27c5a2f2d7): reversed; AI may NOT be credited as author or co-author, so disclosure trailers stop. 2026-10-03 and 10-27: AI may not communicate for you (PRs, comments, mailing list), with a warning on the first violation and a ban on the second. Expect Co-developed-by AI trailers only from about March to June 2026. Stable backports for versions below 256 live in a separate repo, systemd/systemd-stable; v256+ use vNNN-stable branches in the main repo. The udev history before 2009 inflates early commit counts."
+  confidence: high
+  sources: ["https://lists.freedesktop.org/archives/systemd-devel/2015-June/032820.html", "https://lists.freedesktop.org/archives/systemd-devel/2015-July/033631.html", "https://github.com/systemd/systemd/blob/main/LICENSES/README.md", "https://github.com/systemd/systemd/commits/main/docs/CONTRIBUTING.md"]
+
+- id: nodejs
+  canonical_repo: {url: "https://github.com/nodejs/node", vcs: git}
+  github: {slug: nodejs/node, role: canonical}
+  history_start: {date: 2009-02-16, note: "First commit 9d7895c567 (Ryan Dahl, 'add dependencies'). History is complete. Repo created 2014-11-26 as io.js and merged with the joyent/node history in 2015. About 49.5k commits."}
+  review:
+    current: {type: "GitHub PRs, landed by the commit-queue (GitHub Actions + @node-core/utils) or manually with 'git node land'", url: "https://github.com/nodejs/node/blob/main/doc/contributing/commit-queue.md", since: 2014-11}
+    past: [{type: "joyent/node GitHub PRs (repo now archived as nodejs/node-v0.x-archive: 3,526 closed-unmerged, 218 merged)", url: "https://github.com/nodejs/node-v0.x-archive", until: 2015-09}]
+    states_observable: "UNRELIABLE before ~2021-11. Landers rewrote commits (adding PR-URL/Reviewed-By metadata), so most accepted PRs show CLOSED with a 'Landed in <sha>' comment (22 of 30 sampled 2019 closed PRs). Since 2021-10-30 (commit 80b8440656) the commit-queue uses GitHub squash-merge, so most landings are MERGED by nodejs-github-bot. Multi-commit and manual landings still show CLOSED with 'Landed in' (20 of 60 sampled 2025 closed PRs). Classify acceptance with commit 'PR-URL:' trailers."
+    access: "GitHub REST/GraphQL; PR-URL trailers in git log give an exact commit-to-PR mapping."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/nodejs/node/issues", since: 2014-11}
+    past: [{type: "joyent/node GitHub issues (archived in nodejs/node-v0.x-archive, 6,371 issues)", until: 2015-09}]
+    access: "GitHub API for both repos."
+  license: {spdx: "MIT (GitHub reports NOASSERTION because LICENSE bundles third-party licenses)", changes: []}
+  governance: "OpenJS Foundation (formed 2019-03 from the merger of the Node.js Foundation, est. 2015, and the JS Foundation); TSC-led."
+  ai_policy: {status: disclosure, date: 2026-08-12, url: "https://github.com/nodejs/node/blob/main/doc/contributing/ai-guidelines.md"}
+  notes: "AI policy PR #62105 was opened 2026-03-04 and merged 2026-08-12 after a TSC vote (nodejs/TSC#1831) and the OpenJS Foundation AI Coding Assistants Policy (~2026-03). It says contributors 'should' disclose and verify, bans PRs opened by automated tooling unless pre-approved, bans AI on good-first-issues, and recommends not naming commercial AI brands in commit messages, which will suppress tool-name trailers. Squash-dominant since 2021. nodejs-github-bot authors dependency-update PRs (filter it out). The yearly merged/closed ratio flips in 2022 (2021: 756 merged / 2,032 closed; 2022: 1,922 / 1,094); this is a tooling artifact, not a change in acceptance."
+  confidence: high
+  sources: ["https://github.com/nodejs/node/blob/main/doc/contributing/ai-guidelines.md", "https://github.com/nodejs/node/pull/62105", "https://github.com/nodejs/TSC/issues/1831", "https://github.com/nodejs/node/commit/80b8440656", "https://github.com/nodejs/node-v0.x-archive"]
+
+- id: rust
+  canonical_repo: {url: "https://github.com/rust-lang/rust", vcs: git}
+  github: {slug: rust-lang/rust, role: canonical}
+  history_start: {date: 2010-06-16, note: "'Initial git commit.' c01efc669f (Graydon Hoare). Pre-2010 private history is not included. About 347k commits on main, inflated by subtree/josh syncs (clippy, miri, rustfmt, rust-analyzer, stdarch, compiler-builtins, cg_clif, cg_gcc, rustc-dev-guide) that import other repos' commits."}
+  review:
+    current: {type: "GitHub PRs gated by a custom merge bot: new bors (rust-lang/bors, account rust-bors), with rollups", url: "https://github.com/rust-lang/bors", since: 2026-01}
+    past:
+      - {type: "Manual merges by core devs", url: "https://github.com/rust-lang/rust/pulls", until: 2013-02}
+      - {type: "bors (original Python bot, later homu), account 'bors'", url: "https://github.com/rust-lang/homu", until: 2025-12}
+    states_observable: "Reliable: bors pushes to main and GitHub marks PRs MERGED (by bors or rust-bors), including PRs merged through rollups. Closed-unmerged includes many failed or superseded rollup PRs ('Rollup of N pull requests') opened by maintainers. Exclude these from rejection counts."
+    access: "GitHub REST/GraphQL; bors queue at bors.rust-lang.org."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/rust-lang/rust/issues", since: 2010-06}
+    past: []
+    access: "GitHub API (about 64.7k issues)."
+  license: {spdx: "MIT OR Apache-2.0", changes: [{date: 2012-12-03, from: "MIT-style/BSD-like terms", to: "MIT OR Apache-2.0 (commit 00c856c0b1)"}]}
+  governance: "Rust Project (Leadership Council, teams) plus the Rust Foundation (est. 2021-02) for legal and infrastructure. Mozilla-sponsored before 2021."
+  ai_policy: {status: conditions, date: 2026-08-05, url: "https://forge.rust-lang.org/policies/llm-usage.html"}
+  notes: "Policy confirmed (Inside Rust, 2026-08-05; Forge). It is restrictive: LLM-created code only when pre-arranged with the reviewer, non-critical, well tested, with mandatory disclosure and an 'llm-assisted' PR label. LLM-written comments, PR descriptions, and docs are banned unless clearly quoted. A circuit breaker pauses LLM PRs if over 50% of merges in 6 weeks are LLM-created. Scope is rust-lang/rust plus cargo, clippy, rustfmt, mdBook, and rustlings per Forge (the blog says rust-lang/rust only). The 'llm-assisted' label is a mineable treatment marker. The homu-to-new-bors switch shows in mergedBy (bors through 2025-12, rust-bors from 2026-01; a few rust-bors merges already in 2025-09). Use mergedBy in {bors, rust-bors}. The repo is squash-off (merge commits only)."
+  confidence: high
+  sources: ["https://forge.rust-lang.org/policies/llm-usage.html", "https://blog.rust-lang.org/inside-rust/2026/08/05/rust-langrust-is-adopting-an-llm-policy/", "https://blog.rust-lang.org/inside-rust/2026/01/13/infrastructure-team-q4-2025-recap-and-q1-2026-plan", "https://github.com/rust-lang/rust/blob/main/CONTRIBUTING.md"]
+
+- id: protobuf
+  canonical_repo: {url: "Google internal monorepo (Piper); public export at https://github.com/protocolbuffers/protobuf", vcs: git}
+  github: {slug: protocolbuffers/protobuf, role: internal_sync}
+  history_start: {date: 2008-07-10, note: "'Initial checkin.' 40ee551715 (open-source release via Google Code SVN). Earlier Google-internal history (2001-2008) is not included. Moved to GitHub 2014-08 (google/protobuf, now redirects). upb's separate history (from ~2009) was merged in 2023-08-24 (c3584c3636), inflating commit counts. About 24.8k commits."}
+  review:
+    current: {type: "GitHub PRs imported by Copybara, reviewed and landed in Google's internal repo, then exported; copybara-service also opens 'test_<CL>' presubmit PRs for internal changes", url: "https://github.com/protocolbuffers/protobuf/pulls", since: 2022-11}
+    past:
+      - {type: "GitHub PRs merged on GitHub by Googlers", url: "https://github.com/protocolbuffers/protobuf/pulls", until: 2022-11}
+      - {type: "Patches via Google Code / mailing list", url: "https://code.google.com/archive/p/protobuf", until: 2014-08}
+    states_observable: "UNRELIABLE since 2022-11-11. Accepted external PRs are CLOSED (not MERGED) by copybara-service via a commit containing 'Closes #N' and 'COPYBARA_INTEGRATE_REVIEW=<PR URL>' (622 such commits). Monthly merged PRs fell from ~80 to ~10-30 in 2022-11. copybara-service-authored PRs are presubmit vehicles closed or merged regardless of landing (2026-10: 394 closed, 267 merged), so exclude them. Classify acceptance from commit trailers."
+    access: "GitHub REST/GraphQL; git log trailers PiperOrigin-RevId and COPYBARA_INTEGRATE_REVIEW."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/protocolbuffers/protobuf/issues", since: 2014-08}
+    past: [{type: "Google Code issue tracker (code.google.com/p/protobuf); not imported", until: 2014-08}]
+    access: "GitHub API; Google Code archive (read-only, export unverified)."
+  license: {spdx: "BSD-3-Clause (GitHub reports NOASSERTION)", changes: [{date: 2008-09-24, from: Apache-2.0, to: "BSD-3-Clause (commit 24bf56fb3a)"}]}
+  governance: "Google-owned and Google-led; no foundation."
+  ai_policy: {status: conditions, date: 2026-11-09, url: "https://github.com/protocolbuffers/protobuf/blob/main/AGENTS.md"}
+  notes: "There is no AI section in CONTRIBUTING. AGENTS.md (added 2026-11-09, 3 days before this check) is addressed to AI coding agents. It says AI-generated code must be verified as rigorously as hand-written code, discourages hunting for AI-found bugs, and tells reviewers not to guess whether code is AI-generated. It is a weak and very new treatment. Committers are mostly 'Copybara-Service' and 'Protobuf Team Bot', so committer identity is meaningless and author identity is preserved. Release branches (NN.x) are in the same repo."
+  confidence: high
+  sources: ["https://github.com/protocolbuffers/protobuf/blob/main/CONTRIBUTING.md", "https://github.com/protocolbuffers/protobuf/blob/main/AGENTS.md", "https://github.com/protocolbuffers/protobuf/commit/c1a42b34e5", "https://github.com/protocolbuffers/protobuf/commit/c3584c3636"]
+
+- id: grpc
+  canonical_repo: {url: "Google internal monorepo (Piper) since 2023-11; public at https://github.com/grpc/grpc", vcs: git}
+  github: {slug: grpc/grpc, role: internal_sync}
+  history_start: {date: 2014-11-22, note: "'Empty repository.' 0e905e63db (Nicolas Noble), followed by an internal import on 2014-11-27. Pre-release internal (Stubby-derived) history is not included. The repo holds C-core, C++, Python, Ruby, PHP, C#, and ObjC; Java, Go, and Node live in separate repos. About 59.2k commits."}
+  review:
+    current: {type: "GitHub PRs imported by Copybara and landed internally, then exported", url: "https://github.com/grpc/grpc/pulls", since: 2023-11}
+    past: [{type: "GitHub PRs merged on GitHub (squash)", url: "https://github.com/grpc/grpc/pulls", until: 2023-11}]
+    states_observable: "UNRELIABLE since 2023-11-13. Monthly merged PRs fell from ~170-230 to ~20-60 and closed-unmerged rose to 100-280. Accepted PRs are CLOSED by copybara-service via a commit with 'Closes #N' and 'COPYBARA_INTEGRATE_REVIEW=' (3,128 commits; 74 of 100 sampled 2025 human closed-unmerged PRs). Before 2023-11, MERGED means accepted. Exclude copybara-service-authored PRs."
+    access: "GitHub REST/GraphQL; git trailers PiperOrigin-RevId and COPYBARA_INTEGRATE_REVIEW."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/grpc/grpc/issues", since: 2015-01}
+    past: []
+    access: "GitHub API."
+  license: {spdx: "Apache-2.0 (LICENSE also carries BSD-3-Clause and MPL-2.0 texts for third-party parts)", changes: [{date: 2017-06-07, from: BSD-3-Clause, to: "Apache-2.0 (commit 312ea4a187, after joining CNCF)"}]}
+  governance: "Google-led; CNCF Incubating project (accepted 2017-02-16, still incubating)."
+  ai_policy: {status: conditions, date: 2026-08-20, url: "https://github.com/grpc/grpc/blob/master/CONTRIBUTING.md"}
+  notes: "Policy added in PR #43264 (2026-08-20). It bans AI-generated interactions (comments and communication must be human; translation and writing help excepted) and bans automated agents publishing to GitHub. Authors must own and understand AI-generated code and comply with the Linux Foundation Generative AI Policy. No disclosure requirement. Default branch is 'master'. Squash-only on GitHub. Release branches v1.NN.x are in the same repo."
+  confidence: high
+  sources: ["https://github.com/grpc/grpc/blob/master/CONTRIBUTING.md", "https://github.com/grpc/grpc/pull/43264", "https://www.cncf.io/projects/grpc/", "https://github.com/grpc/grpc/commit/f11c010e51"]
+
+- id: redis
+  canonical_repo: {url: "https://github.com/redis/redis", vcs: git}
+  github: {slug: redis/redis, role: canonical}
+  history_start: {date: 2009-03-22, note: "'first commit' ed9b544e10 (antirez), an initial import of the early-2009 code; effectively complete. Repo moved from antirez/redis to redis/redis around 2020-07. About 13.4k commits on 'unstable'."}
+  review:
+    current: {type: "GitHub PRs (squash/rebase; merge commits disabled); Redis CLA required", url: "https://github.com/redis/redis/pulls", since: 2010-09}
+    past: [{type: "Patches via Google Group or mailing list to antirez", url: "https://groups.google.com/g/redis-db", until: 2011}]
+    states_observable: "Mostly reliable: MERGED means accepted. In the antirez era (to ~2018), closed-unmerged far exceeds merged (2013: 36 merged / 181 closed). Manual cherry-picks were rare in a sample (2 of 60 closed PRs from 2014-15 mention merging), so closed-unmerged mostly means not accepted."
+    access: "GitHub REST/GraphQL."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/redis/redis/issues", since: 2010-01}
+    past: [{type: "Google Code issue tracker (code.google.com/p/redis/issues); BUGS file switched to GitHub 2011-10-18", until: 2011-10}]
+    access: "GitHub API; Google Code archive (not imported)."
+  license: {spdx: "LicenseRef-RSALv2 OR SSPL-1.0 OR AGPL-3.0-only (AGPL version suffix not stated explicitly; Redis says 'AGPLv3')", changes: [{date: 2024-03-20, from: BSD-3-Clause, to: "RSALv2 OR SSPL-1.0 (commit 0b34396924, PR #13157; applies to 7.4+; 7.2 and earlier stay BSD)"}, {date: 2025-05-01, from: "RSALv2 OR SSPL-1.0", to: "RSALv2 OR SSPL-1.0 OR AGPLv3 (commit d65102861f, PR #13997; Redis 8.0; LICENSE text fixed GPLv3 to AGPLv3 on 2025-05-06)"}]}
+  governance: "Company-led by Redis Ltd (formerly Redis Labs). antirez was BDFL until stepping back in 2020-06 and rejoined Redis in 2024-12. Contributions require the Redis Software Grant and CLA."
+  ai_policy: {status: none_found, date: null, url: null}
+  notes: "Code search found no AI, LLM, or generative text in CONTRIBUTING, AGENTS.md, or the PR template. The 2024 license change caused the Valkey fork, and contributor and maintainer flight to Valkey is a structural break in 2024-03. Redis source headers now also carry 'Copyright (c) 2024-present, Valkey contributors' (code flows back from Valkey). The default branch is 'unstable'. Release branches (7.x, 8.x) are in the same repo. Redis Stack modules live in other repos and were folded into Redis 8."
+  confidence: high
+  sources: ["https://github.com/redis/redis/pull/13157", "https://github.com/redis/redis/pull/13997", "https://redis.io/blog/agplv3/", "https://github.com/redis/redis/blob/unstable/LICENSE.txt", "https://github.com/redis/redis/commit/61e02c4f6c"]
+
+- id: valkey
+  canonical_repo: {url: "https://github.com/valkey-io/valkey", vcs: git}
+  github: {slug: valkey-io/valkey, role: canonical}
+  history_start: {date: 2009-03-22, note: "Inherits the full Redis history up to the fork point e64d91c371 (Redis 'unstable', 2024-03-20), the commit immediately before Redis's license-change commit. Valkey's own commits start 2024-03-22 (Madelyn Olson). Repo created 2024-03-22. Use 2024-03-22 as the project start."}
+  review:
+    current: {type: "GitHub PRs (squash/rebase); DCO sign-off", url: "https://github.com/valkey-io/valkey/pulls", since: 2024-03}
+    past: []
+    states_observable: "Reliable: MERGED means accepted (2,557 merged / 608 closed-unmerged / 457 open). Pre-fork review history is in redis/redis."
+    access: "GitHub REST/GraphQL."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/valkey-io/valkey/issues", since: 2024-03}
+    past: []
+    access: "GitHub API."
+  license: {spdx: BSD-3-Clause, changes: []}
+  governance: "Linux Foundation project, announced 2024-03-28 with backing from AWS, Google Cloud, Oracle, Ericsson, and Snap, led initially by Madelyn Olson (AWS); open governance with a multi-company TSC (current TSC membership not verified)."
+  ai_policy: {status: conditions, date: 2026-10-08, url: "https://github.com/valkey-io/valkey/blob/unstable/CONTRIBUTING.md#use-of-ai-tools"}
+  notes: "AI policy (PR #4844, 2026-10-08) is permissive: no limits on AI tooling as long as quality is met and the author owns the code. No disclosure required. AGENTS.md for steering agents was added 2026-03-18. Inherited commit messages reference redis/redis PR numbers like '(#13154)', which collide with Valkey's own PR numbers below ~#5100, so resolve PR references by date and repo. Default branch 'unstable'."
+  confidence: high
+  sources: ["https://www.linuxfoundation.org/press/linux-foundation-launches-open-source-valkey-community", "https://github.com/valkey-io/valkey/pull/4844", "https://github.com/valkey-io/valkey/blob/unstable/COPYING"]
+
+- id: nginx
+  canonical_repo: {url: "https://github.com/nginx/nginx", vcs: git}
+  github: {slug: nginx/nginx, role: canonical}
+  history_start: {date: 2002-08-06, note: "'nginx-0.0.1-2002-08-06-20:39:45 import' 6de5c2cb63 (Igor Sysoev). The full Mercurial history is present (about 8.8k commits) because GitHub was a read-only hg mirror from 2015-06 before becoming canonical. The earliest commits are snapshot imports."}
+  review:
+    current: {type: "GitHub PRs (rebase merge only)", url: "https://github.com/nginx/nginx/pulls", since: 2024-09}
+    past: [{type: "Patches (hg export) on the nginx-devel mailing list; hg.nginx.org Mercurial", url: "https://mailman.nginx.org/pipermail/nginx-devel/", until: 2024-12}]
+    states_observable: "Reliable from 2024-09-06: MERGED means accepted (333 merged). The 88 PRs from 2015 to 2024-08 were auto-closed by a mirror bot ('does not use GitHub for code submissions'), so exclude them. Mailing-list patch acceptance before 2024-09 must be reconstructed from list archives and hg commits."
+    access: "GitHub REST/GraphQL; mailman.nginx.org pipermail archives (mailing lists retired 2025-09-30, archives kept)."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/nginx/nginx/issues", since: 2024-09}
+    past: [{type: "Trac (trac.nginx.org), now read-only; tickets not migrated", until: 2024-09}]
+    access: "GitHub API; Trac query CSV/RSS export (read-only portal; export not tested)."
+  license: {spdx: BSD-2-Clause, changes: []}
+  governance: "Company-led by F5 (acquired NGINX Inc. in 2019)."
+  ai_policy: {status: none_found, date: null, url: null}
+  notes: "Move announced 2024-09-06 (nginx-announce, Roman Arutyunyan). Mailing-list patches were accepted until 2024-12-31. Trac shows 'maintained in read-only mode' (its last wiki edit was 2024-09-04; exact freeze date unverified). Forks: freenginx (Maxim Dounin, 2024-02) and Angie split off core developers, a break around 2022-2024. Only about 674 GitHub issues so far."
+  confidence: high
+  sources: ["https://mailman.nginx.org/pipermail/nginx-announce/2024/ITL3AOQSAJANFJXMM3VOVOIGOUADWFFK.html", "https://blog.nginx.org/blog/nginx-open-source-moves-to-github", "https://trac.nginx.org/nginx/", "https://github.com/nginx/nginx/pull/1"]
+
+- id: kubernetes
+  canonical_repo: {url: "https://github.com/kubernetes/kubernetes", vcs: git}
+  github: {slug: kubernetes/kubernetes, role: canonical}
+  history_start: {date: 2014-06-06, note: "'First commit' 2c4b3a562c (Joe Beda). Google-internal Borg/Omega predecessors are not included. Originally GoogleCloudPlatform/kubernetes (redirects). About 143.6k commits."}
+  review:
+    current: {type: "GitHub PRs via Prow: /lgtm and /approve labels from OWNERS, merged by Tide (k8s-ci-robot)", url: "https://www.kubernetes.dev/docs/guide/pull-requests/", since: 2018-09}
+    past:
+      - {type: "mungegithub submit-queue bot (k8s-github-robot)", url: "https://github.com/kubernetes/contrib", until: 2018-08}
+      - {type: "Manual merges by maintainers", url: "https://github.com/kubernetes/kubernetes/pulls", until: 2015-12}
+    states_observable: "Reliable: all merges are MERGED by the bot (k8s-ci-robot since 2018-09). Closed-unmerged includes many PRs auto-closed by k8s-ci-robot lifecycle rotting (34 of 69 sampled 2025 closures), so separate stale closures from human rejections by the closing actor."
+    access: "GitHub REST/GraphQL; Prow/Tide status and labels; devstats.k8s.io."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/kubernetes/kubernetes/issues", since: 2014-06}
+    past: []
+    access: "GitHub API; devstats."
+  license: {spdx: Apache-2.0, changes: []}
+  governance: "CNCF (accepted 2016-03-10, graduated 2018-03-06); SIG and Steering Committee governance; Google-originated."
+  ai_policy: {status: disclosure, date: 2025-11-08, url: "https://www.kubernetes.dev/docs/guide/pull-requests/#ai-guidance"}
+  notes: "AI guidance was first added 2025-11-08 (kubernetes/community 517ff584eb), asking for disclosure in 'Special notes'. It was tightened 2026-04-01 (PR #8918): disclosure is required in the PR description, AI may not be listed as co-author, and 'assisted-by'/'co-developed' or similar trailers are forbidden. AI-generated commit messages and large AI PRs are not allowed. An example disclosure was added 2026-04-15, and the PR template got an AI disclosure field 2026-08-05. So AI use must be mined from PR bodies, not commit trailers. The staging/src/k8s.io/* dirs are published by publishing-bot to read-only repos (client-go, api, apimachinery, ...), so don't count PRs there. 'Automated cherry pick of #N' PRs to release-1.x branches duplicate changes. Squash happens via the tide/merge-method-squash label; otherwise merge commits are used."
+  confidence: high
+  sources: ["https://github.com/kubernetes/community/blob/master/contributors/guide/pull-requests.md", "https://github.com/kubernetes/community/pull/8918", "https://www.cncf.io/projects/kubernetes/", "https://www.kubernetes.dev/docs/guide/pull-requests/"]
+
+- id: containerd
+  canonical_repo: {url: "https://github.com/containerd/containerd", vcs: git}
+  github: {slug: containerd/containerd, role: canonical}
+  history_start: {date: 2015-11-05, note: "'Initial commit' 15a96783ca (Michael Crosby, at Docker). The containerd/cri history was merged in on 2020-10-07 (PR #4593), so commit messages reference cri-repo PR numbers. About 17.6k commits."}
+  review:
+    current: {type: "GitHub PRs with GitHub merge queue (merge commit/rebase); 2 maintainer approvals", url: "https://github.com/containerd/containerd/pulls", since: 2023-06}
+    past: [{type: "GitHub PRs merged directly by maintainers", url: "https://github.com/containerd/containerd/pulls", until: 2023-06}]
+    states_observable: "Reliable: MERGED means accepted. The merge queue records mergedBy as the human who queued, so it adds no bot artifact."
+    access: "GitHub REST/GraphQL; devstats (CNCF)."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/containerd/containerd/issues", since: 2015-12}
+    past: []
+    access: "GitHub API."
+  license: {spdx: Apache-2.0, changes: []}
+  governance: "CNCF (accepted 2017-03-29, graduated 2019-02-28); originated at Docker; multi-company maintainers."
+  ai_policy: {status: conditions, date: 2026-03-23, url: "https://github.com/containerd/containerd/blob/main/CONTRIBUTING.md#automated-and-ai-generated-contributions"}
+  notes: "AI section added 2026-03-23 (ac48063835). PRs must be opened by a human, automation needs maintainer approval, and AI-generated code, descriptions, or comments must be human-reviewed. No disclosure requirement. AGENTS.md is also present. Merge-queue CI was added 2023-04-28 and the queue enabled about 2023-06 (PR #8692); exact enable date is derived. Release branches release/1.x and 2.x are in the same repo. Many related repos (nerdctl, cri, ttrpc) are separate."
+  confidence: high
+  sources: ["https://github.com/containerd/containerd/blob/main/CONTRIBUTING.md", "https://www.cncf.io/projects/containerd/", "https://github.com/containerd/containerd/pull/4593", "https://github.com/containerd/containerd/pull/8692"]
+
+- id: react
+  canonical_repo: {url: "https://github.com/react/react (formerly facebook/react; redirects)", vcs: git}
+  github: {slug: react/react, role: canonical}
+  history_start: {date: 2013-05-29, note: "'Initial public release' 75897c2dcd. React's internal Facebook history (2011-2013) is not included. About 21.8k commits."}
+  review:
+    current: {type: "GitHub PRs, squash-only; core team often uses Sapling stacked PRs", url: "https://github.com/react/react/pulls", since: 2013-05}
+    past: []
+    states_observable: "Reliable: GitHub is the source of truth and MERGED means accepted. Meta consumes builds downstream through DiffTrain (runtime_commit_artifacts workflow pushing to builds/facebook-www and builds/facebook-fbsource branches), not by landing PRs internally. Closed-unmerged includes stale-bot closures by github-actions (29 of 100 sampled 2025 closures) and abandoned Sapling stack PRs."
+    access: "GitHub REST/GraphQL."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/react/react/issues", since: 2013-05}
+    past: []
+    access: "GitHub API."
+  license: {spdx: MIT, changes: [{date: 2014-10-09, from: Apache-2.0, to: "BSD-3-Clause + PATENTS grant (commit dcf415c2b9)"}, {date: 2017-09-24, from: "BSD-3-Clause + PATENTS", to: "MIT (commit b765fb25eb; shipped with React 16)"}]}
+  governance: "Meta-led until 2026. React Foundation (Linux Foundation) announced 2025-10-07 and launched 2026-02-24; it owns React, React Native, and JSX. Repos moved from the facebook org to the react org around early June 2026 (reported 2026-06-10; PR #36752 on 2026-06-11 updated package.json URLs). Technical governance is a provisional leadership council."
+  ai_policy: {status: none_found, date: null, url: null}
+  notes: "SURPRISE: the canonical slug is now react/react, but the gh API still resolves facebook/react via redirect, and old URLs and commit references use facebook/react. In 2026 merges dropped and closures rose sharply (569 merged / 819 closed-unmerged vs 1,417 / 676 in 2025), possibly AI-PR influx or a team transition; uninvestigated. Third-party AI review bots (e.g. 'Orb Code Review') post spam comments on old PRs in 2026, which distorts comment and review metrics. Exclude bot branches builds/* and dependabot. No AI text found in CONTRIBUTING (5 lines, links to legacy docs), the PR template, or react.dev."
+  confidence: medium
+  sources: ["https://react.dev/blog/2026/02/24/the-react-foundation", "https://react.dev/blog/2025/10/07/introducing-the-react-foundation", "https://thisweekinreact.com/newsletter/285", "https://github.com/react/react/pull/36752", "https://github.com/react/react/commits/main/LICENSE"]
+
+- id: spring
+  canonical_repo: {url: "https://github.com/spring-projects/spring-framework", vcs: git}
+  github: {slug: spring-projects/spring-framework, role: canonical}
+  history_start: {date: 2008-07-10, note: "'Initial structure' 8119659fb1 (Ben Hale): the start of the Spring 3.0 SVN tree imported to git. Spring 1.x/2.x history (2003-2008, SourceForge CVS) is not included (inferred). The GitHub repo was created 2010-12-08 (formerly SpringSource/spring-framework). About 36k commits."}
+  review:
+    current: {type: "GitHub PRs, but maintainers usually merge locally (polish, rebase, cherry-pick) and close the PR with 'Closes gh-N'", url: "https://github.com/spring-projects/spring-framework/pulls", since: 2011-02}
+    past: [{type: "Patches attached to JIRA (SPR) issues", url: "https://jira.spring.io/browse/SPR", until: 2019-01}]
+    states_observable: "VERY UNRELIABLE: only 1,062 PRs are MERGED against 4,927 closed-unmerged. Locally integrated PRs show CLOSED (often closed by a commit; 43 of 100 sampled 2024 closures). Signals: a milestone on a closed PR (1,485 closed-unmerged PRs have one), labels 'for: merge-with-amendments', 'status: declined' (950), 'status: superseded' (149), 'status: duplicate', 'status: invalid', and 'Closes gh-N' commit messages."
+    access: "GitHub REST/GraphQL; git log 'Closes gh-N' / 'See gh-N' references."
+  issues:
+    current: {type: GitHub Issues, url: "https://github.com/spring-projects/spring-framework/issues", since: 2019-01}
+    past: [{type: "JIRA (jira.spring.io, project SPR); full history imported to GitHub", until: 2019-01}]
+    access: "GitHub API. The 17,962 imported issues keep original creation dates back to 2003-11-26 (SPR-1 = #4736), but the author is the bot 'spring-projects-issues', so the real reporter is only in the body. JIRA archive availability is unverified."
+  license: {spdx: Apache-2.0, changes: []}
+  governance: "Company-led: Broadcom (via its 2023-11 acquisition of VMware; Spring team in VMware Tanzu, earlier Pivotal/SpringSource). Moved from CLA to DCO in 2025-01."
+  ai_policy: {status: conditions, date: 2026-10-01, url: "https://github.com/spring-projects/spring-framework/blob/main/CONTRIBUTING.md"}
+  notes: "AI statement added 2026-10-01 (c377da58d9, with AGENTS.md). AI-assisted contributions are accepted if carefully reviewed by an accountable human. Accounts controlled by autonomous AI bots are banned permanently. No disclosure requirement. On 2026-10-04 PRs for issues in 'waiting-for-triage' were forbidden. The JIRA migration was announced 2019-01-15; imported issues are interleaved in GitHub numbering. Maintenance branches (6.2.x, 7.0.x) use forward-merge commits 'Merge branch 6.2.x', which inflate merge-commit counts. Backport issues are auto-created by bot (status: backported, for: backport-to-*)."
+  confidence: high
+  sources: ["https://spring.io/blog/2019/01/15/spring-framework-s-migration-from-jira-to-github-issues/", "https://github.com/spring-projects/spring-framework/blob/main/CONTRIBUTING.md", "https://github.com/spring-projects/spring-framework/commit/c377da58d9"]

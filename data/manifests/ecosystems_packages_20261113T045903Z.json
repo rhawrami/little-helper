@@ -1,0 +1,618 @@
+{
+  "source": "ecosystems_packages",
+  "run_id": "20261113T045903Z",
+  "entries": [
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages/serde",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/crates.io_serde.json",
+      "retrieved_at": "2026-11-13T04:59:04+00:00",
+      "bytes": 208186,
+      "sha256": "95e7eed1cd0e2fcc50225902d9c5027fc28b3c1f031b051c85cf58f5dbe5ede9",
+      "key": "crates.io:serde",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/crates.io/packages/tokio",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/crates.io_tokio.json",
+      "retrieved_at": "2026-11-13T04:59:05+00:00",
+      "bytes": 347295,
+      "sha256": "1615449dfc2f65bbb62befb91692c134213b207caa67c8a8499ae64f29222265",
+      "key": "crates.io:tokio",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/%40angular%2Fcore",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org__angular_core.json",
+      "retrieved_at": "2026-11-13T04:59:06+00:00",
+      "bytes": 760586,
+      "sha256": "39b6915ad733c8aac9df32323ae2b94b32c4412b736bf50b8d18cf0173eee3d3",
+      "key": "npmjs.org:@angular/core",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/%40babel%2Fcore",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org__babel_core.json",
+      "retrieved_at": "2026-11-13T04:59:07+00:00",
+      "bytes": 647083,
+      "sha256": "0cab088e461cd9f5c2291c77a9b491ea0b345e5e56d230da14ffc8784d8428f1",
+      "key": "npmjs.org:@babel/core",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/%40babel%2Fruntime",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org__babel_runtime.json",
+      "retrieved_at": "2026-11-13T04:59:07+00:00",
+      "bytes": 649578,
+      "sha256": "50389ca7037e303009aa0fb72a4c5eeef058b3e3b2abd802c69f454fa9540e16",
+      "key": "npmjs.org:@babel/runtime",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/apache-arrow",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_apache-arrow.json",
+      "retrieved_at": "2026-11-13T04:59:08+00:00",
+      "bytes": 16612,
+      "sha256": "9499c2f046805258f09d611a1e0c09ea2b353d9a1be7893cdcf36f9705274cbb",
+      "key": "npmjs.org:apache-arrow",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/d3",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_d3.json",
+      "retrieved_at": "2026-11-13T04:59:10+00:00",
+      "bytes": 200404,
+      "sha256": "93f2451ea08d82384acec01d23d1f9db996cffed94e0def2c7d3f8253a11c3a1",
+      "key": "npmjs.org:d3",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/d3-scale",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_d3-scale.json",
+      "retrieved_at": "2026-11-13T04:59:10+00:00",
+      "bytes": 47411,
+      "sha256": "98767d6cbdc5a43f79cc3c75714afcb78fbf3e0a76a78d278cba25bdbe0afda8",
+      "key": "npmjs.org:d3-scale",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/d3-selection",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_d3-selection.json",
+      "retrieved_at": "2026-11-13T04:59:11+00:00",
+      "bytes": 49690,
+      "sha256": "9bc71484f9e29df059e745bf9a7e6225df50932de1c86f189e9d3375e249fc9a",
+      "key": "npmjs.org:d3-selection",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/express",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_express.json",
+      "retrieved_at": "2026-11-13T04:59:12+00:00",
+      "bytes": 240965,
+      "sha256": "4b517d0866c0b348fe1de0c9fd45ae9ab50d6244cc9e633097a8b47ab00fdc3c",
+      "key": "npmjs.org:express",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/google-protobuf",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_google-protobuf.json",
+      "retrieved_at": "2026-11-13T04:59:12+00:00",
+      "bytes": 36018,
+      "sha256": "ddba67dc5777fe2cb9fe9ab1707860d304e8b5f929a4fb02d1b2d454d77f1d07",
+      "key": "npmjs.org:google-protobuf",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/lodash",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_lodash.json",
+      "retrieved_at": "2026-11-13T04:59:13+00:00",
+      "bytes": 319259,
+      "sha256": "c210722d84c9a6d04209123edf7734deec74a11df774cd1f0067ef1234fe2451",
+      "key": "npmjs.org:lodash",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/next",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_next.json",
+      "retrieved_at": "2026-11-13T04:59:14+00:00",
+      "bytes": 1008314,
+      "sha256": "4d63df201be1c9fa4c462ddafcecaa0793c60372bc23407264dfa72c37a32db6",
+      "key": "npmjs.org:next",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/plotly.js",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_plotly.js.json",
+      "retrieved_at": "2026-11-13T04:59:14+00:00",
+      "bytes": 195390,
+      "sha256": "9835ec48a1746136f35fbb0d0ea72706724532cbed1d9a5ff77e44661c9ee6a8",
+      "key": "npmjs.org:plotly.js",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/react",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_react.json",
+      "retrieved_at": "2026-11-13T04:59:15+00:00",
+      "bytes": 184778,
+      "sha256": "be8644a4df53e8edc7b91e47045f544fc56ce46f77c488cfd0b9ceb7725c9063",
+      "key": "npmjs.org:react",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/typescript",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_typescript.json",
+      "retrieved_at": "2026-11-13T04:59:15+00:00",
+      "bytes": 183795,
+      "sha256": "ff6736953fab881d17ea4981f331d366a537432de0bc132f614d1268f24eeda6",
+      "key": "npmjs.org:typescript",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/vite",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_vite.json",
+      "retrieved_at": "2026-11-13T04:59:16+00:00",
+      "bytes": 849779,
+      "sha256": "ccce88df9d2b75d61703afccbad0180b604c4a7a64b9baaf6403954e7cf67d80",
+      "key": "npmjs.org:vite",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/vue",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_vue.json",
+      "retrieved_at": "2026-11-13T04:59:17+00:00",
+      "bytes": 248843,
+      "sha256": "b67e71c346310e07603f5c20ea4a9717febf50b1fd2bf9ef820208a05866bdaa",
+      "key": "npmjs.org:vue",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/webpack",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/npmjs.org_webpack.json",
+      "retrieved_at": "2026-11-13T04:59:18+00:00",
+      "bytes": 527285,
+      "sha256": "8228b42d1e3a320e14a083a96d963ae26c1e0dd8c08592dbd79ac9c96d912a02",
+      "key": "npmjs.org:webpack",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages/illuminate%2Fsupport",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/packagist.org_illuminate_support.json",
+      "retrieved_at": "2026-11-13T04:59:20+00:00",
+      "bytes": 639363,
+      "sha256": "553cc9d68a8bfd2da61633bc8f5ca67ecf2d9d5d9f68e61fdc4dbe979ce1eb2d",
+      "key": "packagist.org:illuminate/support",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages/laravel%2Fframework",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/packagist.org_laravel_framework.json",
+      "retrieved_at": "2026-11-13T04:59:21+00:00",
+      "bytes": 880165,
+      "sha256": "1baedf1a85aec7b1df778db0193b4f5f8ecffe42e8ab357b186e50a30c0178b2",
+      "key": "packagist.org:laravel/framework",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages/symfony%2Fconsole",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/packagist.org_symfony_console.json",
+      "retrieved_at": "2026-11-13T04:59:22+00:00",
+      "bytes": 527076,
+      "sha256": "a8503d938cdc51743a1119bc374654c5f8d9e409f4f9811252eceae45ea26401",
+      "key": "packagist.org:symfony/console",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/packagist.org/packages/symfony%2Fhttp-foundation",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/packagist.org_symfony_http-foundation.json",
+      "retrieved_at": "2026-11-13T04:59:23+00:00",
+      "bytes": 556710,
+      "sha256": "82aacddd19e7d01a10a9e0fdf9d0fa15c695bfa9036d409fa5151fc7e760cdd3",
+      "key": "packagist.org:symfony/http-foundation",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages/github.com%2Fcontainerd%2Fcontainerd",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/proxy.golang.org_github.com_containerd_containerd.json",
+      "retrieved_at": "2026-11-13T04:59:24+00:00",
+      "bytes": 336894,
+      "sha256": "41973bc1cb16559357dc073e525f00b13635db8e6b91bdaa918d169d9f82b3d8",
+      "key": "proxy.golang.org:github.com/containerd/containerd",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages/github.com%2Fdocker%2Fdocker",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/proxy.golang.org_github.com_docker_docker.json",
+      "retrieved_at": "2026-11-13T04:59:24+00:00",
+      "bytes": 533194,
+      "sha256": "37f43a380c01793db0f56f70dc7e1ac7e83cf744550dbbeb01a552ce84287327",
+      "key": "proxy.golang.org:github.com/docker/docker",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages/go.etcd.io%2Fetcd%2Fclient%2Fv3",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/proxy.golang.org_go.etcd.io_etcd_client_v3.json",
+      "retrieved_at": "2026-11-13T04:59:26+00:00",
+      "bytes": 682001,
+      "sha256": "9981ff3525a48b91c79630a07681e5b2d77cf11e03c628928284ad0efcd65051",
+      "key": "proxy.golang.org:go.etcd.io/etcd/client/v3",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages/k8s.io%2Fapimachinery",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/proxy.golang.org_k8s.io_apimachinery.json",
+      "retrieved_at": "2026-11-13T04:59:26+00:00",
+      "bytes": 714751,
+      "sha256": "6e04cb999a0d5b010399da5f361bdb2c8d7d3c4d0ad3b1affbe2e8776f6e7375",
+      "key": "proxy.golang.org:k8s.io/apimachinery",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/proxy.golang.org/packages/k8s.io%2Fclient-go",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/proxy.golang.org_k8s.io_client-go.json",
+      "retrieved_at": "2026-11-13T04:59:27+00:00",
+      "bytes": 736498,
+      "sha256": "04d3a51152d8166a1904aae44c4df56b39dc8a8799c6a46d9942230447ab20fc",
+      "key": "proxy.golang.org:k8s.io/client-go",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/cmake",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_cmake.json",
+      "retrieved_at": "2026-11-13T04:59:28+00:00",
+      "bytes": 122343,
+      "sha256": "900ab3bf40608434fe247cb552785414482c238340152536378d091186de3e10",
+      "key": "pypi.org:cmake",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/django",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_django.json",
+      "retrieved_at": "2026-11-13T04:59:29+00:00",
+      "bytes": 603855,
+      "sha256": "fe2b43021e3a53df76eba01a8f26f32619df07bfdfdbf4080b16896d9228869e",
+      "key": "pypi.org:django",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/duckdb",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_duckdb.json",
+      "retrieved_at": "2026-11-13T04:59:29+00:00",
+      "bytes": 26283,
+      "sha256": "0f7fcdbdc5d4bf9954bfe1df1bd943887151fa97d74f3df44c75d4e5999ce15c",
+      "key": "pypi.org:duckdb",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/grpcio",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_grpcio.json",
+      "retrieved_at": "2026-11-13T04:59:30+00:00",
+      "bytes": 409601,
+      "sha256": "bce26ddd6113b04c74599de4aa85264e65115298c8cdec3c08fc08fc59f80be7",
+      "key": "pypi.org:grpcio",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/matplotlib",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_matplotlib.json",
+      "retrieved_at": "2026-11-13T04:59:30+00:00",
+      "bytes": 132334,
+      "sha256": "2cfabd1f743db42d2fc05f1ce7240ee1fc533de8628f06255e3dc8072d6f4cdf",
+      "key": "pypi.org:matplotlib",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/meson",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_meson.json",
+      "retrieved_at": "2026-11-13T04:59:31+00:00",
+      "bytes": 156921,
+      "sha256": "d6ebc4c774519877c4dae14c8ade8b39280bdcc3dbe6bac7553d78dbd9839021",
+      "key": "pypi.org:meson",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/ninja",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_ninja.json",
+      "retrieved_at": "2026-11-13T04:59:32+00:00",
+      "bytes": 30879,
+      "sha256": "66a43a2ed920b031bd1e64f3f158d8d6b4394db66fc172f867d07a635a77e118",
+      "key": "pypi.org:ninja",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/numpy",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_numpy.json",
+      "retrieved_at": "2026-11-13T04:59:32+00:00",
+      "bytes": 234528,
+      "sha256": "4243ad4ebb5b71e149a79f09607578436b98bd661785f494fd63f18787ec302a",
+      "key": "pypi.org:numpy",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/onnxruntime",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_onnxruntime.json",
+      "retrieved_at": "2026-11-13T04:59:33+00:00",
+      "bytes": 140743,
+      "sha256": "b0e6cacdd9d5b9c1904035a1fa1d2469ffd46502c25628fa8b11cbe5af8a5398",
+      "key": "pypi.org:onnxruntime",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/opencv-python",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_opencv-python.json",
+      "retrieved_at": "2026-11-13T04:59:34+00:00",
+      "bytes": 225888,
+      "sha256": "6662d900db35acf2a9f2c3546c4e1888d7cc6bc0a3595b158147ec7cbc1ac270",
+      "key": "pypi.org:opencv-python",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/pandas",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_pandas.json",
+      "retrieved_at": "2026-11-13T04:59:34+00:00",
+      "bytes": 172649,
+      "sha256": "7788518e8a0ff589a12fbef03bb89805881c4c0840a6bbd99ddeab692683a2c0",
+      "key": "pypi.org:pandas",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/plotly",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_plotly.json",
+      "retrieved_at": "2026-11-13T04:59:35+00:00",
+      "bytes": 142053,
+      "sha256": "5945ed00454ed50090adc63699c1e1bcb4b3c598a5b4fbdb056f010243a4d73c",
+      "key": "pypi.org:plotly",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/polars",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_polars.json",
+      "retrieved_at": "2026-11-13T04:59:36+00:00",
+      "bytes": 433574,
+      "sha256": "e870afeb9139875a6df1242239d1b023ea425ee7369ccdc5f7fe810bee0ee82c",
+      "key": "pypi.org:polars",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/protobuf",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_protobuf.json",
+      "retrieved_at": "2026-11-13T04:59:36+00:00",
+      "bytes": 52338,
+      "sha256": "dc7e7be7eb683fa08c77a861ca11bbdff1791747eaeee0c76f7be282b8ab420b",
+      "key": "pypi.org:protobuf",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/pyarrow",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_pyarrow.json",
+      "retrieved_at": "2026-11-13T04:59:37+00:00",
+      "bytes": 198708,
+      "sha256": "cfdcbeeb6bc3c1a3f462fbc582bfe7f6d550891c8af5e34b777b63e39d83dbeb",
+      "key": "pypi.org:pyarrow",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/pytest",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_pytest.json",
+      "retrieved_at": "2026-11-13T04:59:38+00:00",
+      "bytes": 173669,
+      "sha256": "65f0a1a4d6a1bf6a0694df95a44af1c741c422e7fe6ee1918dfb72140137e666",
+      "key": "pypi.org:pytest",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/requests",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_requests.json",
+      "retrieved_at": "2026-11-13T04:59:38+00:00",
+      "bytes": 139867,
+      "sha256": "9668d55c1ac4a97aba67045da0b56e58485f9620ed035f40d69bf78ff0573cb0",
+      "key": "pypi.org:requests",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/ruff",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_ruff.json",
+      "retrieved_at": "2026-11-13T04:59:39+00:00",
+      "bytes": 317248,
+      "sha256": "5357f12dca2d71204413648d61085b932293daa06554d3c5fdd9478fa8808e82",
+      "key": "pypi.org:ruff",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/scikit-learn",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_scikit-learn.json",
+      "retrieved_at": "2026-11-13T04:59:40+00:00",
+      "bytes": 138882,
+      "sha256": "ea211307596927c52af44a59bc848207dcc93899de970ecd4633ff5368991c55",
+      "key": "pypi.org:scikit-learn",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/scipy",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_scipy.json",
+      "retrieved_at": "2026-11-13T04:59:40+00:00",
+      "bytes": 153853,
+      "sha256": "40917228dfab4dbef446cc5165767bb036088077ce4151de436cb429907f8053",
+      "key": "pypi.org:scipy",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/scipy-openblas64",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_scipy-openblas64.json",
+      "retrieved_at": "2026-11-13T04:59:41+00:00",
+      "bytes": 35418,
+      "sha256": "26eade1bed422890c21584d7c9395d659c224c375cc7dd0547857cc8c8700007",
+      "key": "pypi.org:scipy-openblas64",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/setuptools",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_setuptools.json",
+      "retrieved_at": "2026-11-13T04:59:42+00:00",
+      "bytes": 512702,
+      "sha256": "d8c23e3590532fc8d23bf203dfc524f77b0de85df8772b4cbbbd54411a2be5cd",
+      "key": "pypi.org:setuptools",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/tensorflow",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_tensorflow.json",
+      "retrieved_at": "2026-11-13T04:59:44+00:00",
+      "bytes": 834144,
+      "sha256": "a03f1812a1d82ad93446595526ae217796b4dd5115162290acc4dee6aa45ddae",
+      "key": "pypi.org:tensorflow",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/torch",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_torch.json",
+      "retrieved_at": "2026-11-13T04:59:45+00:00",
+      "bytes": 819218,
+      "sha256": "0e282e0e5a803048217abe53960b8bf25112973d7dd04d6f4f76eadbb6871e9f",
+      "key": "pypi.org:torch",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/transformers",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_transformers.json",
+      "retrieved_at": "2026-11-13T04:59:45+00:00",
+      "bytes": 396971,
+      "sha256": "c35d922fb43230476f05310064f5d1779c866a2517c761e205a4a99578906e97",
+      "key": "pypi.org:transformers",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/urllib3",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_urllib3.json",
+      "retrieved_at": "2026-11-13T04:59:46+00:00",
+      "bytes": 172943,
+      "sha256": "1df37a1d417159643666f0fe870ef763a66379df1061a4f10a8564122487f1a9",
+      "key": "pypi.org:urllib3",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/uv",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_uv.json",
+      "retrieved_at": "2026-11-13T04:59:47+00:00",
+      "bytes": 220483,
+      "sha256": "23c26f7c685229f580680724e94d8b007043ffc65b184901fd03c39f8fcbf339",
+      "key": "pypi.org:uv",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/vllm",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/pypi.org_vllm.json",
+      "retrieved_at": "2026-11-13T04:59:47+00:00",
+      "bytes": 728759,
+      "sha256": "2194c44201df1c267f42d1bd2d0daecb2c528da0281d63171748a85878a4f31e",
+      "key": "pypi.org:vllm",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/com.fasterxml.jackson.core%3Ajackson-databind",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_com.fasterxml.jackson.core_jackson-databind.json",
+      "retrieved_at": "2026-11-13T04:59:49+00:00",
+      "bytes": 575350,
+      "sha256": "385571702f06033fc06f19f434d8fd7675644b1086ab34ec45bfbbc663c55799",
+      "key": "repo1.maven.org:com.fasterxml.jackson.core:jackson-databind",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/com.google.guava%3Aguava",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_com.google.guava_guava.json",
+      "retrieved_at": "2026-11-13T04:59:49+00:00",
+      "bytes": 131307,
+      "sha256": "6f65ccdfb2a5311c6f7a3a0aa26c972ee69a65e1f7ea06508186945f36a378c0",
+      "key": "repo1.maven.org:com.google.guava:guava",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/com.google.protobuf%3Aprotobuf-java",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_com.google.protobuf_protobuf-java.json",
+      "retrieved_at": "2026-11-13T04:59:50+00:00",
+      "bytes": 450405,
+      "sha256": "9be0f6486e2da8d85ef4aef7a7a4b557f913c55fea736bf88f6e5b2e36d35caf",
+      "key": "repo1.maven.org:com.google.protobuf:protobuf-java",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/io.netty%3Anetty-common",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_io.netty_netty-common.json",
+      "retrieved_at": "2026-11-13T04:59:51+00:00",
+      "bytes": 288224,
+      "sha256": "cd43df4754e7e21d5b94c1a7c577bfe0c57c8f419338a1164714e9d94658c531",
+      "key": "repo1.maven.org:io.netty:netty-common",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/io.netty%3Anetty-handler",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_io.netty_netty-handler.json",
+      "retrieved_at": "2026-11-13T04:59:53+00:00",
+      "bytes": 323661,
+      "sha256": "d5bbdd6fc1abdd17d68150b202988151fff52cb8ca96098f9dc21a8f3bc5b14a",
+      "key": "repo1.maven.org:io.netty:netty-handler",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/org.apache.arrow%3Aarrow-vector",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_org.apache.arrow_arrow-vector.json",
+      "retrieved_at": "2026-11-13T04:59:55+00:00",
+      "bytes": 18126,
+      "sha256": "a02c601b9662865acacb81dac5c84a8b55b0b2af8eaf1ff03c986b94b866ed37",
+      "key": "repo1.maven.org:org.apache.arrow:arrow-vector",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/org.apache.kafka%3Akafka-clients",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_org.apache.kafka_kafka-clients.json",
+      "retrieved_at": "2026-11-13T04:59:55+00:00",
+      "bytes": 25932,
+      "sha256": "cd2020a02a88eabc18b54c38069d34372065b59ec9ed0ebd007694f00d0a26cc",
+      "key": "repo1.maven.org:org.apache.kafka:kafka-clients",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/org.apache.logging.log4j%3Alog4j-api",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_org.apache.logging.log4j_log4j-api.json",
+      "retrieved_at": "2026-11-13T04:59:57+00:00",
+      "bytes": 133185,
+      "sha256": "c541c4d5e6e1044cf8969b37e1df8a2786b6757dbe989e944ffbc67e9e21d815",
+      "key": "repo1.maven.org:org.apache.logging.log4j:log4j-api",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/org.apache.logging.log4j%3Alog4j-core",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_org.apache.logging.log4j_log4j-core.json",
+      "retrieved_at": "2026-11-13T04:59:58+00:00",
+      "bytes": 193276,
+      "sha256": "29db09abebdd114f1f5b5382c8ba181ed29ce42702b623d3f160071ce6da1369",
+      "key": "repo1.maven.org:org.apache.logging.log4j:log4j-core",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/org.springframework%3Aspring-core",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/repo1.maven.org_org.springframework_spring-core.json",
+      "retrieved_at": "2026-11-13T04:59:59+00:00",
+      "bytes": 390056,
+      "sha256": "0b94d6a0b6bb698f01da24c466ee3876a87d46ee5542bc37de73e4635cb9b2e4",
+      "key": "repo1.maven.org:org.springframework:spring-core",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages/activesupport",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/rubygems.org_activesupport.json",
+      "retrieved_at": "2026-11-13T04:59:59+00:00",
+      "bytes": 416886,
+      "sha256": "efec1a99d80cd5e92ca86ff7c37ad9944b563a5b799a63593d2e781c15704d3e",
+      "key": "rubygems.org:activesupport",
+      "status": 200
+    },
+    {
+      "url": "https://packages.ecosyste.ms/api/v1/registries/rubygems.org/packages/rails",
+      "file": "data/raw/ecosystems_packages/20261113T045903Z/rubygems.org_rails.json",
+      "retrieved_at": "2026-11-13T05:00:00+00:00",
+      "bytes": 432382,
+      "sha256": "a1e10a02ab91e5947cdc1b26ab4f57a58a6f09beaabc740cfa53dee9c20435e0",
+      "key": "rubygems.org:rails",
+      "status": 200
+    }
+  ]
+}

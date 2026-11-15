@@ -1,0 +1,14 @@
+{
+  "source": "ossfuzz",
+  "run_id": "20261113T045213Z",
+  "entries": [
+    {
+      "url": "https://github.com/google/oss-fuzz",
+      "file": "data/raw/ossfuzz/20261113T045213Z/project_yaml.json.gz",
+      "retrieved_at": "2026-11-13T04:52:42+00:00",
+      "bytes": 481540,
+      "sha256": "ab02af1187acb856ec4079671e91f97cfe435dc15005110f8a6d12cdaeabe5da",
+      "commit": "532abdbe62918a51f004a25318a7c1fb3ea60e36"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# Verified directly via the GitHub API on 2026-11-12 (not by a research subagent).
+- id: libuv
+  canonical_repo: {url: https://github.com/libuv/libuv, vcs: git}
+  github: {slug: libuv/libuv, role: canonical}
+  history_start: {date: 2011-03-23, note: "First commit 2011-03-23 (originated as joyent/libuv; current repo created 2013-11-30 with full history). Default branch is v1.x."}
+  review:
+    current: {type: github_pr, url: https://github.com/libuv/libuv/pulls, since: 2011}
+    past: []
+    states_observable: "GitHub PR states; 1,443 merged vs 1,514 closed-unmerged as of 2026-11-12, so some landed changes are likely closed rather than merged and must be matched to commits."
+    access: GitHub REST/GraphQL
+  issues:
+    current: {type: github_issues, url: https://github.com/libuv/libuv/issues, since: 2011}
+    past: []
+    access: GitHub REST/GraphQL
+  license: {spdx: MIT, changes: []}
+  governance: "Maintainer group listed in MAINTAINERS.md; closely tied to Node.js (foundation affiliation unverified)."
+  ai_policy: {status: none_found, date: null, url: https://github.com/libuv/libuv/blob/v1.x/CONTRIBUTING.md}
+  notes: "Discussion forum moved to GitHub Discussions in 2021."
+  confidence: medium
+  sources: [https://github.com/libuv/libuv, https://github.com/libuv/libuv/blob/v1.x/MAINTAINERS.md]

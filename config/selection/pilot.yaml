@@ -1,0 +1,88 @@
+# Pilot sample: 50 projects.
+#
+# basis:
+#   gate          passes the main significance gate (one dominant channel plus a
+#                 second, independent channel; see docs/sample_selection.md)
+#   entrant_gate  first release 2020 or later; passes the lag-adjusted gate
+#                 (one dominant channel among packages / containers / managed)
+#   design        fails the gate; included deliberately as an analytic contrast.
+#                 Capped at 10% of the sample, each with a stated reason.
+#
+# Within each layer, gate-passing projects were chosen for coverage, not rank:
+# distinct niches (at most 2 per niche), languages, governance models and data
+# regimes, preferring projects that already passed the gate before ChatGPT
+# (Debian 2022-11-29 snapshot) when otherwise comparable.
+#
+# repos: every repository whose history belongs to the project (unit = project).
+
+kernel_os:
+  - {id: linux, basis: gate, repos: [torvalds/linux], why: "The kernel under nearly all servers, phones and containers; mailing-list regime."}
+  - {id: glibc, basis: gate, repos: [bminor/glibc], why: "C runtime for most Linux userland; top of Debian's runtime graph."}
+  - {id: systemd, basis: gate, repos: [systemd/systemd], why: "Init and service manager on most distributions; GitHub-native contrast to the kernel."}
+  - {id: busybox, basis: gate, repos: [vda-linux/busybox_mirror], why: "Userland of Alpine and countless embedded/container images (13B Docker pulls)."}
+
+toolchain:
+  - {id: gcc, basis: gate, repos: [gcc-mirror/gcc], why: "System compiler for most of the free software stack; pairs with LLVM."}
+  - {id: llvm, basis: gate, repos: [llvm/llvm-project], why: "Compiler infrastructure behind Clang, Rust, Swift and many JITs; moved review to GitHub PRs in 2023."}
+  - {id: cmake, basis: gate, repos: [kitware/cmake], why: "De facto C/C++ build system; Kitware GitLab regime."}
+  - {id: git, basis: gate, repos: [git/git], why: "Version control under all of the above; mailing-list regime."}
+  - {id: uv, basis: entrant_gate, repos: [astral-sh/uv], why: "2024 entrant: Python package manager with ~128M PyPI downloads/month; tests whether a new backbone looks different."}
+
+runtime:
+  - {id: cpython, basis: gate, repos: [python/cpython], why: "Reference Python; top of Debian's graph and a top-10 Docker image."}
+  - {id: nodejs, basis: gate, repos: [nodejs/node], why: "Server-side JavaScript runtime; OpenJS Foundation."}
+  - {id: openjdk, basis: gate, repos: [openjdk/jdk], why: "Java platform reference implementation; Skara PRs on GitHub, JBS issues."}
+  - {id: go, basis: gate, repos: [golang/go], why: "Runtime and toolchain of cloud-native infrastructure; Gerrit review."}
+  - {id: rust, basis: gate, repos: [rust-lang/rust], why: "Compiler of the fastest-growing systems language; Rust Foundation."}
+  - {id: php, basis: gate, repos: [php/php-src], why: "Runtime behind a large share of the web (WordPress, Laravel, Symfony)."}
+
+core_libs:
+  - {id: zlib, basis: gate, repos: [madler/zlib], why: "Most-embedded compression library; tiny, mature, near-single-maintainer."}
+  - {id: xz, basis: gate, repos: [tukaani-project/xz], why: "Ubiquitous compression; 2024 backdoor makes maintainer capacity a documented event."}
+  - {id: libxml2, basis: gate, repos: [gnome/libxml2], why: "XML parser in browsers, desktops and language bindings; GNOME GitLab; documented maintainer-burden case."}
+  - {id: icu, basis: gate, repos: [unicode-org/icu], why: "Unicode and locale engine in every major OS and browser; consortium governance."}
+  - {id: protobuf, basis: gate, repos: [protocolbuffers/protobuf], why: "Serialization backbone across languages; Google-internal sync (Copybara) regime."}
+
+security_net:
+  - {id: openssl, basis: gate, repos: [openssl/openssl], why: "Dominant TLS/crypto library; foundation-led since Heartbleed."}
+  - {id: curl, basis: gate, repos: [curl/curl], why: "Transfer library in billions of devices; ended its bug bounty over AI slop (Jan 2026)."}
+  - {id: openssh, basis: gate, repos: [openssh/openssh-portable], why: "Remote access on essentially every Unix host; OpenBSD-led."}
+  - {id: libuv, basis: gate, repos: [libuv/libuv], why: "Async I/O loop under Node.js and many runtimes; passes on breadth (high in three channels, dominant in none) — the quiet-engine path."}
+
+data_stores:
+  - {id: postgresql, basis: gate, repos: [postgres/postgres], why: "Leading open-source RDBMS (12.4B Docker pulls, all three hyperscalers); mailing-list + commitfest regime."}
+  - {id: sqlite, basis: gate, repos: [sqlite/sqlite], why: "Most-deployed database engine; Fossil, closed to outside contributions (commit-only regime)."}
+  - {id: redis, basis: gate, repos: [redis/redis], why: "Dominant in-memory store; 2024 license change and 2025 return to an OSI license."}
+  - {id: valkey, basis: design, repos: [valkey-io/valkey], why: "Design pair with Redis: the 2024 license fork, adopted by AWS and Google Cloud. Fails the gate only because distributions lag."}
+  - {id: kafka, basis: gate, repos: [apache/kafka], why: "Event-streaming backbone (all three hyperscalers); ASF with GitHub PRs and Jira."}
+
+servers_infra:
+  - {id: nginx, basis: gate, repos: [nginx/nginx], why: "Most-pulled Docker image (13.6B); development moved to GitHub in 2024."}
+  - {id: httpd, basis: gate, repos: [apache/httpd], why: "Apache HTTP Server; SVN-canonical ASF regime and contrast to nginx."}
+  - {id: kubernetes, basis: gate, repos: [kubernetes/kubernetes], why: "Container orchestration standard; managed by all three hyperscalers."}
+  - {id: containerd, basis: gate, repos: [containerd/containerd], why: "Quiet container runtime under Kubernetes and Docker."}
+  - {id: qemu, basis: gate, repos: [qemu/qemu], why: "Virtualization/emulation under KVM clouds and CI; mailing-list regime; AI-contribution ban."}
+
+media_graphics:
+  - {id: ffmpeg, basis: gate, repos: [ffmpeg/ffmpeg], why: "Media codec engine behind most video software; moved to Forgejo in 2025; AI-found-bug dispute."}
+  - {id: mesa, basis: gate, repos: [], why: "Open graphics driver stack (OpenGL/Vulkan) on Linux; freedesktop GitLab regime."}
+  - {id: freetype, basis: gate, repos: [freetype/freetype], why: "Font rasterizer in Android, ChromeOS, Linux desktops and games."}
+
+scientific:
+  - {id: numpy, basis: gate, repos: [numpy/numpy], why: "Array foundation of scientific Python; anchors the performance phase (asv history)."}
+  - {id: pandas, basis: gate, repos: [pandas-dev/pandas], why: "Dataframe workhorse; heavy GSO/SWE-fficiency coverage."}
+  - {id: matplotlib, basis: gate, repos: [matplotlib/matplotlib], why: "Reference Python plotting library; in SWE-bench (benchmark-exposed)."}
+  - {id: scikit-learn, basis: gate, repos: [scikit-learn/scikit-learn], why: "Classical ML library; in SWE-bench (benchmark-exposed)."}
+  - {id: plotly, basis: design, repos: [plotly/plotly.js, plotly/plotly.py], why: "Design pair with matplotlib (benchmark-unexposed plotting); single-channel significance only."}
+  - {id: d3, basis: design, repos: [d3/d3], why: "Benchmark-unexposed JS visualization foundation; browser-side libraries are invisible to distro and container channels. Modular (d3-* repos) — mapping still to do."}
+
+ml:
+  - {id: pytorch, basis: gate, repos: [pytorch/pytorch], why: "Dominant deep-learning framework; AI-domain stratum (demand confound)."}
+  - {id: transformers, basis: gate, repos: [huggingface/transformers], why: "Model-definition hub of the LLM era; AI-domain stratum."}
+
+app_frameworks:
+  - {id: react, basis: gate, repos: [react/react], why: "Dominant UI library; moved from Meta to the React Foundation (Linux Foundation) in 2026."}
+  - {id: vite, basis: gate, repos: [vitejs/vite], why: "2020 entrant that already passes the main gate; JS build tool."}
+  - {id: django, basis: gate, repos: [django/django], why: "Python web framework; DSF-governed; in SWE-bench (benchmark-exposed)."}
+  - {id: spring, basis: gate, repos: [spring-projects/spring-framework], why: "Backbone of enterprise Java; Broadcom-led."}
+  - {id: rails, basis: gate, repos: [rails/rails], why: "Ruby's flagship framework; represents the Ruby ecosystem."}
