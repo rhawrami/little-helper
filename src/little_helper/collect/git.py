@@ -395,7 +395,7 @@ def collect_repo(job: Job, run_id: str, manifest: store.Manifest, *, keep: bool 
         store.atomic_write_json(tmp_out / "meta.json", meta)
         final.parent.mkdir(parents=True, exist_ok=True)
         os.replace(tmp_out, final)
-        for f in sorted(final.iterdir()):
+        for f in store.data_files(final, "*"):  # skips macOS "._" files on exFAT drives
             manifest.add(f, repo=key, project=job.project.id, extractor_version=EXTRACTOR_VERSION)
         summary.update(status="ok", commits=facts["commits"], file_rows=facts["file_rows"],
                        policy_versions=facts["policy_versions"], clone_mb=round(clone_bytes / 1e6),
