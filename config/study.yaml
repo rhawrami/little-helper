@@ -2,7 +2,9 @@
 # LH_MANIFEST_DIR in src/little_helper/paths.py.
 
 git:
-  jobs: 4                    # clones in flight; clones >= big_clone_mb run alone
+  # Clones in flight; clones >= big_clone_mb run alone. Measured 2026-11-15: four parallel
+  # clones saturated the home connection (~5 MB/s total) and slowed the GitHub API crawl.
+  jobs: 2
   big_clone_mb: 2048
   unknown_size_mb: 4096      # assumed size when a repo has no GitHub diskUsage
   reserve_free_gb: 10        # never let a clone push LH_WORK_DIR below this much free space

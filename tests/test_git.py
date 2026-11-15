@@ -107,3 +107,30 @@ def test_policy_regex_matches_expected_paths():
     misses = ["src/contributing.c", "third_party/x/CONTRIBUTING.md", "README.md", "src/agents.py"]
     assert all(rx.search(p) for p in hits), [p for p in hits if not rx.search(p)]
     assert not any(rx.search(p) for p in misses), [p for p in misses if rx.search(p)]
+
+
+def test_works_when_bare_repos_must_be_explicit(lh_env, project, monkeypatch):
+    # The Claude desktop terminal sets this; `git -C <bare repo>` then fails.
+    monkeypatch.setenv("GIT_CONFIG_PARAMETERS", "'safe.bareRepository=explicit'")
+    rows = gitc.run([project], log=lambda m: None)
+    assert rows[0]["status"] == "ok", rows
+
+
+def test_clone_is_kept_after_extraction_failure_and_reused(lh_env, project, monkeypatch):
+    real = gitc.extract
+
+    def boom(*a, **k):
+        raise gitc.GitError("simulated extractor bug")
+
+    monkeypatch.setattr(gitc, "extract", boom)
+    rows = gitc.run([project], log=lambda m: None)
+    assert rows[0]["status"] == "failed"
+    clone = paths.work_dir() / "git" / "example.org/demo/tiny.git"
+    assert (clone / gitc.CLONE_MARKER).exists()
+
+    monkeypatch.setattr(gitc, "extract", real)
+    logs = []
+    monkeypatch.setattr(gitc, "_clone", lambda *a, **k: (_ for _ in ()).throw(AssertionError("re-downloaded")))
+    rows = gitc.run([project], log=logs.append)
+    assert rows[0]["status"] == "ok" and any("reusing" in m for m in logs)
+    assert not clone.exists()  # deleted once extraction succeeded

@@ -49,7 +49,17 @@ EXTRACTOR_VERSION = 1
 SOURCE = "git"
 _RS, _FS = b"\x1e", "\x1f"
 LOG_FORMAT = "%x1e%H%x1f%P%x1f%an%x1f%ae%x1f%aI%x1f%cn%x1f%ce%x1f%cI%x1f%B%x1f"
-GIT_ENV = {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GIT_ASKPASS": "echo", "LC_ALL": "C"}
+CLONE_MARKER = "lh-clone-complete"  # written into a bare clone once `git clone` succeeds
+REUSE_CLONE_HOURS = 24  # a kept clone younger than this is reused instead of downloaded again
+_TRANSIENT = ("could not resolve host", "unexpected disconnect", "early eof", "connection reset", "timed out",
+              "rpc failed", "remote end hung up", "operation too slow", "ssl", "gnutls", "http/2 stream",
+              "failed to connect", "connection refused", "transfer closed", "the requested url returned error: 5")
+
+
+def _git_env() -> dict:
+    # Read os.environ per call. Do not strip GIT_CONFIG_PARAMETERS: some shells set
+    # safe.bareRepository=explicit there, which is why every call names the repo with --git-dir.
+    return {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GIT_ASKPASS": "echo", "LC_ALL": "C"}
 BATCH_COMMITS = 200_000
 
 COMMIT_COLS = ["sha", "parents", "author_name", "author_email", "author_date",
@@ -65,8 +75,9 @@ def settings() -> dict:
 
 
 def git(*args: str, cwd: Path | None = None, input: bytes | None = None, check: bool = True) -> subprocess.CompletedProcess:
-    cmd = ["git", *(["-C", str(cwd)] if cwd else []), *args]
-    r = subprocess.run(cmd, input=input, capture_output=True, env=GIT_ENV)
+    """Run git; `cwd` is a bare repository, addressed explicitly with --git-dir."""
+    cmd = ["git", *([f"--git-dir={cwd}"] if cwd else []), *args]
+    r = subprocess.run(cmd, input=input, capture_output=True, env=_git_env())
     if check and r.returncode != 0:
         raise GitError(f"{' '.join(cmd[:6])}: {r.stderr.decode(errors='replace')[-500:]}")
     return r
@@ -143,10 +154,10 @@ def parse_record(rec: bytes) -> tuple[dict, list[tuple[str, int | None, int | No
 
 
 def iter_log(gitdir: Path) -> Iterator[tuple[dict, list]]:
-    cmd = ["git", "-C", str(gitdir), "-c", "core.quotepath=off", "log", "--all", "--no-renames",
+    cmd = ["git", f"--git-dir={gitdir}", "-c", "core.quotepath=off", "log", "--all", "--no-renames",
            "--numstat", "--summary", "--no-color", f"--format={LOG_FORMAT}"]
     with tempfile.TemporaryFile() as err:
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=err, env=GIT_ENV)
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=err, env=_git_env())
         buf = b""
         assert proc.stdout is not None
         for chunk in iter(lambda: proc.stdout.read(1 << 20), b""):
@@ -354,42 +365,70 @@ class Job:
         return self.repo.size_mb if self.repo.size_mb is not None else float(settings().get("unknown_size_mb", 4096))
 
 
+def _reusable_clone(clone_dir: Path) -> bool:
+    """A complete clone kept from an earlier attempt (e.g. extraction failed) and still fresh."""
+    marker = clone_dir / CLONE_MARKER
+    if not marker.exists() or (time.time() - marker.stat().st_mtime) > REUSE_CLONE_HOURS * 3600:
+        return False
+    return git("rev-parse", "--git-dir", cwd=clone_dir, check=False).returncode == 0
+
+
+def _clone(urls: list[str], clone_dir: Path, log, attempts: int = 3) -> str:
+    """Clone from the first URL that works, retrying transient network failures."""
+    errors = []
+    for u in urls:
+        for attempt in range(attempts):
+            shutil.rmtree(clone_dir, ignore_errors=True)
+            r = subprocess.run(["git", "clone", "--bare", "--quiet", u, str(clone_dir)], capture_output=True,
+                               env=_git_env())
+            if r.returncode == 0:
+                (clone_dir / CLONE_MARKER).write_text(f"{u}\n{paths.utcnow()}\n")
+                return u
+            err = r.stderr.decode(errors="replace").strip()
+            transient = any(t in err.lower() for t in _TRANSIENT)
+            errors.append(f"{u} (attempt {attempt + 1}): {err[-300:]}")
+            if not transient or attempt == attempts - 1:
+                break
+            wait = 30 * 4 ** attempt  # 30 s, then 2 min
+            log(f"[git] {clone_dir.name}: network error cloning {u}; retrying in {wait}s")
+            time.sleep(wait)
+    shutil.rmtree(clone_dir, ignore_errors=True)
+    raise GitError("clone failed: " + " | ".join(errors))
+
+
 def collect_repo(job: Job, run_id: str, manifest: store.Manifest, *, keep: bool = False, log=print) -> dict:
     repo, key = job.repo, job.repo.key
     clone_dir = paths.work_dir() / "git" / f"{key}.git"
     final = paths.raw_dir(SOURCE, key, run_id)
     tmp_out = final.with_name(final.name + ".partial")
     summary = {"project": job.project.id, "repo": key, "status": "failed"}
+    cloned = False
     try:
-        need = job.size_mb * 1.6 * 1e6 + float(settings().get("reserve_free_gb", 10)) * 1e9
-        free = paths.free_bytes(paths.work_dir())
-        if free < need:
-            raise GitError(f"not enough free space in {paths.work_dir()}: {free / 1e9:.1f} GB free, "
-                           f"need ~{need / 1e9:.1f} GB (clone estimate + reserve)")
-        if clone_dir.exists():
-            shutil.rmtree(clone_dir)
-        clone_dir.parent.mkdir(parents=True, exist_ok=True)
         t0 = time.time()
-        url = None
-        errors = []
-        for u in repo.clone_urls:
-            r = subprocess.run(["git", "clone", "--bare", "--quiet", u, str(clone_dir)], capture_output=True, env=GIT_ENV)
-            if r.returncode == 0:
-                url = u
-                break
-            errors.append(f"{u}: {r.stderr.decode(errors='replace').strip()[-300:]}")
-            shutil.rmtree(clone_dir, ignore_errors=True)
-        if url is None:
-            raise GitError("clone failed: " + " | ".join(errors))
-        t_clone = time.time() - t0
+        if _reusable_clone(clone_dir):
+            url = (clone_dir / CLONE_MARKER).read_text().split("\n")[0]
+            t_clone = 0.0
+            log(f"[git] {key}: reusing the clone kept from an earlier attempt")
+        else:
+            need = job.size_mb * 1.6 * 1e6 + float(settings().get("reserve_free_gb", 10)) * 1e9
+            free = paths.free_bytes(paths.work_dir())
+            if free < need:
+                raise GitError(f"not enough free space in {paths.work_dir()}: {free / 1e9:.1f} GB free, "
+                               f"need ~{need / 1e9:.1f} GB (clone estimate + reserve)")
+            clone_dir.parent.mkdir(parents=True, exist_ok=True)
+            url = _clone(repo.clone_urls, clone_dir, log)
+            t_clone = time.time() - t0
+        cloned = True
+        cloned_at = (clone_dir / CLONE_MARKER).read_text().split("\n")[1]
         clone_bytes = dir_size(clone_dir)
-        log(f"[git] {key}: cloned {clone_bytes / 1e6:,.0f} MB from {url} in {t_clone:.0f}s")
+        if t_clone:
+            log(f"[git] {key}: cloned {clone_bytes / 1e6:,.0f} MB from {url} in {t_clone:.0f}s")
 
         if tmp_out.exists():
             shutil.rmtree(tmp_out)
         facts = extract(clone_dir, tmp_out, policy_regex(job.project.policy_paths), log=log)
         meta = {"status": "ok", "project": job.project.id, "repo": key, "run_id": run_id, "clone_url": url,
-                "cloned_at": paths.utcnow(), "seconds_clone": round(t_clone, 1), "clone_bytes": clone_bytes,
+                "cloned_at": cloned_at, "seconds_clone": round(t_clone, 1), "clone_bytes": clone_bytes,
                 "git_version": git_version(), "extractor_version": EXTRACTOR_VERSION,
                 "tree_snapshots": settings().get("tree_snapshots", "yearly"), **facts}
         store.atomic_write_json(tmp_out / "meta.json", meta)
@@ -404,10 +443,15 @@ def collect_repo(job: Job, run_id: str, manifest: store.Manifest, *, keep: bool 
             f"{facts['policy_versions']} policy-file versions -> {summary['kept_mb']} MB kept")
     except Exception as e:  # report and move on; the census run continues
         summary["error"] = str(e)[:500]
-        log(f"[git] {key}: FAILED {e}")
+        log(f"[git] {key}: FAILED {e}" + (" (clone kept for the next run)" if cloned and not keep else ""))
         shutil.rmtree(tmp_out, ignore_errors=True)
     finally:
-        if not keep:
+        # Delete after success. After an extraction failure keep the clone so a fixed
+        # extractor can reuse it instead of downloading it again (`lh clean-work` removes it).
+        if not keep and summary["status"] == "ok":
+            shutil.rmtree(clone_dir, ignore_errors=True)
+            _prune_empty(clone_dir.parent, stop=paths.work_dir())
+        elif not cloned:
             shutil.rmtree(clone_dir, ignore_errors=True)
             _prune_empty(clone_dir.parent, stop=paths.work_dir())
     return summary
@@ -445,7 +489,7 @@ class _Slots:
 
 def run(projects: list[config.Project], *, jobs: int | None = None, keep: bool = False, force: bool = False,
         log=print) -> list[dict]:
-    jobs = jobs or int(settings().get("jobs", 4))
+    jobs = jobs or int(settings().get("jobs", 2))
     big = float(settings().get("big_clone_mb", 2048))
     todo, skipped = [], []
     for p in projects:
@@ -477,7 +521,12 @@ def run(projects: list[config.Project], *, jobs: int | None = None, keep: bool =
             slots.release(k)
 
     results = list(skipped)
-    with ThreadPoolExecutor(max_workers=jobs) as pool:
+    pool = ThreadPoolExecutor(max_workers=jobs)
+    try:
         for fut in as_completed([pool.submit(task, j) for j in todo]):
             results.append(fut.result())
+    except KeyboardInterrupt:
+        pool.shutdown(wait=True, cancel_futures=True)  # finish what is running, start nothing new
+        raise
+    pool.shutdown()
     return results
