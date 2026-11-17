@@ -22,7 +22,9 @@ uv sync
 uv run lh info
 ```
 
-`lh info` shows where data will go, the free space there, and whether a GitHub token is available. The token comes from `GITHUB_TOKEN`, or from the `gh` CLI if you are logged in (`gh auth login`).
+`lh info` shows where data will go, the free space there, whether object storage is on, and whether a GitHub token is available. The token comes from `GITHUB_TOKEN`, a token file (`github_token_file` in `config/local.yaml`), or the `gh` CLI if you are logged in (`gh auth login`).
+
+**Running on a server:** the long collection runs on a DigitalOcean droplet with a Spaces bucket as the store of record. Setup, seeding the bucket from the Mac, and monitoring are in [deploy/README.md](deploy/README.md).
 
 ### Where data lives
 
@@ -31,6 +33,9 @@ uv run lh info
 | `LH_DATA_DIR` | raw downloads, git extracts, canonical tables. Point it at the external drive. | `./data` |
 | `LH_WORK_DIR` | temporary bare clones, deleted after extraction. Keep it on the internal disk. | `~/.cache/little-helper/work` |
 | `LH_MANIFEST_DIR` | run manifests (small, committed) | `./data/manifests` |
+| `LH_S3_BUCKET` | optional object storage (DigitalOcean Spaces or any S3). When set, every committed file is uploaded and verified, and heavy files then leave the local disk. See [deploy/README.md](deploy/README.md#settings). | off |
+
+Each can instead be set in `config/local.yaml` (machine-specific, not committed): `data_dir`, `work_dir`, `manifest_dir`, `s3_bucket` and so on.
 
 With the USB drive formatted as exFAT (readable and writable on both macOS and Fedora):
 
@@ -57,11 +62,12 @@ uv run lh collect git --set slice       # clone -> extract -> delete; ~10.6 GB d
 uv run lh normalize git --set slice     # canonical commits, commit_files, trailers, refs, trees, policy_files, ai_markers
 uv run lh collect github --set slice    # PRs and issues; ~190k PRs and ~65k issues, about 14 hours
 uv run lh normalize github --set slice  # canonical change_proposals, cp_*, issues, issue_*, gh_ai_markers
-uv run lh status --set slice
+uv run lh status --set slice           # progress, and time left for PRs and issues separately
+uv run lh sync check|push|pull         # object storage: test access, upload local data, fetch cursors
 ```
 
 - **Interrupting is safe.** Ctrl-C, a crash or a sleeping laptop loses at most the open chunk of pages. Run the same command again to resume. Already-extracted git repos are skipped (use `--force` to redo them).
-- **Long runs:** keep the Mac awake with `caffeinate -i uv run lh collect github --set slice`.
+- **Long runs:** keep the Mac awake with `caffeinate -i uv run lh collect github --set slice`. On the droplet a systemd user service runs the collection and restarts it after failures ([deploy/README.md](deploy/README.md)).
 - **A finished GitHub repo** is refreshed on the next run: only items updated since the last pass are fetched.
 - **The GitHub collector sends one request at a time,** as GitHub's API guidance asks. That is about 12–20k PRs an hour.
 
@@ -80,13 +86,16 @@ The full sequence (harvest → signals → score → audit → probe → pilot �
 
 ```
 config/        study.yaml, selection/ (candidates, pilot, verification), projects/<id>.yaml
+deploy/        droplet setup: bootstrap.sh, the systemd service, local.yaml template, guide
 docs/          design documents, literature review, research notes
 src/little_helper/
   cli.py       the `lh` command
+  objects.py   object storage: upload and verify on commit, read back on demand
   collect/     git (rolling clone/extract/delete) and github (GraphQL) collectors: write raw only
   normalize/   raw -> canonical tables
   classify/    path rules (test/docs/vendored/generated/CI/build), bots, trailers, AI markers
   selection/   the sample-selection pipeline
-tests/         `uv run pytest` (a tiny git repo and a fake GraphQL server; no network)
+  explore/     exploratory views (lh plot)
+tests/         `uv run pytest` (a tiny git repo, a fake GraphQL server and an in-memory S3; no network)
 data/          committed provenance only: manifests/ and selection/ outputs
 ```

@@ -1,0 +1,34 @@
+# little-helper collection as a systemd user service. deploy/bootstrap.sh installs it
+# into ~/.config/systemd/user/ with @REPO@ and @UV@ filled in.
+#
+#   systemctl --user enable --now lh-collect@github   # PRs and issues (resumes from the cursors)
+#   systemctl --user enable --now lh-collect@git      # clone -> extract -> upload -> delete
+#   systemctl --user stop lh-collect@github           # like Ctrl-C: commits the open chunk first
+#   journalctl --user -u lh-collect@github -f
+#
+# The project set is `slice` unless overridden with `systemctl --user edit lh-collect@github`:
+#   [Service]
+#   Environment=LH_SET=census
+
+[Unit]
+Description=little-helper: collect %i data
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=exec
+WorkingDirectory=@REPO@
+Environment=LH_SET=slice
+Environment=PYTHONUNBUFFERED=1
+ExecStart=@UV@ run --frozen lh collect %i --set ${LH_SET}
+# Exit status 1 means some repos failed (network, GitHub outage): resume them in 5 minutes.
+# A run that finishes cleanly exits 0 and the service stops.
+Restart=on-failure
+RestartSec=300
+KillSignal=SIGINT
+TimeoutStopSec=180
+Nice=5
+
+[Install]
+WantedBy=default.target

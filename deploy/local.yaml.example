@@ -1,0 +1,19 @@
+# config/local.yaml for the droplet. deploy/bootstrap.sh writes it from this template;
+# it is not committed. Environment variables with the same meaning override these
+# (LH_DATA_DIR, LH_WORK_DIR, LH_GITHUB_TOKEN_FILE, LH_S3_*; see paths.py and objects.py).
+
+# Working copies on the 60 GB disk. Clones are deleted after extraction, and heavy files
+# are deleted once they are verified in the bucket.
+data_dir: @HOME@/lh-data
+work_dir: @HOME@/lh-work
+
+# A GitHub token in a file only this user can read (chmod 600). Create a new
+# fine-grained token for this machine; do not copy the Mac's gh login.
+github_token_file: @HOME@/.config/little-helper/github-token
+
+# DigitalOcean Spaces. The access key and secret go in ~/.aws/credentials, never here.
+s3_bucket: @BUCKET@
+s3_endpoint: @ENDPOINT@
+s3_prefix: little-helper
+# s3_profile: default     # which [profile] in ~/.aws/credentials (default: [default])
+# keep_local: false       # true keeps local copies of heavy files after upload

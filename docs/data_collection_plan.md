@@ -193,6 +193,8 @@ This fits in the Mac's 45 GiB free and leaves about 15–20 GB for the system. T
 
 Raw API pages are worth backing up off the machine: they are the frozen record and can't be re-fetched as they were. The backup can go to a cheap external disk or cloud storage, since no git runs on it. After the backup, the local copy of `raw/` can be deleted for projects that are already normalized, bringing local use to ≈15 GB.
 
+**Since 2026-11-16 the run moves to a DigitalOcean droplet (60 GB disk) with a Spaces bucket** ([deploy/README.md](../deploy/README.md)). The bucket is the store of record. Every committed file is uploaded and verified there, and heavy files then leave the local disk, so the droplet holds only the clone in flight and bookkeeping. That leaves room for the ≈20 GB Kibana clone peak. Measured on the slice so far: 941k commits extract to 0.15 GB, and 80k PRs plus 33k issues of raw pages take 0.12 GB.
+
 Doing the same with raw API pages saves little. A GraphQL page already holds only the fields we asked for. A parsed table with all text is 705 B/PR, larger than the compressed raw page (599 B/PR). Only dropping text gets it down, to 190 B/PR.
 
 ### 5.2 Keep-everything mode (needs an external drive)

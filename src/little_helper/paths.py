@@ -12,6 +12,9 @@ LH_WORK_DIR      transient bare clones, deleted after extraction. Keep it on a f
 LH_MANIFEST_DIR  run manifests (file, sha256, bytes, retrieval time). Small and meant
                  to be committed. Default: <repo>/data/manifests.
 
+With object storage on (objects.py, LH_S3_BUCKET), the bucket mirrors this layout and is
+the store of record; LH_DATA_DIR is then a working copy that keeps only bookkeeping.
+
 Layout under LH_DATA_DIR:
 
     raw/<source>/...                  immutable responses and git extracts
