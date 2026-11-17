@@ -260,6 +260,8 @@ class RepoCrawler:
         pages = items = 0
         pages_before = st.get("pages_done", 0) if mode == "full" else 0
         items_before = st.get("items_done", 0) if mode == "full" else 0
+        # Items and seconds of full passes, counted together across runs, for `lh status`.
+        timed_before = (st.get("timed_items", 0), st.get("timed_seconds", 0.0)) if mode == "full" else (0, 0.0)
         facts = getattr(self, "facts", None) or {}
         st.update(mode=mode, run_started_at=started, run_items=0,
                   platform_total=(facts.get("pullRequests" if kind == "prs" else "issues") or {}).get("totalCount"))
@@ -307,9 +309,8 @@ class RepoCrawler:
                 if writer.pending >= chunk or done:
                     writer.commit()
                     if mode == "full":
-                        st["cursor"] = last_complete
-                        st["pages_done"] = pages_before + pages
-                        st["items_done"] = items_before + items
+                        self._progress(st, last_complete, pages_before + pages, items_before + items,
+                                       timed_before, items, time.time() - t0)
                     st["run_items"] = items
                     self._save_state()
                     rate = items / max(1.0, time.time() - t0) * 3600
@@ -320,9 +321,8 @@ class RepoCrawler:
         except BaseException:
             writer.commit()
             if mode == "full":
-                st["cursor"] = last_complete
-                st["pages_done"] = pages_before + pages
-                st["items_done"] = items_before + items
+                self._progress(st, last_complete, pages_before + pages, items_before + items,
+                               timed_before, items, time.time() - t0)
             st["run_items"] = items
             self._save_state()
             raise
@@ -332,6 +332,12 @@ class RepoCrawler:
             st.update(watermark=started, refreshed_at=paths.utcnow())
         self._save_state()
         return {"kind": kind, "mode": mode, "pages": pages, "items": items, "seconds": round(time.time() - t0)}
+
+    @staticmethod
+    def _progress(st: dict, cursor, pages_done: int, items_done: int, timed_before: tuple, items: int,
+                  seconds: float):
+        st.update(cursor=cursor, pages_done=pages_done, items_done=items_done,
+                  timed_items=timed_before[0] + items, timed_seconds=round(timed_before[1] + seconds, 1))
 
     def _skip_heavy(self, kind: str, variables: dict, after: str | None, err: str, writer) -> str | None:
         q = self._q(f"{kind}_bare", bare_query(kind))

@@ -146,7 +146,8 @@ def cmd_status(args):
     from .collect.git import successful_runs
     rows = []
     totals = {"prs": [0, 0], "issues": [0, 0]}
-    rate_items = []
+    timed = {"prs": [0, 0.0], "issues": [0, 0.0]}  # items, seconds of full passes
+    current = {"prs": [0, 0.0], "issues": [0, 0.0]}  # the same for passes begun before timing was recorded
     for p in _projects(args):
         for r in p.repos:
             row = {"project": p.id, "repo": r.github or r.key}
@@ -166,28 +167,39 @@ def cmd_status(args):
                     done = total if s.get("complete") else s.get("items_done", 0)
                     totals[k][0] += done or 0
                     totals[k][1] += total or 0
-                    if s.get("run_started_at") and s.get("run_items"):
-                        started = datetime.fromisoformat(s["run_started_at"])
-                        rate_items.append((started, s["run_items"], s.get("updated_at") or st.get("updated_at")))
+                    if s.get("timed_seconds"):
+                        timed[k][0] += s.get("timed_items", 0)
+                        timed[k][1] += s["timed_seconds"]
+                    elif s.get("mode") == "full" and s.get("run_items") and st.get("updated_at"):
+                        secs = (datetime.fromisoformat(st["updated_at"])
+                                - datetime.fromisoformat(s["run_started_at"])).total_seconds()
+                        current[k][0] += s["run_items"]
+                        current[k][1] += max(0.0, secs)
                     row[k] = ("complete" if s.get("complete") else
                               f"{done:,}/{total:,}" if total else (f"{done:,}" if s else "-"))
                 if st.get("heavy"):
                     row["heavy"] = len(st["heavy"])
             rows.append(row)
     _table(rows, ["project", "repo", "git", "prs", "issues", "heavy"])
+    # PRs and issues are collected one request at a time, so their times add up. Each kind
+    # gets its own rate: issue pages are about four times faster than PR pages.
+    hours_left, unknown = 0.0, []
     for k in ("prs", "issues"):
         done, total = totals[k]
-        if total:
-            print(f"{k}: {done:,} of {total:,} collected ({done / total:.0%})")
-    # Recent rate: items collected by the current or latest pass of each repo, over the time since it began.
-    if rate_items:
-        start = min(t for t, _, _ in rate_items)
-        end = max(datetime.fromisoformat(u) for _, _, u in rate_items if u)
-        n = sum(i for _, i, _ in rate_items)
-        hours = max(1e-6, (end - start).total_seconds() / 3600)
-        left = sum(t - d for d, t in totals.values())
-        if n and left > 0:
-            print(f"rate over the latest passes: {n / hours:,.0f} items/hour; about {left / (n / hours):,.1f} hours left")
+        if not total:
+            continue
+        line = f"{k}: {done:,} of {total:,} collected ({done / total:.0%})"
+        items, secs = timed[k] if timed[k][1] >= 600 else (timed[k][0] + current[k][0], timed[k][1] + current[k][1])
+        if total > done and items and secs >= 60:
+            rate = items / secs * 3600
+            hours_left += (total - done) / rate
+            line += f"; {rate:,.0f}/hour in full passes, about {(total - done) / rate:,.1f} hours left"
+        elif total > done:
+            unknown.append(k)
+        print(line)
+    if hours_left:
+        print(f"about {hours_left:,.1f} hours left in all, not counting restarts"
+              + (f" or {' and '.join(unknown)} (no rate measured yet)" if unknown else ""))
 
 
 def cmd_clean_work(_args):

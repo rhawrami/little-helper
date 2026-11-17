@@ -130,6 +130,7 @@ def test_resume_after_crash_then_refresh(setup, monkeypatch):
         crawl(project, repo, FakeGitHub(prs, break_after_pages=2), "20260101T000000Z")
     st = store.load_state(paths.state_dir("github", "github.com/o/r.json"))
     assert st["prs"]["cursor"] == "10" and not st["prs"].get("complete")
+    assert st["prs"]["timed_items"] == 10 and "timed_seconds" in st["prs"]
 
     fake = FakeGitHub(prs)
     out = crawl(project, repo, fake, "20260101T000100Z")
@@ -180,3 +181,17 @@ def test_unexpected_status_is_a_github_error_not_a_crash():
     api, _ = _api([httpx.Response(418, content=b"teapot")])
     with pytest.raises(ghapi.GitHubError, match="HTTP 418"):
         api.execute("query { x }", {})
+
+
+def test_status_estimates_each_kind_separately(lh_env, capsys):
+    from little_helper import cli
+    store.save_state(paths.state_dir("github", "github.com/madler/zlib.json"), {
+        "updated_at": "2026-01-01T01:00:00+00:00",
+        "prs": {"items_done": 1000, "platform_total": 11000, "timed_items": 1000, "timed_seconds": 3600},
+        "issues": {"items_done": 4000, "platform_total": 44000, "timed_items": 4000, "timed_seconds": 3600},
+    })
+    cli.main(["status", "zlib"])
+    out = capsys.readouterr().out
+    assert "prs: 1,000 of 11,000" in out and "1,000/hour in full passes, about 10.0 hours left" in out
+    assert "4,000/hour in full passes, about 10.0 hours left" in out
+    assert "about 20.0 hours left in all" in out
