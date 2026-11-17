@@ -195,3 +195,16 @@ def test_status_estimates_each_kind_separately(lh_env, capsys):
     assert "prs: 1,000 of 11,000" in out and "1,000/hour in full passes, about 10.0 hours left" in out
     assert "4,000/hour in full passes, about 10.0 hours left" in out
     assert "about 20.0 hours left in all" in out
+
+
+def test_token_file(lh_env, monkeypatch):
+    for v in ("GITHUB_TOKEN", "GH_TOKEN"):
+        monkeypatch.delenv(v, raising=False)
+    f = lh_env / "github-token"
+    f.write_text("ghp_example\n")
+    f.chmod(0o644)
+    monkeypatch.setenv("LH_GITHUB_TOKEN_FILE", str(f))
+    with pytest.raises(ghapi.GitHubError, match="chmod 600"):
+        ghapi.token()
+    f.chmod(0o600)
+    assert ghapi.token() == "ghp_example"

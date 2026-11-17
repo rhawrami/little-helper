@@ -20,6 +20,7 @@ import os
 import subprocess
 import time
 from datetime import datetime, timezone
+from pathlib import Path
 
 import httpx
 
@@ -42,9 +43,19 @@ class NotFound(GitHubError):
 
 
 def token() -> str:
+    """GITHUB_TOKEN or GH_TOKEN, else a token file (LH_GITHUB_TOKEN_FILE or github_token_file
+    in config/local.yaml, the setup on the droplet), else the gh CLI login."""
     tok = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     if tok:
         return tok
+    file = paths._setting("LH_GITHUB_TOKEN_FILE", "github_token_file")
+    if file:
+        path = Path(file).expanduser()
+        if not path.exists() or not path.read_text().strip():
+            raise GitHubError(f"the GitHub token file {path} is missing or empty")
+        if path.stat().st_mode & 0o077:
+            raise GitHubError(f"the GitHub token file {path} is readable by others: chmod 600 {path}")
+        return path.read_text().strip()
     try:
         out = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True, timeout=20)
     except FileNotFoundError as e:
