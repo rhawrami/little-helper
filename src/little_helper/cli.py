@@ -8,6 +8,7 @@
     uv run lh collect github --set slice         PRs and issues via GraphQL (resumable)
     uv run lh normalize git --set slice          raw -> canonical tables
     uv run lh status --set slice                 what has been collected
+    uv run lh plot xz                            quarterly activity charts (HTML)
 """
 
 from __future__ import annotations
@@ -121,6 +122,11 @@ def cmd_normalize(args):
         github.run(projects)
 
 
+def cmd_plot(args):
+    from .explore import timeseries
+    print(timeseries.main(args.project, args.out))
+
+
 def r_totals(repo, kind: str) -> int | None:
     """Platform total from the selection probe, before a repo's first GitHub pass."""
     probe = paths.derived_dir("selection", "github_probe.parquet")
@@ -221,6 +227,11 @@ def main(argv: list[str] | None = None):
     p.add_argument("source", choices=["git", "github"])
     _add_selection(p)
     p.set_defaults(fn=cmd_normalize)
+
+    p = sub.add_parser("plot", help="quarterly activity charts for one project (HTML)")
+    p.add_argument("project", help="a project id with normalized git and GitHub tables")
+    p.add_argument("--out", help="output path (default: data/plots/<project>-timeseries.html)")
+    p.set_defaults(fn=cmd_plot)
 
     p = sub.add_parser("status", help="what has been collected")
     _add_selection(p)
