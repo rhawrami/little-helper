@@ -88,4 +88,4 @@ if [ ${#todo[@]} -gt 0 ]; then
   step "Still to do"
   for t in "${todo[@]}"; do echo "- $t"; done
 fi
-printf '\nNext: deploy/README.md, step 4 (check access, pull the cursors, start).\n'
+printf '\nNext: deploy/README.md, step 4 (check access, smoke test, start).\n'

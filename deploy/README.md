@@ -24,20 +24,18 @@ Sizes measured on the slice so far: 941k commits extract to 0.15 GB, and 80k PRs
    ```
 3. **GitHub token.** Create a new token for this machine; don't copy the Mac's `gh` login, which has broad scopes. Use a fine-grained personal access token with *Public repositories (read-only)* access and no extra permissions. Give it at least 30 days to expire, since the census takes about two weeks. If GraphQL refuses it, a classic token with no scopes also reads public data.
 
-## 2. Seed the bucket from the Mac (to resume rather than start over)
+## 2. Start fresh, or carry over the Mac's progress
 
-The slice's progress so far is on the USB drive: 20 git extracts, 80k PRs, 33k issues and the cursors. Upload it once so the droplet resumes where the Mac stopped. Skip this and the droplet starts every crawl over.
+**The plan for the slice is to start fresh on the droplet**, so every run comes from one machine, one token and one version of the code. That costs about 8 hours of GitHub crawling the Mac had already done, and an hour or two of git. Skip to step 3.
 
-On the Mac, with the drive mounted at `/Volumes/chiikawa`, add the Spaces key to `~/.aws/credentials` under a named profile such as `[little-helper]`. Then:
+The Mac's partial run stays on the USB drive as the record of the pilot. Its manifests are committed in `data/manifests/`. Don't push the drive's data to the droplet's prefix: the bucket would then hold two sets of runs for the same repos. Normalize would still give the right answer, since it keeps the latest version of each item, but the record of where each file came from gets muddled. To keep a copy of the drive in the bucket, give it its own prefix. On the Mac, with the drive mounted and the Spaces key in `~/.aws/credentials` under a profile such as `[little-helper]`:
 
 ```bash
 export LH_S3_BUCKET=<space> LH_S3_ENDPOINT=https://<region>.digitaloceanspaces.com AWS_PROFILE=little-helper
-uv run lh sync check
-uv run lh sync push --dry-run | tail -3
-uv run lh sync push
+LH_S3_PREFIX=little-helper-mac uv run lh sync push
 ```
 
-`push` uploads everything under the data directory, plus the run manifests in `data/manifests/`, and verifies each file. It is idempotent: run it again and it reports everything as already there. Without `--prune` the drive keeps its copy, which then serves as the backup.
+**To resume the Mac's run instead:** push to the default prefix (`uv run lh sync push`, without `LH_S3_PREFIX`), then run `uv run lh sync pull` on the droplet before anything else in step 4. `push` uploads everything under the data directory, plus the run manifests, and verifies each file. It is idempotent. Without `--prune` the drive keeps its copy.
 
 ## 3. Set up the droplet
 
@@ -79,34 +77,42 @@ It lists what is still to do at the end. Then:
    chmod 600 ~/.aws/credentials
    ```
 
-## 4. Check access, pull the cursors, start
+## 4. Check access, smoke test, start
 
 ```bash
 uv run lh sync check                    # writes, reads and deletes a probe object
-uv run lh sync pull                     # cursors, git meta.json, derived/ selection tables
-uv run lh status --set slice            # should show where the Mac stopped
-uv run lh collect github zlib           # smoke test: a short refresh of a finished repo
-systemctl --user enable --now lh-collect@github
+uv run lh collect github zlib           # smoke test: zlib's full pass, a few minutes
+uv run lh status --set slice            # zlib done; the other 19 projects at 0
+systemctl --user enable --now lh-collect@git lh-collect@github
 ```
 
-- **`lh status`:** it should show numpy PRs at 15,635 of 19,050 and six projects complete.
-- **Smoke test:** the zlib refresh proves the token works with GraphQL and that uploads land in the bucket.
-- **`sync pull` is required:** collecting on a machine that hasn't synced with a non-empty bucket is refused, with a message saying to run it.
+- **Smoke test:** zlib is 744 PRs and 616 issues. It proves the token works with GraphQL and that uploads land in the bucket. The Space's file browser in the control panel then shows `little-helper/raw/github/...`.
+- **First run:** with an empty bucket, the first collect makes the droplet the starting point. `lh sync pull` is needed only when resuming from a bucket that already holds data. Without it, collecting is refused with a message saying to run it.
+- **Both services can run at once.** Git clones don't compete with the GitHub crawl for bandwidth on a droplet.
 
-The service runs `uv run --frozen lh collect github --set slice`. When some repos fail (network, GitHub outages), it restarts five minutes later and resumes from the saved cursors. A run that finishes cleanly stops the service.
+| Service | Runs | Time |
+|---|---|---|
+| `lh-collect@git` | `lh collect git --set slice` | 20 repos, about 10.6 GB downloaded, an hour or two |
+| `lh-collect@github` | `lh collect github --set slice` | about 190k PRs and 65k issues at 10–13k PRs and about 40k issues an hour, so roughly 17–21 hours |
 
-- **Git collection:** the slice's git collection is already done. For a later set, use `lh-collect@git`.
-- **Another project set:**
-  ```bash
-  systemctl --user edit lh-collect@github
-  ```
-  then add `[Service]` and `Environment=LH_SET=<set>`.
+When some repos fail (network, GitHub outages), a service restarts five minutes later and resumes from the saved cursors. A run that finishes cleanly exits and the service stops.
+
+Never run `lh collect github` by hand while `lh-collect@github` is running. GitHub expects one stream of requests per token.
+
+To collect another project set:
+
+```bash
+systemctl --user edit lh-collect@github
+```
+
+then add `[Service]` and `Environment=LH_SET=<set>`.
 
 ## 5. Watch it
 
 ```bash
 uv run lh status --set slice                          # progress and time left, per kind
-journalctl --user -u lh-collect@github -f             # live output
+journalctl --user -u lh-collect@github -f             # live output (or lh-collect@git)
+systemctl --user status lh-collect@git lh-collect@github
 tail -f "$(ls -t ~/lh-data/logs/github-*.log | head -1)"
 df -h ~                                               # local disk
 ```

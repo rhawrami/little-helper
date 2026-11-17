@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import shutil
 import sys
@@ -178,18 +179,27 @@ def cmd_plot(args):
     print(timeseries.main(args.project, args.out))
 
 
+@functools.cache
+def _probe():
+    """The selection probe's per-repo counts: the parquet in the data dir when this machine
+    ran the selection, else the copy committed in data/selection/ (a fresh droplet)."""
+    import polars as pl
+    parquet = paths.derived_dir("selection", "github_probe.parquet")
+    csv = paths.published_dir("selection", "github_probe.csv")
+    df = pl.read_parquet(parquet) if parquet.exists() else pl.read_csv(csv) if csv.exists() else None
+    if df is None:
+        return {}
+    return {r["repo"].lower(): r for r in df.iter_rows(named=True)}
+
+
 def r_totals(repo, kind: str) -> int | None:
     """Platform total from the selection probe, before a repo's first GitHub pass."""
-    probe = paths.derived_dir("selection", "github_probe.parquet")
-    if not repo.github or not probe.exists():
+    r = _probe().get(repo.github.lower()) if repo.github else None
+    if r is None:
         return None
-    import polars as pl
-    row = pl.read_parquet(probe).filter(pl.col("repo").str.to_lowercase() == repo.github.lower())
-    if row.height == 0:
-        return None
-    r = row.row(0, named=True)
-    return (r["merged_prs"] + r["closed_unmerged_prs"] + r["open_prs"]) if kind == "prs" else (
-        r["open_issues"] + r["closed_issues"])
+    parts = ("merged_prs", "closed_unmerged_prs", "open_prs") if kind == "prs" else ("open_issues", "closed_issues")
+    values = [r.get(c) for c in parts]
+    return None if any(v is None for v in values) else sum(values)
 
 
 def cmd_status(args):

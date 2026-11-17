@@ -208,3 +208,12 @@ def test_token_file(lh_env, monkeypatch):
         ghapi.token()
     f.chmod(0o600)
     assert ghapi.token() == "ghp_example"
+
+
+def test_status_totals_before_any_pass_come_from_the_committed_probe(lh_env, capsys):
+    from little_helper import cli
+    cli._probe.cache_clear()
+    cli.main(["status", "numpy"])  # fresh machine: no state, no derived/ parquet
+    out = capsys.readouterr().out
+    cli._probe.cache_clear()
+    assert "prs: 0 of 19,027 collected (0%)" in out and "issues: 0 of 14,185 collected (0%)" in out

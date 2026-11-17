@@ -24,7 +24,7 @@ uv run lh info
 
 `lh info` shows where data will go, the free space there, whether object storage is on, and whether a GitHub token is available. The token comes from `GITHUB_TOKEN`, a token file (`github_token_file` in `config/local.yaml`), or the `gh` CLI if you are logged in (`gh auth login`).
 
-**Running on a server:** the long collection runs on a DigitalOcean droplet with a Spaces bucket as the store of record. Setup, seeding the bucket from the Mac, and monitoring are in [deploy/README.md](deploy/README.md).
+**Running on a server:** the long collection runs on a DigitalOcean droplet with a Spaces bucket as the store of record. Setup, starting and monitoring the collection are in [deploy/README.md](deploy/README.md).
 
 ### Where data lives
 
@@ -60,7 +60,7 @@ Projects are configured in `config/projects/<id>.yaml`, generated from the pilot
 uv run lh projects --set slice          # what will be collected
 uv run lh collect git --set slice       # clone -> extract -> delete; ~10.6 GB downloaded, minutes per repo
 uv run lh normalize git --set slice     # canonical commits, commit_files, trailers, refs, trees, policy_files, ai_markers
-uv run lh collect github --set slice    # PRs and issues; ~190k PRs and ~65k issues, about 14 hours
+uv run lh collect github --set slice    # PRs and issues; ~190k PRs and ~65k issues, about 17–21 hours
 uv run lh normalize github --set slice  # canonical change_proposals, cp_*, issues, issue_*, gh_ai_markers
 uv run lh status --set slice           # progress, and time left for PRs and issues separately
 uv run lh sync check|push|pull         # object storage: test access, upload local data, fetch cursors
@@ -69,7 +69,7 @@ uv run lh sync check|push|pull         # object storage: test access, upload loc
 - **Interrupting is safe.** Ctrl-C, a crash or a sleeping laptop loses at most the open chunk of pages. Run the same command again to resume. Already-extracted git repos are skipped (use `--force` to redo them).
 - **Long runs:** keep the Mac awake with `caffeinate -i uv run lh collect github --set slice`. On the droplet a systemd user service runs the collection and restarts it after failures ([deploy/README.md](deploy/README.md)).
 - **A finished GitHub repo** is refreshed on the next run: only items updated since the last pass are fetched.
-- **The GitHub collector sends one request at a time,** as GitHub's API guidance asks. That is about 12–20k PRs an hour.
+- **The GitHub collector sends one request at a time,** as GitHub's API guidance asks. Measured on the slice: 10–13k PRs and about 40k issues an hour.
 
 Canonical tables are partitioned parquet files: `$LH_DATA_DIR/canonical/<table>/project=<id>/part-0.parquet`. Read all projects at once with polars (`pl.scan_parquet(".../canonical/commits/*/*.parquet", hive_partitioning=True)`) or DuckDB.
 
