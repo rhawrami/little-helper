@@ -12,7 +12,7 @@ from pathlib import Path
 
 import polars as pl
 
-from .. import paths, store
+from .. import objects, paths, store
 
 TS_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
 
@@ -36,20 +36,26 @@ def partition_path(table: str, project: str) -> Path:
 
 
 def write_partition(table: str, project: str, df: pl.DataFrame | None) -> int:
+    """Write (or remove) one partition; with object storage it is uploaded, then dropped locally."""
     path = partition_path(table, project)
     if df is None or df.height == 0:
-        if path.exists():
-            path.unlink()
+        path.unlink(missing_ok=True)
+        objects.delete(path)
         return 0
     store.write_parquet_atomic(df.drop("project", strict=False), path)
+    objects.settle(path)
     return df.height
 
 
 def read_table(table: str, project: str | None = None) -> pl.DataFrame:
+    """One table for one project, or for all projects. Reads from object storage as needed."""
     if project:
-        path = partition_path(table, project)
-        return pl.read_parquet(path).with_columns(pl.lit(project).alias("project")) if path.exists() else pl.DataFrame()
-    files = sorted(paths.canonical_dir(table).glob("project=*/part-0.parquet"))
+        files = objects.list_files(paths.canonical_dir(table, f"project={project}"), "part-0.parquet")
+    else:
+        files = objects.list_files(paths.canonical_dir(table), "project=*/part-0.parquet")
     if not files:
         return pl.DataFrame()
-    return pl.read_parquet(files, hive_partitioning=True)
+    with objects.local_copies(files) as fs:
+        if project:
+            return pl.read_parquet(fs).with_columns(pl.lit(project).alias("project"))
+        return pl.read_parquet(fs, hive_partitioning=True)

@@ -21,7 +21,7 @@ from collections import defaultdict
 
 import polars as pl
 
-from .. import config, paths, store
+from .. import config, objects, paths, store
 from ..classify import ai_markers, bots
 from ..classify import paths as path_rules
 from ..collect.github import CONNECTIONS, SOURCE
@@ -200,10 +200,11 @@ def normalize_repo(project: config.Project, repo: config.Repo) -> dict[str, pl.D
     key = f"github.com/{repo.github}".lower()
     base = paths.raw_dir(SOURCE, key)
     acc = _Acc()
-    for run_dir in sorted(p for p in base.iterdir() if p.is_dir()) if base.exists() else []:
-        for chunk in store.data_files(run_dir, "*.jsonl.zst"):
-            for rec in store.iter_records(chunk):
-                _ingest(acc, rec, run_dir.name)
+    for run_dir in objects.subdirs(base):  # local and object storage
+        for chunk in objects.list_files(run_dir, "*.jsonl.zst"):
+            with objects.local_copies([chunk]):  # one chunk on disk at a time
+                for rec in store.iter_records(chunk):
+                    _ingest(acc, rec, run_dir.name)
     out: dict[str, pl.DataFrame] = {}
     cps = _latest(acc.frame("change_proposals")) if acc.rows.get("change_proposals") else pl.DataFrame()
     iss = _latest(acc.frame("issues")) if acc.rows.get("issues") else pl.DataFrame()

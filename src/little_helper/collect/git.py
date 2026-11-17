@@ -443,11 +443,14 @@ def collect_repo(job: Job, run_id: str, manifest: store.Manifest, *, keep: bool 
         store.atomic_write_json(tmp_out / "meta.json", meta)
         final.parent.mkdir(parents=True, exist_ok=True)
         os.replace(tmp_out, final)
+        kept_mb = round(dir_size(final) / 1e6, 1)
+        # Each file is uploaded as it is recorded; with object storage, heavy files then
+        # leave the local disk and meta.json stays as the record of a successful run.
         for f in store.data_files(final, "*"):  # skips macOS "._" files on exFAT drives
             manifest.add(f, repo=key, project=job.project.id, extractor_version=EXTRACTOR_VERSION)
         summary.update(status="ok", commits=facts["commits"], file_rows=facts["file_rows"],
                        policy_versions=facts["policy_versions"], clone_mb=round(clone_bytes / 1e6),
-                       kept_mb=round(dir_size(final) / 1e6, 1), seconds=round(time.time() - t0))
+                       kept_mb=kept_mb, seconds=round(time.time() - t0))
         log(f"[git] {key}: {facts['commits']:,} commits, {facts['file_rows']:,} file rows, "
             f"{facts['policy_versions']} policy-file versions -> {summary['kept_mb']} MB kept")
     except Exception as e:  # report and move on; the census run continues

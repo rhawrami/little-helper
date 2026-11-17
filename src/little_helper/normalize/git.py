@@ -10,7 +10,7 @@ import json
 
 import polars as pl
 
-from .. import config
+from .. import config, objects
 from ..classify import ai_markers, bots, trailers
 from ..classify import paths as path_rules
 from ..collect.git import successful_runs
@@ -20,8 +20,11 @@ _MARKER_PREFILTER = "|".join(f"(?:{rx})" for mid, _t, fld, rx in ai_markers.RULE
 
 
 def _read(run, pattern: str) -> pl.DataFrame:
-    files = sorted(run.glob(pattern))
-    return pl.read_parquet(files) if files else pl.DataFrame()
+    files = objects.list_files(run, pattern)  # local, or downloaded from object storage while read
+    if not files:
+        return pl.DataFrame()
+    with objects.local_copies(files) as fs:
+        return pl.read_parquet(fs)
 
 
 def normalize_project(project: config.Project) -> dict:

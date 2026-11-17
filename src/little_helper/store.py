@@ -2,7 +2,8 @@
 
 Every file under raw/ is written to a temporary name, flushed to disk and renamed
 into place, so an interrupted run never leaves a half-written file under its final
-name. Each committed file gets one manifest line with its sha256 and size.
+name. Each committed file gets one manifest line with its sha256 and size, and is then
+handed to objects.settle(), which uploads it when object storage is configured.
 """
 
 from __future__ import annotations
@@ -11,12 +12,13 @@ import hashlib
 import io
 import json
 import os
+import threading
 from collections.abc import Iterator
 from pathlib import Path
 
 import zstandard
 
-from . import paths
+from . import objects, paths
 
 ZSTD_LEVEL = 19
 
@@ -68,6 +70,9 @@ def write_parquet_atomic(df, path: Path) -> None:
     commit_file(tmp, path)
 
 
+_manifest_lock = threading.Lock()  # git extraction commits from several threads
+
+
 class Manifest:
     """Append-only JSONL record of every file a run commits.
 
@@ -79,6 +84,7 @@ class Manifest:
         self.path = paths.manifest_dir() / source / f"{run_id}.jsonl"
 
     def add(self, file: Path, **extra) -> dict:
+        """Record a committed file, then upload it (and drop the local copy if heavy)."""
         entry = {
             "file": paths.relative_to_data(file),
             "bytes": file.stat().st_size,
@@ -86,11 +92,14 @@ class Manifest:
             "committed_at": paths.utcnow(),
             **extra,
         }
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.path, "a") as f:
-            f.write(json.dumps(entry, sort_keys=True, default=str) + "\n")
-            f.flush()
-            os.fsync(f.fileno())
+        with _manifest_lock:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            with open(self.path, "a") as f:
+                f.write(json.dumps(entry, sort_keys=True, default=str) + "\n")
+                f.flush()
+                os.fsync(f.fileno())
+            objects.settle(self.path)
+        objects.settle(file, sha256=entry["sha256"])
         return entry
 
 
@@ -105,7 +114,8 @@ class PageWriter:
     def __init__(self, directory: Path, kind: str, manifest: Manifest, **meta):
         self.dir, self.kind, self.manifest, self.meta = Path(directory), kind, manifest, meta
         self.dir.mkdir(parents=True, exist_ok=True)
-        self.index = 1 + len(list(self.dir.glob(f"{kind}-*.jsonl.zst")))
+        # Count uploaded chunks too: with object storage they no longer exist locally.
+        self.index = 1 + len(objects.list_files(self.dir, f"{kind}-*.jsonl.zst"))
         self.records = 0
         self._buf: io.BytesIO | None = None
 
@@ -155,3 +165,4 @@ def load_state(path: Path) -> dict:
 
 def save_state(path: Path, state: dict) -> None:
     atomic_write_json(path, state)
+    objects.settle(path)

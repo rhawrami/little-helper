@@ -9,6 +9,7 @@
     uv run lh normalize git --set slice          raw -> canonical tables
     uv run lh status --set slice                 what has been collected
     uv run lh plot xz                            quarterly activity charts (HTML)
+    uv run lh sync check|push|pull               object storage (DigitalOcean Spaces, S3)
 """
 
 from __future__ import annotations
@@ -17,9 +18,10 @@ import argparse
 import json
 import shutil
 import sys
+import time
 from datetime import datetime, timezone
 
-from . import config, paths
+from . import config, objects, paths
 
 
 def _add_selection(p: argparse.ArgumentParser):
@@ -48,6 +50,7 @@ def cmd_info(_args):
     for name, d in (("data (LH_DATA_DIR)", paths.data_dir()), ("work (LH_WORK_DIR)", paths.work_dir()),
                     ("manifests (LH_MANIFEST_DIR)", paths.manifest_dir())):
         print(f"{name:28} {d}  [{paths.free_bytes(d) / 1e9:,.1f} GB free]")
+    print(f"{'object storage':28} {objects.describe()}")
     print(f"{'projects configured':28} {len(config.load_projects())}")
     print(f"{'git':28} {git_version()}")
     try:
@@ -80,32 +83,53 @@ def cmd_selection(args):
 
 
 def _run_logger(source: str):
-    """Print with a UTC timestamp and append the same line to <data>/logs/<source>-<time>.log."""
+    """Print with a UTC timestamp and append the same line to <data>/logs/<source>-<time>.log.
+    With object storage the log is uploaded every 10 minutes and when the run ends."""
     path = paths.data_dir() / "logs" / f"{source}-{paths.new_run_id()}.log"
     path.parent.mkdir(parents=True, exist_ok=True)
     print(f"logging to {path}", flush=True)
+    uploaded = [time.time()]
 
     def log(msg: str):
         line = f"{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}Z {msg}"
         print(line, flush=True)
         with open(path, "a") as f:
             f.write(line + "\n")
+        if time.time() - uploaded[0] > 600:
+            uploaded[0] = time.time()
+            objects.settle(path)
+    log.path = path
     return log
+
+
+def _start(log) -> None:
+    """Before collecting or normalizing: be in step with object storage."""
+    objects.preflight()
+    objects.catch_up(log)
+
+
+def _finish(log) -> None:
+    objects.retry_pending(log)
+    objects.settle(log.path)
 
 
 def cmd_collect(args):
     projects = _projects(args)
     log = _run_logger(args.source)
-    if args.source == "git":
-        from .collect import git
-        rows = git.run(projects, jobs=args.jobs, keep=args.keep, force=args.force, log=log)
-        _table(rows, ["project", "repo", "status", "commits", "file_rows", "policy_versions", "clone_mb", "kept_mb",
-                      "seconds", "error"])
-    else:
-        from .collect import github
-        rows = github.run(projects, only=args.only, log=log)
-        _table(rows, ["project", "repo", "status", "kind", "mode", "items", "platform_total", "pages", "seconds",
-                      "error"])
+    _start(log)
+    try:
+        if args.source == "git":
+            from .collect import git
+            rows = git.run(projects, jobs=args.jobs, keep=args.keep, force=args.force, log=log)
+            _table(rows, ["project", "repo", "status", "commits", "file_rows", "policy_versions", "clone_mb",
+                          "kept_mb", "seconds", "error"])
+        else:
+            from .collect import github
+            rows = github.run(projects, only=args.only, log=log)
+            _table(rows, ["project", "repo", "status", "kind", "mode", "items", "platform_total", "pages", "seconds",
+                          "error"])
+    finally:
+        _finish(log)
     failed = [r for r in rows if str(r.get("status", "")).startswith("failed")]  # "not found" is a config problem
     if failed:
         print(f"{len(failed)} repo(s) failed; re-run the same command to resume them", file=sys.stderr)
@@ -114,12 +138,39 @@ def cmd_collect(args):
 
 def cmd_normalize(args):
     projects = _projects(args)
-    if args.source == "git":
-        from .normalize import git
-        git.run(projects)
+    log = _run_logger(f"normalize-{args.source}")
+    _start(log)
+    try:
+        if args.source == "git":
+            from .normalize import git
+            git.run(projects, log=log)
+        else:
+            from .normalize import github
+            github.run(projects, log=log)
+    finally:
+        _finish(log)
+
+
+def cmd_sync(args):
+    if not objects.enabled():
+        raise SystemExit("object storage is off: set LH_S3_BUCKET (and LH_S3_ENDPOINT for Spaces); see deploy/README.md")
+    print(f"object storage: {objects.describe()}")
+    print(f"data dir: {paths.data_dir()}")
+    if args.action == "check":
+        objects.check()
+        return
+    if args.action == "push":
+        c = objects.push(prune=args.prune, dry_run=args.dry_run)
+        print(f"{'would upload' if args.dry_run else 'uploaded'} {c['uploaded']:,} files ({c['bytes'] / 1e6:,.1f} MB); "
+              f"{c['present']:,} already there; {c['pruned']:,} local copies deleted; "
+              f"{c['conflicts']} conflicts; {c['failed']} failed")
+        if c["failed"] or c["conflicts"]:
+            sys.exit(1)
     else:
-        from .normalize import github
-        github.run(projects)
+        c = objects.pull(everything=args.all, dry_run=args.dry_run)
+        print(f"{'would download' if args.dry_run else 'downloaded'} {c['downloaded']:,} files "
+              f"({c['bytes'] / 1e6:,.1f} MB); {c['present']:,} already here; "
+              f"{c['skipped']:,} left in the bucket" + ("" if args.all else " (read from there as needed)"))
 
 
 def cmd_plot(args):
@@ -143,6 +194,7 @@ def r_totals(repo, kind: str) -> int | None:
 
 def cmd_status(args):
     from . import store
+    objects.preflight()
     from .collect.git import successful_runs
     rows = []
     totals = {"prs": [0, 0], "issues": [0, 0]}
@@ -248,6 +300,13 @@ def main(argv: list[str] | None = None):
     p = sub.add_parser("status", help="what has been collected")
     _add_selection(p)
     p.set_defaults(fn=cmd_status)
+
+    p = sub.add_parser("sync", help="object storage: check access, push local data, pull what a machine needs")
+    p.add_argument("action", choices=["check", "push", "pull"])
+    p.add_argument("--prune", action="store_true", help="push: delete local heavy files once verified in the bucket")
+    p.add_argument("--all", action="store_true", help="pull: download heavy raw and canonical files too")
+    p.add_argument("--dry-run", action="store_true", help="list what would be transferred")
+    p.set_defaults(fn=cmd_sync)
 
     sub.add_parser("clean-work", help="delete LH_WORK_DIR (leftover clones)").set_defaults(fn=cmd_clean_work)
 

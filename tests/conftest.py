@@ -7,7 +7,12 @@ import pytest
 
 @pytest.fixture
 def lh_env(tmp_path, monkeypatch):
-    """Point every data location at a temporary directory."""
+    """Point every data location at a temporary directory, with object storage off and
+    this machine's config/local.yaml ignored."""
+    from little_helper import paths
+    monkeypatch.setattr(paths, "_local", lambda: {})
+    for name in ("LH_S3_BUCKET", "LH_S3_ENDPOINT", "LH_S3_PREFIX", "LH_S3_REGION", "LH_KEEP_LOCAL"):
+        monkeypatch.delenv(name, raising=False)
     for name in ("LH_DATA_DIR", "LH_WORK_DIR", "LH_MANIFEST_DIR"):
         d = tmp_path / name.lower()
         d.mkdir()
