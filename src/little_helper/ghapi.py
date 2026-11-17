@@ -5,6 +5,11 @@ Pacing rules:
   below `min_remaining`, sleep until the reset.
 - Secondary rate limits (403/429 with retry-after) sleep as instructed.
 - Timeouts and 502/504 raise HeavyQuery so the caller can shrink the page.
+- A response cut off in transit (an empty or truncated body, or HTTP 499) is retried
+  as is twice, then raised as HeavyQuery: on 2026-11-16 these came in bursts on the
+  largest pages and crashed the run ten times in seven hours.
+- Any other unexpected status raises GitHubError, which the collector catches per
+  repository, so one bad response never ends the whole run.
 - One request at a time. GitHub's terms forbid spreading load over several accounts.
 """
 
@@ -83,8 +88,17 @@ class GraphQL:
         self.log(f"  {why}; retry {attempt + 1} in {wait}s")
         self.sleep(wait)
 
-    def execute(self, query: str, variables: dict, *, tries: int = 12) -> tuple[dict, dict]:
+    def execute(self, query: str, variables: dict, *, tries: int = 12, cutoff_retries: int = 2) -> tuple[dict, dict]:
         """Run a query. Returns (response_json, meta). Raises HeavyQuery or NotFound."""
+        cutoffs = 0
+
+        def cut_off(attempt: int, why: str):
+            nonlocal cutoffs
+            cutoffs += 1
+            if cutoffs > cutoff_retries:
+                raise HeavyQuery(f"response cut off {cutoffs} times: {why}")
+            self._backoff(attempt, f"response cut off ({why})")
+
         for attempt in range(tries):
             started = paths.utcnow()
             try:
@@ -109,11 +123,22 @@ class GraphQL:
                 continue
             if r.status_code == 401:
                 raise GitHubError("GitHub rejected the token (HTTP 401)")
+            if r.status_code == 499:
+                cut_off(attempt, "HTTP 499")
+                continue
             if r.status_code >= 500:
                 self._backoff(attempt, f"HTTP {r.status_code}")
                 continue
-            r.raise_for_status()
-            body = r.json()
+            if r.status_code >= 400:
+                raise GitHubError(f"HTTP {r.status_code}: {r.text[:300]}")
+            try:
+                body = r.json()
+            except ValueError as e:  # empty or truncated body
+                cut_off(attempt, f"{len(r.content):,} bytes, {e}")
+                continue
+            if not isinstance(body, dict):
+                cut_off(attempt, f"unexpected JSON {type(body).__name__}")
+                continue
             errors = body.get("errors") or []
             types = {e.get("type") for e in errors}
             if "RATE_LIMITED" in types:

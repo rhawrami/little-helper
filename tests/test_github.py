@@ -143,3 +143,40 @@ def test_resume_after_crash_then_refresh(setup, monkeypatch):
     cps = t["change_proposals"]
     assert cps.height == 30 and cps.filter(pl.col("id") == "PR2")["title"].item() == "t2 edited"
     assert t["cp_reviews"].filter(pl.col("parent_id") == "PR1").height == 2  # no duplicates across runs
+
+
+def _api(responses: list[httpx.Response]):
+    calls = []
+
+    def handler(request):
+        calls.append(request)
+        return responses.pop(0)
+    api = ghapi.GraphQL("test-token", transport=httpx.MockTransport(handler), sleep=lambda s: None, log=lambda m: None)
+    return api, calls
+
+
+OK = {"data": {"repository": {"id": "R"}, "rateLimit": RATE}}
+
+
+@pytest.mark.parametrize("bad", [
+    httpx.Response(200, content=b""),  # empty body
+    httpx.Response(200, content=json.dumps(OK).encode()[:30]),  # truncated body
+    httpx.Response(499, content=b""),
+])
+def test_cut_off_responses_are_retried(bad):
+    api, calls = _api([bad, httpx.Response(200, json=OK)])
+    body, _ = api.execute("query { x }", {})
+    assert body == OK and len(calls) == 2
+
+
+def test_repeated_cut_offs_shrink_the_page():
+    api, calls = _api([httpx.Response(200, content=b"") for _ in range(3)])
+    with pytest.raises(ghapi.HeavyQuery, match="cut off 3 times"):
+        api.execute("query { x }", {})
+    assert len(calls) == 3
+
+
+def test_unexpected_status_is_a_github_error_not_a_crash():
+    api, _ = _api([httpx.Response(418, content=b"teapot")])
+    with pytest.raises(ghapi.GitHubError, match="HTTP 418"):
+        api.execute("query { x }", {})
